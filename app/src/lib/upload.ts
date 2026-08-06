@@ -6,8 +6,13 @@ import { put } from "@vercel/blob";
 const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads");
 
 // Vercel's serverless functions run on a read-only filesystem, so uploads
-// there must go to Vercel Blob. Locally (no BLOB_READ_WRITE_TOKEN configured)
-// fall back to writing into public/uploads for convenience.
+// there must go to Vercel Blob. Locally (no Blob store connected) fall back
+// to writing into public/uploads for convenience.
+//
+// A connected Blob store shows up as either the classic BLOB_READ_WRITE_TOKEN
+// or, with Vercel's current OIDC-based connection flow, BLOB_STORE_ID (with
+// the SDK reading the short-lived VERCEL_OIDC_TOKEN Vercel injects
+// automatically) - check for either.
 export async function saveUploadedFile(
   file: File | null | undefined,
   prefix: string
@@ -16,7 +21,7 @@ export async function saveUploadedFile(
   const ext = (file.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "");
   const filename = `${prefix}-${randomUUID()}.${ext || "jpg"}`;
 
-  if (process.env.BLOB_READ_WRITE_TOKEN) {
+  if (process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID) {
     const blob = await put(filename, file, { access: "public", addRandomSuffix: false });
     return blob.url;
   }
