@@ -22,6 +22,8 @@ export async function updateEventSettings(_prev: FormState, formData: FormData):
   const contactPhone = String(formData.get("contactPhone") || "").trim();
   const instagramUrl = String(formData.get("instagramUrl") || "").trim();
   const twitterUrl = String(formData.get("twitterUrl") || "").trim();
+  const movementPhoto = formData.get("movementPhoto") as File | null;
+  const movementPhotoUrl = await saveUploadedFile(movementPhoto, "movement");
 
   if (!name || !venue) return { error: "Event name and venue are required." };
 
@@ -42,8 +44,9 @@ export async function updateEventSettings(_prev: FormState, formData: FormData):
       contactPhone,
       instagramUrl,
       twitterUrl,
+      ...(movementPhotoUrl ? { movementPhotoUrl } : {}),
     },
-    create: { id: "event", name, venue },
+    create: { id: "event", name, venue, movementPhotoUrl: movementPhotoUrl ?? undefined },
   });
 
   revalidatePath("/", "layout");

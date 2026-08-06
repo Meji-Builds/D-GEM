@@ -86,7 +86,7 @@ export default async function LandingPage() {
               </p>
               <p className="mt-3 text-sm leading-relaxed text-bodyfg">{settings.aboutText}</p>
             </div>
-            <PhotoOrPlaceholder src={null} alt="D-GEM movement" label="Movement photo" className="h-48" />
+            <PhotoOrPlaceholder src={settings.movementPhotoUrl} alt="D-GEM movement" label="Movement photo" className="h-48" />
           </Reveal>
         </section>
 
@@ -140,7 +140,7 @@ export default async function LandingPage() {
               src={convener.photoUrl}
               alt={convener.name || "Convener"}
               label="Convener photo"
-              className="h-32 w-32 flex-none"
+              className="h-48 w-48 flex-none sm:h-64 sm:w-64"
             />
             <div>
               <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">

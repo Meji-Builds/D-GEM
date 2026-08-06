@@ -1,8 +1,9 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { updateEventSettings, type FormState } from "./actions";
 import { Button } from "@/components/Button";
+import { ImageInput } from "@/components/ImageInput";
 
 const fieldClass = "h-10 w-full border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none";
 const labelClass = "mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-mutefg";
@@ -22,10 +23,12 @@ type Initial = {
   contactPhone: string;
   instagramUrl: string;
   twitterUrl: string;
+  movementPhotoUrl: string | null;
 };
 
 export function EventDetailsForm({ initial }: { initial: Initial }) {
   const [state, formAction, pending] = useActionState<FormState, FormData>(updateEventSettings, {});
+  const [preview, setPreview] = useState<string | null>(null);
 
   return (
     <form action={formAction} className="space-y-4">
@@ -87,6 +90,24 @@ export function EventDetailsForm({ initial }: { initial: Initial }) {
       <div>
         <label className={labelClass} htmlFor="aboutText">About the movement</label>
         <textarea id="aboutText" name="aboutText" rows={3} defaultValue={initial.aboutText} className="w-full border border-line bg-white p-3 text-sm focus:border-ink focus:outline-none" />
+      </div>
+      <div className="grid gap-3 sm:grid-cols-[130px_1fr]">
+        {preview || initial.movementPhotoUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={preview ?? initial.movementPhotoUrl!} alt="Movement" className="h-28 w-full border border-line object-cover" />
+        ) : (
+          <div className="placeholder-fill flex h-28 w-full items-center justify-center border border-line text-center text-[9px] font-bold uppercase tracking-wider text-mutefg">
+            No photo yet
+          </div>
+        )}
+        <div>
+          <label className={labelClass} htmlFor="movementPhoto">Movement photo (shown in the About section)</label>
+          <ImageInput
+            name="movementPhoto"
+            className="w-full text-[10px]"
+            onChange={(file) => setPreview(file ? URL.createObjectURL(file) : null)}
+          />
+        </div>
       </div>
       <div className="grid gap-3 sm:grid-cols-2">
         <div>
