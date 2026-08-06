@@ -1,0 +1,53 @@
+"use client";
+
+import { useActionState, useEffect, useRef } from "react";
+import { saveSponsor, type FormState } from "./actions";
+import { Button } from "@/components/Button";
+
+const fieldClass = "h-10 w-full border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none";
+
+export function SponsorForm({
+  initial,
+  onDone,
+}: {
+  initial: { id: string; name: string; tier: string; url: string } | null;
+  onDone?: () => void;
+}) {
+  const [state, formAction, pending] = useActionState<FormState, FormData>(saveSponsor, {});
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    if (state?.ok) {
+      formRef.current?.reset();
+      onDone?.();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state?.ok]);
+
+  return (
+    <form ref={formRef} action={formAction} className="flex flex-wrap items-end gap-3">
+      <input type="hidden" name="id" defaultValue={initial?.id ?? ""} />
+      <div>
+        <label className="mb-1 block text-[9px] font-bold uppercase text-mutefg">Name</label>
+        <input required name="name" defaultValue={initial?.name} className={fieldClass} />
+      </div>
+      <div>
+        <label className="mb-1 block text-[9px] font-bold uppercase text-mutefg">Tier</label>
+        <select name="tier" defaultValue={initial?.tier ?? "GOLD"} className={fieldClass}>
+          <option value="GOLD">Gold</option>
+          <option value="SILVER">Silver</option>
+          <option value="BRONZE">Bronze</option>
+        </select>
+      </div>
+      <div>
+        <label className="mb-1 block text-[9px] font-bold uppercase text-mutefg">Link</label>
+        <input name="url" defaultValue={initial?.url} className={fieldClass} placeholder="https://" />
+      </div>
+      <div>
+        <label className="mb-1 block text-[9px] font-bold uppercase text-mutefg">Logo</label>
+        <input type="file" name="logo" accept="image/*" className="h-10 text-[10px]" />
+      </div>
+      <Button type="submit" disabled={pending}>{pending ? "Saving…" : initial ? "Save" : "Add sponsor"}</Button>
+    </form>
+  );
+}

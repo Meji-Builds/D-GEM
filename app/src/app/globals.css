@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+:root {
+  --color-ink: #141210;
+  --color-gold: #c9a227;
+  --color-paper: #ffffff;
+  --color-mist: #eceae6;
+  --color-line: #cfcac4;
+  --color-hair: #ddd9d4;
+  --color-mutefg: #8a8580;
+  --color-bodyfg: #5a564f;
+}
+
+@theme inline {
+  --color-ink: var(--color-ink);
+  --color-gold: var(--color-gold);
+  --color-paper: var(--color-paper);
+  --color-mist: var(--color-mist);
+  --color-line: var(--color-line);
+  --color-hair: var(--color-hair);
+  --color-mutefg: var(--color-mutefg);
+  --color-bodyfg: var(--color-bodyfg);
+  --font-display: var(--font-archivo);
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-archivo), Archivo, system-ui, sans-serif;
+}
+
+.placeholder-fill {
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--color-mist) 0 6px,
+    #e0ddd7 6px 12px
+  );
+}
+
+.dark-placeholder-fill {
+  background-image: repeating-linear-gradient(
+    45deg,
+    #211f1c 0 6px,
+    #2b2825 6px 12px
+  );
+}
+
+.qr-fill {
+  background-image: repeating-conic-gradient(#141210 0 25%, #fff 0 50%);
+  background-size: 16px 16px;
+}

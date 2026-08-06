@@ -1,0 +1,200 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum AdminRole {
+  ADMIN
+  STEWARD
+}
+
+enum SponsorTier {
+  GOLD
+  SILVER
+  BRONZE
+}
+
+enum PublishState {
+  DRAFT
+  LIVE
+}
+
+enum RegistrationState {
+  OPEN
+  CLOSED
+}
+
+enum VolunteerStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+enum EnquiryStatus {
+  NEW
+  CONTACTED
+  CLOSED
+}
+
+model AdminUser {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  name         String
+  role         AdminRole @default(ADMIN)
+  createdAt    DateTime  @default(now())
+  checkIns     CheckIn[]
+}
+
+// Singleton row holding all editable event details + about/mission/vision copy.
+model EventSettings {
+  id                 String             @id @default("event")
+  name               String             @default("Don't Graduate Empty Movement Conference 1.0")
+  tagline            String             @default("Mentor · Grow · Excel · Impact")
+  eventDate          DateTime?
+  startTime          String             @default("09:00")
+  endTime            String             @default("17:00")
+  venue              String             @default("Olabisi Onabanjo University")
+  capacity           Int                @default(500)
+  registrationState  RegistrationState  @default(OPEN)
+  aboutText          String             @default("")
+  missionText        String             @default("")
+  visionText         String             @default("")
+  contactEmail       String             @default("")
+  contactPhone       String             @default("")
+  instagramUrl       String             @default("")
+  twitterUrl         String             @default("")
+  updatedAt          DateTime           @updatedAt
+}
+
+model Speaker {
+  id           String       @id @default(cuid())
+  name         String
+  role         String       @default("")
+  organisation String       @default("")
+  bio          String       @default("")
+  photoUrl     String?
+  session      String       @default("")
+  linkedinUrl  String       @default("")
+  socialUrl    String       @default("")
+  state        PublishState @default(DRAFT)
+  order        Int          @default(0)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  agendaItems  AgendaSpeaker[]
+}
+
+model Convener {
+  id        String   @id @default("convener")
+  name      String   @default("")
+  title     String   @default("")
+  photoUrl  String?
+  note      String   @default("")
+  updatedAt DateTime @updatedAt
+}
+
+model Sponsor {
+  id        String      @id @default(cuid())
+  name      String
+  logoUrl   String?
+  tier      SponsorTier @default(BRONZE)
+  url       String      @default("")
+  order     Int         @default(0)
+  createdAt DateTime    @default(now())
+}
+
+model AgendaItem {
+  id          String   @id @default(cuid())
+  time        String
+  durationMin Int      @default(30)
+  title       String
+  description String   @default("")
+  order       Int      @default(0)
+  speakers    AgendaSpeaker[]
+}
+
+model AgendaSpeaker {
+  agendaItemId String
+  speakerId    String
+  agendaItem   AgendaItem @relation(fields: [agendaItemId], references: [id], onDelete: Cascade)
+  speaker      Speaker    @relation(fields: [speakerId], references: [id], onDelete: Cascade)
+
+  @@id([agendaItemId, speakerId])
+}
+
+model Attendee {
+  id               String     @id @default(cuid())
+  ticketId         String     @unique
+  fullName         String
+  email            String
+  phone            String
+  school            String
+  level             String
+  department        String
+  howHeard          String     @default("")
+  consentReminders  Boolean    @default(false)
+  registeredAt      DateTime   @default(now())
+  checkedIn         Boolean    @default(false)
+  checkedInAt       DateTime?
+  checkedInGate     String?
+  checkIns          CheckIn[]
+
+  @@index([email])
+}
+
+model CheckIn {
+  id           String    @id @default(cuid())
+  attendeeId   String
+  attendee     Attendee  @relation(fields: [attendeeId], references: [id], onDelete: Cascade)
+  gate         String    @default("Gate A")
+  overridden   Boolean   @default(false)
+  scannedById  String?
+  scannedBy    AdminUser? @relation(fields: [scannedById], references: [id])
+  createdAt    DateTime  @default(now())
+}
+
+model VolunteerApplication {
+  id           String          @id @default(cuid())
+  fullName     String
+  email        String
+  phone        String
+  school       String
+  level        String
+  department   String
+  role         String
+  experience   String          @default("")
+  availability String          @default("Event day")
+  status       VolunteerStatus @default(PENDING)
+  crewId       String?         @unique
+  appliedAt    DateTime        @default(now())
+}
+
+model SponsorshipEnquiry {
+  id          String        @id @default(cuid())
+  company     String
+  contactName String
+  email       String
+  tier        SponsorTier   @default(GOLD)
+  message     String        @default("")
+  status      EnquiryStatus @default(NEW)
+  createdAt   DateTime      @default(now())
+}
+
+model FaqItem {
+  id       String @id @default(cuid())
+  question String
+  answer   String
+  order    Int    @default(0)
+}
+
+model FeedbackResponse {
+  id            String   @id @default(cuid())
+  rating        Int
+  bestSession   String   @default("")
+  improvement   String   @default("")
+  createdAt     DateTime @default(now())
+}
