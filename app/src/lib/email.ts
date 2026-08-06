@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 
-// No live email provider is configured for this pass — messages are logged
-// (and captured to .maildev/ as .html files) instead of actually being sent.
+// No live email provider is configured for this pass. Messages are logged
+// to the console instead of actually being sent.
 const transporter = nodemailer.createTransport({ jsonTransport: true });
 
 export function ticketEmailHtml(opts: {

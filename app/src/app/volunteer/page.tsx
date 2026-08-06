@@ -15,7 +15,7 @@ export default async function VolunteerPage() {
             Build it with us.
           </h1>
           <p className="mt-3 max-w-md text-sm leading-relaxed text-bodyfg">
-            Conference 1.0 runs on volunteers. Pick a role that fits you — no experience required,
+            Conference 1.0 runs on volunteers. Pick a role that fits you, no experience required,
             just willingness to show up.
           </p>
           <div className="mt-10">

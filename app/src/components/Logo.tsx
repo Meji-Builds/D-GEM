@@ -11,7 +11,7 @@ export function Logo({ size = "sm" }: { size?: "sm" | "md" | "lg" }) {
     <Link href="/" className="inline-flex items-center" aria-label="D-GEM home">
       <Image
         src="/dgem-logo.jpg"
-        alt="D-GEM — Don't Graduate Empty"
+        alt="D-GEM: Don't Graduate Empty"
         width={dims.w}
         height={dims.h}
         className={dims.className}

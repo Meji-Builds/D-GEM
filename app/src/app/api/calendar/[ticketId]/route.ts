@@ -34,7 +34,7 @@ export async function GET(
     `DTEND:${icsDate(dtEnd)}`,
     `SUMMARY:${settings.name}`,
     `LOCATION:${settings.venue}`,
-    `DESCRIPTION:Ticket ID ${attendee.ticketId} — present your QR code at the gate.`,
+    `DESCRIPTION:Ticket ID ${attendee.ticketId}. Present your QR code at the gate.`,
     "END:VEVENT",
     "END:VCALENDAR",
   ].join("\r\n");

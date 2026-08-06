@@ -9,7 +9,7 @@ export function FeedbackForm() {
   const [rating, setRating] = useState(0);
 
   if (state?.ok) {
-    return <p className="text-sm font-semibold">Thanks for the feedback — it helps us improve Conference 2.0.</p>;
+    return <p className="text-sm font-semibold">Thanks for the feedback. It helps us improve Conference 2.0.</p>;
   }
 
   return (
@@ -38,7 +38,7 @@ export function FeedbackForm() {
         <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-mutefg" htmlFor="bestSession">
           Best session
         </label>
-        <input id="bestSession" name="bestSession" className="h-11 w-full border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none" placeholder="e.g. Keynote — Building before you're ready" />
+        <input id="bestSession" name="bestSession" className="h-11 w-full border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none" placeholder="e.g. Keynote: Building before you're ready" />
       </div>
       <div className="mt-3">
         <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-mutefg" htmlFor="improvement">

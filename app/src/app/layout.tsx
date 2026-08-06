@@ -9,14 +9,14 @@ const archivo = Archivo({
 });
 
 // Nearly every page reads live data (registration counts, admin-edited
-// content, check-in state) — force per-request rendering everywhere so the
+// content, check-in state). Force per-request rendering everywhere so the
 // build never has to reach the database, and pages never serve stale data.
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "D-GEM · Don't Graduate Empty — Conference 1.0",
+  title: "D-GEM · Don't Graduate Empty · Conference 1.0",
   description:
-    "Don't Graduate Empty Movement Conference 1.0 — November 2026, Olabisi Onabanjo University. Mentor. Grow. Excel. Impact.",
+    "Don't Graduate Empty Movement Conference 1.0. November 2026, Olabisi Onabanjo University. Mentor. Grow. Excel. Impact.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

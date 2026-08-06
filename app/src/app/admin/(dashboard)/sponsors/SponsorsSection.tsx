@@ -42,7 +42,7 @@ export function SponsorsSection({ sponsors }: { sponsors: Sponsor[] }) {
                   {s.tier.charAt(0) + s.tier.slice(1).toLowerCase()}
                 </span>
               </td>
-              <td className="py-2 text-xs text-bodyfg">{s.url || "—"}</td>
+              <td className="py-2 text-xs text-bodyfg">{s.url || "-"}</td>
               <td className="py-2 text-right text-xs font-semibold">
                 <button className="text-bodyfg hover:text-gold" onClick={() => setEditingId(s.id)}>Edit</button>
                 {" · "}
@@ -71,7 +71,7 @@ export function SponsorsSection({ sponsors }: { sponsors: Sponsor[] }) {
 
       <div className="mt-5 border-t-2 border-ink pt-4">
         <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-mutefg">
-          {editing ? `Editing — ${editing.name}` : "Add sponsor"}
+          {editing ? `Editing: ${editing.name}` : "Add sponsor"}
         </p>
         <SponsorForm
           key={editing?.id ?? "new"}

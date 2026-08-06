@@ -49,7 +49,7 @@ export default async function AdminSpeakersPage({
               </td>
               <td className="py-2 font-semibold">{s.name}</td>
               <td className="py-2 text-bodyfg">{s.role}, {s.organisation}</td>
-              <td className="py-2 text-bodyfg">{s.session || "—"}</td>
+              <td className="py-2 text-bodyfg">{s.session || "-"}</td>
               <td className="py-2">
                 <span className={`border px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider ${s.state === "LIVE" ? "border-gold bg-gold" : "border-ink"}`}>
                   {s.state === "LIVE" ? "Live" : !s.photoUrl ? "No photo" : "Draft"}
@@ -70,7 +70,7 @@ export default async function AdminSpeakersPage({
 
       <div className="mt-8 border-t-2 border-ink bg-mist p-5">
         <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">
-          {editing ? `Edit speaker — ${editing.name}` : "Add speaker"}
+          {editing ? `Edit speaker: ${editing.name}` : "Add speaker"}
         </p>
         <div className="mt-4">
           <SpeakerForm

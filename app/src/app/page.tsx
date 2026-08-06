@@ -152,7 +152,7 @@ export default async function LandingPage() {
         <section className="border-b-2 border-ink px-5 py-12 sm:px-8">
           <div className="mx-auto max-w-4xl">
             <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">
-              Agenda — one day
+              Agenda · One day
             </p>
             <div className="mt-5 space-y-3">
               {previewAgenda.map((a) => (

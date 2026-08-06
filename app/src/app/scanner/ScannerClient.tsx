@@ -54,7 +54,7 @@ export function ScannerClient({ gate, stewardName }: { gate: string; stewardName
         }
         tick();
       } catch {
-        setCameraError("Camera unavailable — use manual entry below.");
+        setCameraError("Camera unavailable. Use manual entry below.");
       }
     }
 
@@ -143,7 +143,7 @@ export function ScannerClient({ gate, stewardName }: { gate: string; stewardName
           <div className="space-y-2 p-5">
             <div className="text-base font-bold">{result.attendee.fullName}</div>
             <p className="text-xs leading-relaxed text-bodyfg">
-              First scanned {result.firstScannedAt ? new Date(result.firstScannedAt).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }) : "—"}
+              First scanned {result.firstScannedAt ? new Date(result.firstScannedAt).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }) : "earlier"}
               {result.firstGate ? ` at ${result.firstGate}` : ""}
               {result.firstSteward ? ` by ${result.firstSteward}.` : "."}
             </p>

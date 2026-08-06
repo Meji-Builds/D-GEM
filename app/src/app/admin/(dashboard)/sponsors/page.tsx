@@ -14,7 +14,7 @@ export default async function AdminSponsorsPage() {
   return (
     <div className="space-y-10">
       <div>
-        <h1 className="font-display border-b-2 border-ink pb-3 text-lg font-extrabold">Event details — editable</h1>
+        <h1 className="font-display border-b-2 border-ink pb-3 text-lg font-extrabold">Event details (editable)</h1>
         <div className="mt-4">
           <EventDetailsForm
             initial={{

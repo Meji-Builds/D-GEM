@@ -17,7 +17,7 @@ export function EnquiryForm() {
   if (state?.ok) {
     return (
       <div className="border-2 border-ink bg-mist p-6 text-sm">
-        Thanks — your enquiry has been sent. The D-GEM partnerships team will reach out shortly.
+        Thanks, your enquiry has been sent. The D-GEM partnerships team will reach out shortly.
       </div>
     );
   }

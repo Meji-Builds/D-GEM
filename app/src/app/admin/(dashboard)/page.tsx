@@ -75,7 +75,7 @@ export default async function AdminOverviewPage() {
 
       <div className="mt-8 grid gap-8 sm:grid-cols-2">
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">Content blocks — publish state</p>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">Content blocks · Publish state</p>
           <table className="mt-3 w-full text-sm">
             <thead>
               <tr className="border-b-2 border-ink text-left text-[9px] font-bold uppercase tracking-wider text-mutefg">
