@@ -3,6 +3,7 @@ import { PublicFooter } from "@/components/PublicFooter";
 import { RegisterForm } from "./RegisterForm";
 import { getEventSettings, formatEventDateLabel } from "@/lib/data";
 import { prisma } from "@/lib/prisma";
+import { ProgressBar } from "@/components/ProgressBar";
 
 export default async function RegisterPage() {
   const settings = await getEventSettings();
@@ -44,9 +45,7 @@ export default async function RegisterPage() {
               <div className="mt-1 text-[10px] font-bold uppercase tracking-widest text-mutefg">
                 of {settings.capacity} seats taken
               </div>
-              <div className="mt-2 h-2 bg-line">
-                <div className="h-full bg-gold" style={{ width: `${pct}%` }} />
-              </div>
+              <ProgressBar pct={pct} className="mt-2 h-2 bg-line" />
             </div>
           </div>
         </div>

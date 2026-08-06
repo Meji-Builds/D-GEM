@@ -4,6 +4,7 @@ import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { ticketQrDataUrl } from "@/lib/ticket";
 import { ActionButtons } from "./ActionButtons";
+import { ArrowLeftIcon } from "@/components/Icon";
 
 export default async function AdminAttendeeDetailPage({
   params,
@@ -20,8 +21,9 @@ export default async function AdminAttendeeDetailPage({
 
   return (
     <div>
-      <Link href="/admin/attendees" className="text-xs font-semibold text-bodyfg hover:text-gold">
-        ← All attendees
+      <Link href="/admin/attendees" className="group inline-flex items-center gap-1.5 text-xs font-semibold text-bodyfg transition-colors hover:text-gold">
+        <ArrowLeftIcon className="h-3 w-3 transition-transform duration-150 group-hover:-translate-x-0.5" />
+        All attendees
       </Link>
 
       <div className="mt-4 grid gap-8 sm:grid-cols-[200px_1fr]">

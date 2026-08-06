@@ -71,43 +71,45 @@ export default async function AdminAttendeesPage({
         <button className="border border-ink px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider hover:bg-ink hover:text-white" type="submit">Search</button>
       </form>
 
-      <table className="mt-4 w-full text-sm">
-        <thead>
-          <tr className="border-b-2 border-ink text-left text-[9px] font-bold uppercase tracking-wider text-mutefg">
-            <th className="py-2">Name</th>
-            <th className="py-2">Email</th>
-            <th className="py-2">School</th>
-            <th className="py-2">Level</th>
-            <th className="py-2">Ticket</th>
-            <th className="py-2">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {attendees.map((a) => (
-            <tr key={a.id} className="border-b border-hair hover:bg-mist">
-              <td className="py-2">
-                <Link href={`/admin/attendees/${a.id}`} className="font-semibold hover:text-gold">{a.fullName}</Link>
-              </td>
-              <td className="py-2 text-bodyfg">{a.email}</td>
-              <td className="py-2 text-bodyfg">{a.school}</td>
-              <td className="py-2 text-bodyfg">{a.level}</td>
-              <td className="py-2 text-bodyfg">{a.ticketId}</td>
-              <td className="py-2">
-                {a.checkedIn ? (
-                  <span className="border border-gold bg-gold px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider">
-                    In {a.checkedInAt ? new Date(a.checkedInAt).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }) : ""}
-                  </span>
-                ) : (
-                  <span className="border border-ink px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider">Not yet</span>
-                )}
-              </td>
+      <div className="mt-4 overflow-x-auto">
+        <table className="w-full min-w-[620px] text-sm">
+          <thead>
+            <tr className="border-b-2 border-ink text-left text-[9px] font-bold uppercase tracking-wider text-mutefg">
+              <th className="py-2">Name</th>
+              <th className="py-2">Email</th>
+              <th className="py-2">School</th>
+              <th className="py-2">Level</th>
+              <th className="py-2">Ticket</th>
+              <th className="py-2">Status</th>
             </tr>
-          ))}
-          {attendees.length === 0 && (
-            <tr><td colSpan={6} className="py-6 text-mutefg">No attendees match.</td></tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {attendees.map((a) => (
+              <tr key={a.id} className="border-b border-hair transition-colors hover:bg-mist">
+                <td className="py-2 whitespace-nowrap">
+                  <Link href={`/admin/attendees/${a.id}`} className="font-semibold hover:text-gold">{a.fullName}</Link>
+                </td>
+                <td className="py-2 whitespace-nowrap text-bodyfg">{a.email}</td>
+                <td className="py-2 whitespace-nowrap text-bodyfg">{a.school}</td>
+                <td className="py-2 whitespace-nowrap text-bodyfg">{a.level}</td>
+                <td className="py-2 whitespace-nowrap text-bodyfg">{a.ticketId}</td>
+                <td className="py-2 whitespace-nowrap">
+                  {a.checkedIn ? (
+                    <span className="border border-gold bg-gold px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider">
+                      In {a.checkedInAt ? new Date(a.checkedInAt).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }) : ""}
+                    </span>
+                  ) : (
+                    <span className="border border-ink px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider">Not yet</span>
+                  )}
+                </td>
+              </tr>
+            ))}
+            {attendees.length === 0 && (
+              <tr><td colSpan={6} className="py-6 text-mutefg">No attendees match.</td></tr>
+            )}
+          </tbody>
+        </table>
+      </div>
       <p className="mt-3 text-xs text-mutefg">Row click opens the attendee: full details, QR, resend email, manual check-in.</p>
     </div>
   );

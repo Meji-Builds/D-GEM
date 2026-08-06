@@ -25,7 +25,7 @@ export default async function TicketPage({
     <div className="flex min-h-full flex-col">
       <PublicNav />
       <main className="flex-1">
-        <div className="mx-auto max-w-2xl px-5 py-12">
+        <div className="animate-fade-in-up mx-auto max-w-2xl px-5 py-12">
           <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">
             {attendee.checkedIn ? "Checked in" : "You're in"}
           </p>
@@ -33,7 +33,7 @@ export default async function TicketPage({
             {attendee.checkedIn ? `Welcome back, ${firstName}.` : `You're in, ${firstName}.`}
           </h1>
 
-          <div className="mt-8 border-2 border-ink bg-white p-6">
+          <div className="animate-scale-in mt-8 border-2 border-ink bg-white p-6">
             <div className="flex items-start justify-between">
               <div>
                 <div className="text-[10px] font-bold uppercase tracking-widest text-mutefg">

@@ -30,8 +30,8 @@ export default async function SponsorshipPage() {
           {TIERS.map((t) => (
             <div
               key={t.name}
-              className={`border-b-2 border-ink px-5 py-8 last:border-b-0 sm:border-b-0 sm:border-r-2 sm:px-8 sm:last:border-r-0 ${
-                t.gold ? "bg-gold" : ""
+              className={`border-b-2 border-ink px-5 py-8 transition-colors last:border-b-0 sm:border-b-0 sm:border-r-2 sm:px-8 sm:last:border-r-0 ${
+                t.gold ? "bg-gold" : "hover:bg-mist"
               }`}
             >
               <div className="text-base font-bold">{t.name}</div>

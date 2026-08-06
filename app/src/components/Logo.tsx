@@ -10,7 +10,7 @@ export function Logo({ size = "sm" }: { size?: "sm" | "md" | "lg" }) {
   return (
     <Link href="/" className="inline-flex items-center" aria-label="D-GEM home">
       <Image
-        src="/dgem-logo.jpg"
+        src="/dgem-logo.png"
         alt="D-GEM: Don't Graduate Empty"
         width={dims.w}
         height={dims.h}

@@ -5,6 +5,7 @@ import { PublicNav } from "@/components/PublicNav";
 import { PublicFooter } from "@/components/PublicFooter";
 import { PhotoOrPlaceholder } from "@/components/PhotoOrPlaceholder";
 import { LinkButton } from "@/components/Button";
+import { ArrowLeftIcon } from "@/components/Icon";
 
 export default async function SpeakerDetailPage({
   params,
@@ -26,8 +27,9 @@ export default async function SpeakerDetailPage({
       <PublicNav />
       <main className="flex-1">
         <div className="mx-auto max-w-3xl px-5 py-12 sm:px-8">
-          <a href="/speakers" className="text-xs font-semibold text-bodyfg hover:text-gold">
-            ← All speakers
+          <a href="/speakers" className="group inline-flex items-center gap-1.5 text-xs font-semibold text-bodyfg transition-colors hover:text-gold">
+            <ArrowLeftIcon className="h-3 w-3 transition-transform duration-150 group-hover:-translate-x-0.5" />
+            All speakers
           </a>
 
           <div className="mt-6 grid gap-8 sm:grid-cols-[220px_1fr]">

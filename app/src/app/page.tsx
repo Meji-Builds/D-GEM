@@ -3,6 +3,7 @@ import { PublicFooter } from "@/components/PublicFooter";
 import { Countdown } from "@/components/Countdown";
 import { LinkButton } from "@/components/Button";
 import { PhotoOrPlaceholder } from "@/components/PhotoOrPlaceholder";
+import { Reveal } from "@/components/Reveal";
 import {
   getEventSettings,
   getLiveSpeakers,
@@ -33,7 +34,7 @@ export default async function LandingPage() {
       <main className="flex-1">
         {/* Hero */}
         <section className="border-b-2 border-ink px-5 py-14 sm:px-8">
-          <div className="mx-auto max-w-4xl">
+          <div className="animate-fade-in-up mx-auto max-w-4xl">
             <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">
               Don&apos;t Graduate Empty · {settings.tagline}
             </p>
@@ -78,7 +79,7 @@ export default async function LandingPage() {
 
         {/* About */}
         <section id="about" className="border-b-2 border-ink px-5 py-12 sm:px-8">
-          <div className="mx-auto grid max-w-4xl gap-8 sm:grid-cols-2 sm:items-center">
+          <Reveal className="mx-auto grid max-w-4xl gap-8 sm:grid-cols-2 sm:items-center">
             <div>
               <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">
                 About the movement
@@ -86,24 +87,24 @@ export default async function LandingPage() {
               <p className="mt-3 text-sm leading-relaxed text-bodyfg">{settings.aboutText}</p>
             </div>
             <PhotoOrPlaceholder src={null} alt="D-GEM movement" label="Movement photo" className="h-48" />
-          </div>
+          </Reveal>
         </section>
 
         {/* Mission / Vision */}
         <section className="grid border-b-2 border-ink sm:grid-cols-2">
-          <div className="border-b-2 border-ink px-5 py-10 sm:border-b-0 sm:border-r-2 sm:px-8">
+          <Reveal className="border-b-2 border-ink px-5 py-10 sm:border-b-0 sm:border-r-2 sm:px-8">
             <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">Mission</p>
             <p className="mt-3 max-w-md text-sm leading-relaxed text-bodyfg">{settings.missionText}</p>
-          </div>
-          <div className="px-5 py-10 sm:px-8">
+          </Reveal>
+          <Reveal className="px-5 py-10 sm:px-8">
             <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">Vision</p>
             <p className="mt-3 max-w-md text-sm leading-relaxed text-bodyfg">{settings.visionText}</p>
-          </div>
+          </Reveal>
         </section>
 
         {/* Speakers preview */}
         <section className="border-b-2 border-ink px-5 py-12 sm:px-8">
-          <div className="mx-auto max-w-4xl">
+          <Reveal className="mx-auto max-w-4xl">
             <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">
               Guest speakers
             </p>
@@ -112,9 +113,16 @@ export default async function LandingPage() {
                 <p className="col-span-full text-sm text-mutefg">Speaker lineup coming soon.</p>
               )}
               {previewSpeakers.map((s) => (
-                <a key={s.id} href={`/speakers/${s.id}`} className="group">
-                  <PhotoOrPlaceholder src={s.photoUrl} alt={s.name} label="Photo" className="aspect-square" />
-                  <div className="mt-2 text-sm font-bold group-hover:text-gold">{s.name}</div>
+                <a key={s.id} href={`/speakers/${s.id}`} className="group block">
+                  <div className="overflow-hidden">
+                    <PhotoOrPlaceholder
+                      src={s.photoUrl}
+                      alt={s.name}
+                      label="Photo"
+                      className="aspect-square transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="mt-2 text-sm font-bold transition-colors group-hover:text-gold">{s.name}</div>
                   <div className="text-xs text-mutefg">{s.role}, {s.organisation}</div>
                 </a>
               ))}
@@ -122,12 +130,12 @@ export default async function LandingPage() {
             <div className="mt-6">
               <LinkButton href="/speakers" variant="outline">See all speakers</LinkButton>
             </div>
-          </div>
+          </Reveal>
         </section>
 
         {/* Convener */}
         <section className="border-b-2 border-ink px-5 py-12 sm:px-8">
-          <div className="mx-auto flex max-w-4xl flex-col gap-6 sm:flex-row sm:items-center">
+          <Reveal className="mx-auto flex max-w-4xl flex-col gap-6 sm:flex-row sm:items-center">
             <PhotoOrPlaceholder
               src={convener.photoUrl}
               alt={convener.name || "Convener"}
@@ -145,18 +153,18 @@ export default async function LandingPage() {
                 {convener.note || "Welcome note from the convener."}
               </p>
             </div>
-          </div>
+          </Reveal>
         </section>
 
         {/* Agenda preview */}
         <section className="border-b-2 border-ink px-5 py-12 sm:px-8">
-          <div className="mx-auto max-w-4xl">
+          <Reveal className="mx-auto max-w-4xl">
             <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">
               Agenda · One day
             </p>
             <div className="mt-5 space-y-3">
               {previewAgenda.map((a) => (
-                <div key={a.id} className="flex items-center gap-4 border-b border-hair pb-3">
+                <div key={a.id} className="flex items-center gap-4 border-b border-hair pb-3 transition-colors hover:border-gold">
                   <span className="border border-ink px-2 py-1 text-[10px] font-bold uppercase tracking-wider">
                     {a.time}
                   </span>
@@ -167,12 +175,12 @@ export default async function LandingPage() {
             <div className="mt-6">
               <LinkButton href="/agenda" variant="outline">See full agenda</LinkButton>
             </div>
-          </div>
+          </Reveal>
         </section>
 
         {/* Sponsors */}
         <section id="sponsors" className="border-b-2 border-ink px-5 py-12 sm:px-8">
-          <div className="mx-auto max-w-4xl">
+          <Reveal className="mx-auto max-w-4xl">
             <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">
               Sponsors &amp; partners
             </p>
@@ -192,7 +200,7 @@ export default async function LandingPage() {
                       src={s.logoUrl}
                       alt={s.name}
                       label={s.name}
-                      className={tier === "gold" ? "h-11 flex-1 min-w-24" : "h-8 flex-1 min-w-20"}
+                      className={`transition-transform duration-200 hover:scale-105 ${tier === "gold" ? "h-11 flex-1 min-w-24" : "h-8 flex-1 min-w-20"}`}
                     />
                   ))}
                 </div>
@@ -201,12 +209,12 @@ export default async function LandingPage() {
             <div className="mt-6">
               <LinkButton href="/sponsorship" variant="outline">Sponsor this event</LinkButton>
             </div>
-          </div>
+          </Reveal>
         </section>
 
         {/* CTA */}
         <section className="border-b-2 border-ink bg-gold px-5 py-12 sm:px-8">
-          <div className="mx-auto max-w-4xl">
+          <Reveal className="mx-auto max-w-4xl">
             <div className="font-display text-2xl font-extrabold leading-tight sm:text-3xl">
               Seats are free.
               <br />
@@ -218,7 +226,7 @@ export default async function LandingPage() {
             <div className="mt-5">
               <LinkButton href="/register">Register now</LinkButton>
             </div>
-          </div>
+          </Reveal>
         </section>
       </main>
       <PublicFooter contactEmail={settings.contactEmail} contactPhone={settings.contactPhone} />

@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { resendTicketEmail } from "./actions";
 import { Button } from "@/components/Button";
+import { CheckIcon } from "@/components/Icon";
 
 export function ResendButton({ ticketId }: { ticketId: string }) {
   const [pending, start] = useTransition();
@@ -11,7 +12,7 @@ export function ResendButton({ ticketId }: { ticketId: string }) {
   return (
     <Button
       type="button"
-      variant="solid"
+      variant={sent ? "outline" : "solid"}
       disabled={pending}
       onClick={() =>
         start(async () => {
@@ -20,7 +21,8 @@ export function ResendButton({ ticketId }: { ticketId: string }) {
         })
       }
     >
-      {pending ? "Sending…" : sent ? "Sent ✓" : "Resend email"}
+      {sent && <CheckIcon className="animate-pop h-3.5 w-3.5" />}
+      {pending ? "Sending…" : sent ? "Sent" : "Resend email"}
     </Button>
   );
 }

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { getEventSettings, formatEventDateLabel } from "@/lib/data";
+import { ArrowRightIcon } from "@/components/Icon";
+import { ProgressBar } from "@/components/ProgressBar";
 
 export default async function AdminOverviewPage() {
   const settings = await getEventSettings();
@@ -56,7 +58,7 @@ export default async function AdminOverviewPage() {
           <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">Registrations</p>
           <div className="font-display mt-1 text-3xl font-extrabold">{registered}</div>
           <p className="mt-1 text-xs text-mutefg">+{registeredToday} today · {pct}% of {settings.capacity}</p>
-          <div className="mt-2 h-2 bg-line"><div className="h-full bg-gold" style={{ width: `${pct}%` }} /></div>
+          <ProgressBar pct={pct} className="mt-2 h-2 bg-line" />
         </div>
         <div className="border-b-2 border-ink py-4 sm:border-b-0 sm:border-r-2 sm:px-6 sm:py-0">
           <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">Checked in</p>
@@ -104,11 +106,22 @@ export default async function AdminOverviewPage() {
         <div>
           <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">Quick actions</p>
           <div className="mt-3 flex flex-col gap-2">
-            <Link href="/admin/speakers" className="border border-ink px-4 py-2.5 text-xs font-bold hover:bg-ink hover:text-white">Add speaker →</Link>
-            <Link href="/admin/sponsors" className="border border-ink px-4 py-2.5 text-xs font-bold hover:bg-ink hover:text-white">Edit date &amp; venue →</Link>
-            <Link href="/admin/sponsors" className="border border-ink px-4 py-2.5 text-xs font-bold hover:bg-ink hover:text-white">Add sponsor →</Link>
-            <Link href="/admin/attendees" className="border border-ink px-4 py-2.5 text-xs font-bold hover:bg-ink hover:text-white">Export attendees →</Link>
-            <Link href="/admin/volunteers" className="border border-ink px-4 py-2.5 text-xs font-bold hover:bg-ink hover:text-white">Review volunteers →</Link>
+            {[
+              { href: "/admin/speakers", label: "Add speaker" },
+              { href: "/admin/sponsors", label: "Edit date & venue" },
+              { href: "/admin/sponsors", label: "Add sponsor" },
+              { href: "/admin/attendees", label: "Export attendees" },
+              { href: "/admin/volunteers", label: "Review volunteers" },
+            ].map((a) => (
+              <Link
+                key={a.label}
+                href={a.href}
+                className="group flex items-center justify-between border border-ink px-4 py-2.5 text-xs font-bold transition-colors hover:bg-ink hover:text-white"
+              >
+                {a.label}
+                <ArrowRightIcon className="h-3.5 w-3.5 text-gold transition-transform duration-150 group-hover:translate-x-0.5" />
+              </Link>
+            ))}
           </div>
         </div>
       </div>

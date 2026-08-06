@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import jsQR from "jsqr";
 import { Button } from "@/components/Button";
+import { ArrowRightIcon } from "@/components/Icon";
+import { playSuccessTone, playErrorTone } from "@/lib/sound";
 
 type Result =
   | { state: "idle" }
@@ -31,9 +33,18 @@ export function ScannerClient({ gate, stewardName }: { gate: string; stewardName
         body: JSON.stringify({ query, gate, override }),
       });
       const data = await res.json();
-      if (data.state === "granted" || data.state === "already") setScanCount((c) => c + 1);
+      if (data.state === "granted") {
+        playSuccessTone();
+        setScanCount((c) => c + 1);
+      } else if (data.state === "already") {
+        playErrorTone();
+        setScanCount((c) => c + 1);
+      } else {
+        playErrorTone();
+      }
       setResult(data.state === "invalid" ? { state: "invalid", query } : data);
     } catch {
+      playErrorTone();
       setResult({ state: "invalid", query });
     } finally {
       submitting.current = false;
@@ -113,7 +124,7 @@ export function ScannerClient({ gate, stewardName }: { gate: string; stewardName
       )}
 
       {result.state === "granted" && (
-        <div className="border-2 border-ink bg-white">
+        <div className="animate-scale-in border-2 border-ink bg-white">
           <div className="bg-gold p-5">
             <div className="font-display text-xl font-extrabold">Access granted</div>
           </div>
@@ -136,7 +147,7 @@ export function ScannerClient({ gate, stewardName }: { gate: string; stewardName
       )}
 
       {result.state === "already" && (
-        <div className="border-2 border-ink bg-white">
+        <div className="animate-scale-in border-2 border-ink bg-white">
           <div className="bg-ink p-5 text-white">
             <div className="font-display text-xl font-extrabold">Already checked in</div>
           </div>
@@ -156,7 +167,7 @@ export function ScannerClient({ gate, stewardName }: { gate: string; stewardName
       )}
 
       {result.state === "invalid" && (
-        <div className="border-2 border-ink bg-white">
+        <div className="animate-scale-in border-2 border-ink bg-white">
           <div className="bg-mist p-5">
             <div className="font-display text-xl font-extrabold">Not recognised</div>
           </div>
@@ -172,8 +183,9 @@ export function ScannerClient({ gate, stewardName }: { gate: string; stewardName
             />
             <div className="flex flex-wrap gap-2">
               <Button variant="outline" onClick={() => submit(manual)}>Search / check in</Button>
-              <a href="/register" target="_blank" rel="noreferrer" className="inline-flex items-center justify-center border border-ink px-5 py-3 text-[11px] font-bold uppercase tracking-wider hover:bg-ink hover:text-white">
+              <a href="/register" target="_blank" rel="noreferrer" className="group inline-flex items-center justify-center gap-2 border border-ink px-5 py-3 text-[11px] font-bold uppercase tracking-wider transition-colors hover:bg-ink hover:text-white">
                 Register at gate
+                <ArrowRightIcon className="h-3.5 w-3.5 text-gold transition-transform duration-150 group-hover:translate-x-0.5" />
               </a>
               <Button onClick={reset}>Scan next</Button>
             </div>
