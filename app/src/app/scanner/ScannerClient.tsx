@@ -6,16 +6,60 @@ import { Button } from "@/components/Button";
 import { ArrowRightIcon } from "@/components/Icon";
 import { playSuccessTone, playErrorTone } from "@/lib/sound";
 
+const GATE_STORAGE_KEY = "dgem_scanner_gate";
+const QUICK_GATES = ["Gate A", "Gate B", "Gate C", "Main Entrance"];
+
 type Result =
   | { state: "idle" }
   | { state: "granted"; attendee: { fullName: string; ticketId: string; school: string; level: string; department: string }; gate: string; time: string }
   | { state: "already"; attendee: { fullName: string; ticketId: string }; firstScannedAt: string | null; firstGate: string | null; firstSteward: string | null }
   | { state: "invalid"; query?: string };
 
-export function ScannerClient({ gate, stewardName }: { gate: string; stewardName: string }) {
+function GateSetup({ onSet }: { onSet: (gate: string) => void }) {
+  const [custom, setCustom] = useState("");
+
+  return (
+    <div className="mx-auto flex max-w-sm flex-col gap-4 px-4 py-10">
+      <div>
+        <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">This device is</p>
+        <h1 className="font-display mt-1 text-xl font-extrabold">Which gate is this?</h1>
+        <p className="mt-2 text-xs text-bodyfg">
+          Every scan from this device is recorded under this gate. Set it once per device — you can run as many
+          scanners as you have phones, each with its own gate.
+        </p>
+      </div>
+      <div className="grid grid-cols-2 gap-2">
+        {QUICK_GATES.map((g) => (
+          <button
+            key={g}
+            onClick={() => onSet(g)}
+            className="border border-ink px-4 py-3 text-sm font-bold transition-colors hover:bg-ink hover:text-white"
+          >
+            {g}
+          </button>
+        ))}
+      </div>
+      <div className="flex gap-2">
+        <input
+          value={custom}
+          onChange={(e) => setCustom(e.target.value)}
+          placeholder="Or type a custom gate name"
+          className="h-11 flex-1 border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none"
+        />
+        <Button disabled={!custom.trim()} onClick={() => onSet(custom.trim())}>
+          Set
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+export function ScannerClient({ stewardName }: { stewardName: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef<number | null>(null);
+  const [gate, setGate] = useState<string | null>(null);
+  const [gateLoaded, setGateLoaded] = useState(false);
   const [cameraError, setCameraError] = useState<string | null>(null);
   const [result, setResult] = useState<Result>({ state: "idle" });
   const [manual, setManual] = useState("");
@@ -23,8 +67,23 @@ export function ScannerClient({ gate, stewardName }: { gate: string; stewardName
   const lastSubmit = useRef<string>("");
   const submitting = useRef(false);
 
+  useEffect(() => {
+    setGate(localStorage.getItem(GATE_STORAGE_KEY));
+    setGateLoaded(true);
+  }, []);
+
+  const setAndStoreGate = (g: string) => {
+    localStorage.setItem(GATE_STORAGE_KEY, g);
+    setGate(g);
+  };
+
+  const clearGate = () => {
+    localStorage.removeItem(GATE_STORAGE_KEY);
+    setGate(null);
+  };
+
   const submit = useCallback(async (query: string, override = false) => {
-    if (submitting.current || !query) return;
+    if (submitting.current || !query || !gate) return;
     submitting.current = true;
     try {
       const res = await fetch("/api/checkin", {
@@ -52,6 +111,7 @@ export function ScannerClient({ gate, stewardName }: { gate: string; stewardName
   }, [gate]);
 
   useEffect(() => {
+    if (!gate) return;
     let stream: MediaStream | null = null;
     let cancelled = false;
 
@@ -96,14 +156,25 @@ export function ScannerClient({ gate, stewardName }: { gate: string; stewardName
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       stream?.getTracks().forEach((t) => t.stop());
     };
-  }, [submit]);
+  }, [gate, submit]);
 
   const reset = () => setResult({ state: "idle" });
+
+  if (!gateLoaded) return null;
+  if (!gate) return <GateSetup onSet={setAndStoreGate} />;
 
   return (
     <div className="mx-auto flex max-w-sm flex-col gap-4 px-4 py-6">
       <div className="flex items-center justify-between text-xs font-bold">
-        <span>{gate} · {stewardName}</span>
+        <span>
+          {gate} · {stewardName}
+          <button
+            onClick={clearGate}
+            className="ml-2 font-semibold text-mutefg underline decoration-dotted hover:text-gold"
+          >
+            Change gate
+          </button>
+        </span>
         <span className="border border-ink px-2 py-1 text-[10px] uppercase tracking-wider">{scanCount} scanned</span>
       </div>
 

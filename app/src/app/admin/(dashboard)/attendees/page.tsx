@@ -5,9 +5,9 @@ import type { Prisma } from "@prisma/client";
 export default async function AdminAttendeesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; status?: string }>;
+  searchParams: Promise<{ q?: string; status?: string; gate?: string }>;
 }) {
-  const { q, status } = await searchParams;
+  const { q, status, gate } = await searchParams;
 
   const where: Prisma.AttendeeWhereInput = {};
   if (q) {
@@ -20,12 +20,19 @@ export default async function AdminAttendeesPage({
   }
   if (status === "in") where.checkedIn = true;
   if (status === "out") where.checkedIn = false;
+  if (gate) where.checkedInGate = gate;
 
-  const [attendees, total, checkedIn, overrides] = await Promise.all([
+  const [attendees, total, checkedIn, overrides, gateBreakdown] = await Promise.all([
     prisma.attendee.findMany({ where, orderBy: { registeredAt: "desc" }, take: 100 }),
     prisma.attendee.count(),
     prisma.attendee.count({ where: { checkedIn: true } }),
     prisma.checkIn.count({ where: { overridden: true } }),
+    prisma.attendee.groupBy({
+      by: ["checkedInGate"],
+      where: { checkedIn: true, checkedInGate: { not: null } },
+      _count: true,
+      orderBy: { _count: { checkedInGate: "desc" } },
+    }),
   ]);
   const turnout = total ? Math.round((checkedIn / total) * 100) : 0;
 
@@ -57,6 +64,30 @@ export default async function AdminAttendeesPage({
         </div>
       </div>
 
+      {gateBreakdown.length > 0 && (
+        <div className="mt-4 border-b-2 border-ink pb-4">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">Check-ins by gate</p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {gateBreakdown.map((g) => (
+              <Link
+                key={g.checkedInGate}
+                href={`/admin/attendees?gate=${encodeURIComponent(g.checkedInGate!)}`}
+                className={`border px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors ${
+                  gate === g.checkedInGate ? "border-gold bg-gold" : "border-ink hover:bg-mist"
+                }`}
+              >
+                {g.checkedInGate} · {g._count}
+              </Link>
+            ))}
+            {gate && (
+              <Link href="/admin/attendees" className="px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wider text-mutefg underline decoration-dotted hover:text-gold">
+                Clear gate filter
+              </Link>
+            )}
+          </div>
+        </div>
+      )}
+
       <form className="mt-4 flex flex-wrap items-center gap-2" method="get">
         <input
           name="q"
@@ -65,6 +96,7 @@ export default async function AdminAttendeesPage({
           className="h-10 min-w-[240px] flex-1 border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none"
         />
         <input type="hidden" name="status" value={status ?? ""} />
+        <input type="hidden" name="gate" value={gate ?? ""} />
         <Link href="/admin/attendees" className={`border px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wider ${!status ? "border-gold bg-gold" : "border-ink"}`}>All</Link>
         <Link href="/admin/attendees?status=in" className={`border px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wider ${status === "in" ? "border-gold bg-gold" : "border-ink"}`}>Checked in</Link>
         <Link href="/admin/attendees?status=out" className={`border px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wider ${status === "out" ? "border-gold bg-gold" : "border-ink"}`}>Not yet</Link>
@@ -72,7 +104,7 @@ export default async function AdminAttendeesPage({
       </form>
 
       <div className="mt-4 overflow-x-auto">
-        <table className="w-full min-w-[620px] text-sm">
+        <table className="w-full min-w-[680px] text-sm">
           <thead>
             <tr className="border-b-2 border-ink text-left text-[9px] font-bold uppercase tracking-wider text-mutefg">
               <th className="py-2">Name</th>
@@ -80,6 +112,7 @@ export default async function AdminAttendeesPage({
               <th className="py-2">School</th>
               <th className="py-2">Level</th>
               <th className="py-2">Ticket</th>
+              <th className="py-2">Gate</th>
               <th className="py-2">Status</th>
             </tr>
           </thead>
@@ -93,6 +126,7 @@ export default async function AdminAttendeesPage({
                 <td className="py-2 whitespace-nowrap text-bodyfg">{a.school}</td>
                 <td className="py-2 whitespace-nowrap text-bodyfg">{a.level}</td>
                 <td className="py-2 whitespace-nowrap text-bodyfg">{a.ticketId}</td>
+                <td className="py-2 whitespace-nowrap text-bodyfg">{a.checkedInGate || "-"}</td>
                 <td className="py-2 whitespace-nowrap">
                   {a.checkedIn ? (
                     <span className="border border-gold bg-gold px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider">
@@ -105,7 +139,7 @@ export default async function AdminAttendeesPage({
               </tr>
             ))}
             {attendees.length === 0 && (
-              <tr><td colSpan={6} className="py-6 text-mutefg">No attendees match.</td></tr>
+              <tr><td colSpan={7} className="py-6 text-mutefg">No attendees match.</td></tr>
             )}
           </tbody>
         </table>

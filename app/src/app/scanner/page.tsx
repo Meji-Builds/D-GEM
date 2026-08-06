@@ -17,7 +17,7 @@ export default async function ScannerPage() {
           </button>
         </form>
       </div>
-      <ScannerClient gate="Gate A" stewardName={session?.name ?? "Steward"} />
+      <ScannerClient stewardName={session?.name ?? "Steward"} />
     </div>
   );
 }
