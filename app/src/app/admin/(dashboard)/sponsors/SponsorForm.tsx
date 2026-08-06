@@ -1,8 +1,9 @@
 "use client";
 
-import { useActionState, useEffect, useRef } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { saveSponsor, type FormState } from "./actions";
 import { Button } from "@/components/Button";
+import { ImageInput } from "@/components/ImageInput";
 
 const fieldClass = "h-10 w-full border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none";
 
@@ -15,10 +16,12 @@ export function SponsorForm({
 }) {
   const [state, formAction, pending] = useActionState<FormState, FormData>(saveSponsor, {});
   const formRef = useRef<HTMLFormElement>(null);
+  const [preview, setPreview] = useState<string | null>(null);
 
   useEffect(() => {
     if (state?.ok) {
       formRef.current?.reset();
+      setPreview(null);
       onDone?.();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -45,7 +48,15 @@ export function SponsorForm({
       </div>
       <div>
         <label className="mb-1 block text-[9px] font-bold uppercase text-mutefg">Logo</label>
-        <input type="file" name="logo" accept="image/*" className="h-10 text-[10px]" />
+        {preview && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={preview} alt="Logo preview" className="mb-1 h-8 w-14 border border-line object-contain" />
+        )}
+        <ImageInput
+          name="logo"
+          className="h-10 text-[10px]"
+          onChange={(file) => setPreview(file ? URL.createObjectURL(file) : null)}
+        />
       </div>
       <Button type="submit" disabled={pending}>{pending ? "Saving…" : initial ? "Save" : "Add sponsor"}</Button>
     </form>

@@ -1,9 +1,10 @@
 "use client";
 
-import { useActionState, useEffect, useRef } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { saveSpeaker, type SpeakerFormState } from "./actions";
 import { Button } from "@/components/Button";
+import { ImageInput } from "@/components/ImageInput";
 
 const fieldClass = "h-10 w-full border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none";
 const labelClass = "mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-mutefg";
@@ -24,6 +25,7 @@ export function SpeakerForm({ initial }: { initial: SpeakerInitial | null }) {
   const [state, formAction, pending] = useActionState<SpeakerFormState, FormData>(saveSpeaker, {});
   const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
+  const [preview, setPreview] = useState<string | null>(null);
 
   useEffect(() => {
     if (state?.ok) {
@@ -37,9 +39,9 @@ export function SpeakerForm({ initial }: { initial: SpeakerInitial | null }) {
     <form ref={formRef} action={formAction} className="grid gap-4 sm:grid-cols-[130px_1fr]">
       <input type="hidden" name="id" defaultValue={initial?.id ?? ""} />
       <div>
-        {initial?.photoUrl ? (
+        {preview || initial?.photoUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={initial.photoUrl} alt={initial.name} className="h-28 w-full border border-line object-cover" />
+          <img src={preview ?? initial!.photoUrl!} alt={initial?.name ?? "Preview"} className="h-28 w-full border border-line object-cover" />
         ) : (
           <div className="placeholder-fill flex h-28 w-full items-center justify-center border border-line text-center text-[9px] font-bold uppercase tracking-wider text-mutefg">
             Drop photo
@@ -47,8 +49,12 @@ export function SpeakerForm({ initial }: { initial: SpeakerInitial | null }) {
             or browse
           </div>
         )}
-        <input type="file" name="photo" accept="image/*" className="mt-2 w-full text-[10px]" />
-        <p className="mt-1 text-[10px] text-mutefg">Square, min 800px</p>
+        <ImageInput
+          name="photo"
+          className="mt-2 w-full text-[10px]"
+          onChange={(file) => setPreview(file ? URL.createObjectURL(file) : null)}
+        />
+        <p className="mt-1 text-[10px] text-mutefg">Photos are compressed automatically on upload.</p>
       </div>
       <div className="space-y-3">
         {state?.error && (
