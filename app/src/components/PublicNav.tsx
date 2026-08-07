@@ -24,7 +24,7 @@ export function PublicNav({ dark = false }: { dark?: boolean }) {
       className={`relative border-b-2 ${dark ? "bg-ink border-gold text-white" : "border-ink text-ink"}`}
     >
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-3">
-        <Logo size="sm" />
+        <Logo size="sm" dark={dark} />
         <button
           className="relative z-10 p-1 transition-transform duration-150 active:scale-90 md:hidden"
           onClick={() => setOpen((v) => !v)}

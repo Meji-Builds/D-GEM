@@ -11,7 +11,7 @@ export function PublicFooter({
     <footer className="bg-ink text-white">
       <div className="mx-auto grid max-w-6xl gap-8 px-5 py-10 sm:grid-cols-3">
         <div>
-          <Logo size="md" />
+          <Logo size="md" dark />
           <p className="mt-3 text-xs tracking-wide text-[#a8a29a]">
             Mentor · Grow · Excel · Impact
           </p>
