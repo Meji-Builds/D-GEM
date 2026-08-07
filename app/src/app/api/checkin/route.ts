@@ -15,57 +15,86 @@ export async function POST(req: Request) {
     return NextResponse.json({ state: "invalid", message: "Empty code." });
   }
 
-  const ticketId = rawQuery.toUpperCase();
+  const upper = rawQuery.toUpperCase();
+
   const attendee =
-    (await prisma.attendee.findUnique({ where: { ticketId } })) ??
+    (await prisma.attendee.findUnique({ where: { ticketId: upper } })) ??
     (await prisma.attendee.findFirst({
       where: { OR: [{ email: rawQuery }, { phone: rawQuery }, { fullName: { contains: rawQuery, mode: "insensitive" } }] },
     }));
 
-  if (!attendee) {
-    return NextResponse.json({ state: "invalid" });
-  }
+  if (attendee) {
+    if (attendee.checkedIn && !override) {
+      const firstScan = await prisma.checkIn.findFirst({
+        where: { attendeeId: attendee.id },
+        orderBy: { createdAt: "asc" },
+        include: { scannedBy: true },
+      });
+      return NextResponse.json({
+        state: "already",
+        attendee: {
+          id: attendee.id,
+          fullName: attendee.fullName,
+          ticketId: attendee.ticketId,
+        },
+        firstScannedAt: attendee.checkedInAt,
+        firstGate: attendee.checkedInGate,
+        firstSteward: firstScan?.scannedBy?.name ?? null,
+      });
+    }
 
-  if (attendee.checkedIn && !override) {
-    const firstScan = await prisma.checkIn.findFirst({
-      where: { attendeeId: attendee.id },
-      orderBy: { createdAt: "asc" },
-      include: { scannedBy: true },
+    await prisma.attendee.update({
+      where: { id: attendee.id },
+      data: { checkedIn: true, checkedInAt: new Date(), checkedInGate: gate },
     });
+    await prisma.checkIn.create({
+      data: { attendeeId: attendee.id, gate, overridden: override, scannedById: session.sub },
+    });
+
     return NextResponse.json({
-      state: "already",
+      state: "granted",
       attendee: {
         id: attendee.id,
         fullName: attendee.fullName,
         ticketId: attendee.ticketId,
+        school: attendee.school,
+        level: attendee.level,
+        department: attendee.department,
       },
-      firstScannedAt: attendee.checkedInAt,
-      firstGate: attendee.checkedInGate,
-      firstSteward: firstScan?.scannedBy?.name ?? null,
+      gate,
+      time: new Date().toISOString(),
     });
   }
 
-  await prisma.attendee.update({
-    where: { id: attendee.id },
-    data: { checkedIn: true, checkedInAt: new Date(), checkedInGate: gate },
-  });
-  await prisma.checkIn.create({
-    data: { attendeeId: attendee.id, gate, overridden: override, scannedById: session.sub },
+  // Not an attendee ticket - check whether it's an accepted volunteer's crew badge.
+  const volunteer = await prisma.volunteerApplication.findFirst({
+    where: { crewId: upper, status: "ACCEPTED" },
   });
 
-  return NextResponse.json({
-    state: "granted",
-    attendee: {
-      id: attendee.id,
-      fullName: attendee.fullName,
-      ticketId: attendee.ticketId,
-      school: attendee.school,
-      level: attendee.level,
-      department: attendee.department,
-    },
-    gate,
-    time: new Date().toISOString(),
-  });
+  if (volunteer) {
+    if (volunteer.badgeScannedAt && !override) {
+      return NextResponse.json({
+        state: "crew_already",
+        volunteer: { fullName: volunteer.fullName, role: volunteer.role, crewId: volunteer.crewId },
+        firstScannedAt: volunteer.badgeScannedAt,
+        firstGate: volunteer.badgeScannedGate,
+      });
+    }
+
+    await prisma.volunteerApplication.update({
+      where: { id: volunteer.id },
+      data: { badgeScannedAt: new Date(), badgeScannedGate: gate },
+    });
+
+    return NextResponse.json({
+      state: "crew",
+      volunteer: { fullName: volunteer.fullName, role: volunteer.role, crewId: volunteer.crewId },
+      gate,
+      time: new Date().toISOString(),
+    });
+  }
+
+  return NextResponse.json({ state: "invalid" });
 }
 
 export async function GET(req: Request) {

@@ -172,6 +172,8 @@ model VolunteerApplication {
   status       VolunteerStatus @default(PENDING)
   crewId       String?         @unique
   appliedAt    DateTime        @default(now())
+  badgeScannedAt   DateTime?
+  badgeScannedGate String?
 }
 
 model SponsorshipEnquiry {

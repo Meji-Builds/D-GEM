@@ -13,6 +13,8 @@ type Result =
   | { state: "idle" }
   | { state: "granted"; attendee: { fullName: string; ticketId: string; school: string; level: string; department: string }; gate: string; time: string }
   | { state: "already"; attendee: { fullName: string; ticketId: string }; firstScannedAt: string | null; firstGate: string | null; firstSteward: string | null }
+  | { state: "crew"; volunteer: { fullName: string; role: string; crewId: string }; gate: string; time: string }
+  | { state: "crew_already"; volunteer: { fullName: string; role: string; crewId: string }; firstScannedAt: string | null; firstGate: string | null }
   | { state: "invalid"; query?: string };
 
 function GateSetup({ onSet }: { onSet: (gate: string) => void }) {
@@ -92,10 +94,10 @@ export function ScannerClient({ stewardName }: { stewardName: string }) {
         body: JSON.stringify({ query, gate, override }),
       });
       const data = await res.json();
-      if (data.state === "granted") {
+      if (data.state === "granted" || data.state === "crew") {
         playSuccessTone();
         setScanCount((c) => c + 1);
-      } else if (data.state === "already") {
+      } else if (data.state === "already" || data.state === "crew_already") {
         playErrorTone();
         setScanCount((c) => c + 1);
       } else {
@@ -232,6 +234,50 @@ export function ScannerClient({ stewardName }: { stewardName: string }) {
             <div className="flex gap-2 pt-2">
               <Button variant="outline" onClick={() => submit(result.attendee.ticketId, true)}>Override</Button>
               <Button tone="onDark" onClick={reset}>Scan next</Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {result.state === "crew" && (
+        <div className="animate-scale-in border-2 border-ink bg-white">
+          <div className="bg-ink p-5 text-white">
+            <div className="font-display text-xl font-extrabold">Crew access granted</div>
+          </div>
+          <div className="space-y-2 p-5">
+            <div className="placeholder-fill h-14 w-14 border border-line" />
+            <div className="text-base font-bold">{result.volunteer.fullName}</div>
+            <p className="text-xs leading-relaxed text-bodyfg">
+              {result.volunteer.crewId}
+              <br />
+              {result.volunteer.role}
+              <br />
+              D-GEM crew
+            </p>
+            <p className="text-xs text-mutefg">
+              Scanned {new Date(result.time).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })} · {result.gate}
+            </p>
+            <Button full onClick={reset}>Scan next</Button>
+          </div>
+        </div>
+      )}
+
+      {result.state === "crew_already" && (
+        <div className="animate-scale-in border-2 border-ink bg-white">
+          <div className="bg-mist p-5">
+            <div className="font-display text-xl font-extrabold">Crew badge already scanned</div>
+          </div>
+          <div className="space-y-2 p-5">
+            <div className="text-base font-bold">{result.volunteer.fullName}</div>
+            <p className="text-xs leading-relaxed text-bodyfg">
+              {result.volunteer.role}
+              <br />
+              First scanned {result.firstScannedAt ? new Date(result.firstScannedAt).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }) : "earlier"}
+              {result.firstGate ? ` at ${result.firstGate}.` : "."}
+            </p>
+            <div className="flex gap-2 pt-2">
+              <Button variant="outline" onClick={() => submit(result.volunteer.crewId, true)}>Override</Button>
+              <Button onClick={reset}>Scan next</Button>
             </div>
           </div>
         </div>
