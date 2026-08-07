@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 import { ticketQrDataUrl } from "@/lib/ticket";
-import { sendMail, ticketEmailHtml } from "@/lib/email";
+import { sendMail, ticketEmailHtml, qrAttachment } from "@/lib/email";
 import { getEventSettings, formatEventDateLabel } from "@/lib/data";
 
 export async function manualCheckIn(attendeeId: string) {
@@ -31,12 +31,12 @@ export async function resendReminderEmail(attendeeId: string) {
     html: ticketEmailHtml({
       fullName: attendee.fullName,
       ticketId: attendee.ticketId,
-      qrDataUrl,
       eventName: settings.name,
       eventDateLabel: formatEventDateLabel(settings.eventDate),
       venue: settings.venue,
       kind: "reminder-1d",
     }),
+    attachments: [qrAttachment(qrDataUrl)],
   });
   return { ok: true };
 }
