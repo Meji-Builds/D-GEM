@@ -10,7 +10,9 @@ import { Logo } from "./Logo";
 const TABS = [
   { href: "/admin", label: "Overview" },
   { href: "/admin/speakers", label: "Speakers" },
+  { href: "/admin/agenda", label: "Agenda" },
   { href: "/admin/sponsors", label: "Sponsors & event" },
+  { href: "/admin/faq", label: "FAQ" },
   { href: "/admin/attendees", label: "Attendees" },
   { href: "/admin/volunteers", label: "Volunteers" },
   { href: "/admin/enquiries", label: "Enquiries" },
