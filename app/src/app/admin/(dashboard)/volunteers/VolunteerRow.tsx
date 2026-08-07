@@ -16,12 +16,12 @@ export function VolunteerRow({
 
   return (
     <tr className="border-b border-hair transition-colors hover:bg-mist">
-      <td className="py-2 font-semibold whitespace-nowrap">{v.fullName}</td>
-      <td className="py-2 whitespace-nowrap text-bodyfg">{v.email}</td>
-      <td className="py-2 whitespace-nowrap text-bodyfg">{v.role}</td>
-      <td className="py-2 whitespace-nowrap text-bodyfg">{v.school}</td>
-      <td className="py-2 whitespace-nowrap text-bodyfg">{v.availability}</td>
-      <td className="py-2 whitespace-nowrap">
+      <td className="py-2 pr-4 font-semibold whitespace-nowrap">{v.fullName}</td>
+      <td className="py-2 pr-4 whitespace-nowrap text-bodyfg">{v.email}</td>
+      <td className="py-2 pr-4 whitespace-nowrap text-bodyfg">{v.role}</td>
+      <td className="py-2 pr-4 whitespace-nowrap text-bodyfg">{v.school}</td>
+      <td className="py-2 pr-4 whitespace-nowrap text-bodyfg">{v.availability}</td>
+      <td className="py-2 pr-4 whitespace-nowrap">
         <span
           className={`border px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider ${
             v.status === "ACCEPTED" ? "border-gold bg-gold" : v.status === "REJECTED" ? "border-line text-mutefg" : "border-ink"

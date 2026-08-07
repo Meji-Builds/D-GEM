@@ -83,14 +83,14 @@ export default async function AdminOverviewPage() {
           <table className="mt-3 w-full text-sm">
             <thead>
               <tr className="border-b-2 border-ink text-left text-[9px] font-bold uppercase tracking-wider text-mutefg">
-                <th className="py-2">Block</th>
+                <th className="py-2 pr-4">Block</th>
                 <th className="py-2">State</th>
               </tr>
             </thead>
             <tbody>
               {contentBlocks.map((b) => (
                 <tr key={b.name} className="border-b border-hair">
-                  <td className="py-2">{b.name}</td>
+                  <td className="py-2 pr-4">{b.name}</td>
                   <td className="py-2">
                     <span
                       className={`border px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider ${

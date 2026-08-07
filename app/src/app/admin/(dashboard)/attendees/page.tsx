@@ -107,27 +107,27 @@ export default async function AdminAttendeesPage({
         <table className="w-full min-w-[680px] text-sm">
           <thead>
             <tr className="border-b-2 border-ink text-left text-[9px] font-bold uppercase tracking-wider text-mutefg">
-              <th className="py-2">Name</th>
-              <th className="py-2">Email</th>
-              <th className="py-2">School</th>
-              <th className="py-2">Level</th>
-              <th className="py-2">Ticket</th>
-              <th className="py-2">Gate</th>
-              <th className="py-2">Status</th>
+              <th className="py-2 pr-4">Name</th>
+              <th className="py-2 pr-4">Email</th>
+              <th className="py-2 pr-4">School</th>
+              <th className="py-2 pr-4">Level</th>
+              <th className="py-2 pr-4">Ticket</th>
+              <th className="py-2 pr-4">Gate</th>
+              <th className="py-2 pr-4">Status</th>
             </tr>
           </thead>
           <tbody>
             {attendees.map((a) => (
               <tr key={a.id} className="border-b border-hair transition-colors hover:bg-mist">
-                <td className="py-2 whitespace-nowrap">
+                <td className="py-2 pr-4 whitespace-nowrap">
                   <Link href={`/admin/attendees/${a.id}`} className="font-semibold hover:text-gold">{a.fullName}</Link>
                 </td>
-                <td className="py-2 whitespace-nowrap text-bodyfg">{a.email}</td>
-                <td className="py-2 whitespace-nowrap text-bodyfg">{a.school}</td>
-                <td className="py-2 whitespace-nowrap text-bodyfg">{a.level}</td>
-                <td className="py-2 whitespace-nowrap text-bodyfg">{a.ticketId}</td>
-                <td className="py-2 whitespace-nowrap text-bodyfg">{a.checkedInGate || "-"}</td>
-                <td className="py-2 whitespace-nowrap">
+                <td className="py-2 pr-4 whitespace-nowrap text-bodyfg">{a.email}</td>
+                <td className="py-2 pr-4 whitespace-nowrap text-bodyfg">{a.school}</td>
+                <td className="py-2 pr-4 whitespace-nowrap text-bodyfg">{a.level}</td>
+                <td className="py-2 pr-4 whitespace-nowrap text-bodyfg">{a.ticketId}</td>
+                <td className="py-2 pr-4 whitespace-nowrap text-bodyfg">{a.checkedInGate || "-"}</td>
+                <td className="py-2 pr-4 whitespace-nowrap">
                   {a.checkedIn ? (
                     <span className="border border-gold bg-gold px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider">
                       In {a.checkedInAt ? new Date(a.checkedInAt).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }) : ""}

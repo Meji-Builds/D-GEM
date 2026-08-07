@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { logout } from "@/app/admin/logout-action";
 import { MenuIcon, CloseIcon } from "./Icon";
+import { Logo } from "./Logo";
 
 const TABS = [
   { href: "/admin", label: "Overview" },
@@ -24,9 +25,10 @@ export function AdminNav({ userName }: { userName: string }) {
   return (
     <div className="relative border-b-2 border-ink">
       <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-3">
-        <span className="font-display text-sm font-extrabold">
-          D<span className="text-gold">GEM</span> Admin
-        </span>
+        <div className="flex items-center gap-2">
+          <Logo size="sm" />
+          <span className="font-display text-sm font-extrabold text-mutefg">Admin</span>
+        </div>
 
         <button
           className="p-1 transition-transform duration-150 active:scale-90 md:hidden"

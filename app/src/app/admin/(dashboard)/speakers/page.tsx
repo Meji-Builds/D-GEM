@@ -29,18 +29,18 @@ export default async function AdminSpeakersPage({
         <table className="w-full min-w-[560px] text-sm">
           <thead>
             <tr className="border-b-2 border-ink text-left text-[9px] font-bold uppercase tracking-wider text-mutefg">
-              <th className="py-2"></th>
-              <th className="py-2">Name</th>
-              <th className="py-2">Role</th>
-              <th className="py-2">Session</th>
-              <th className="py-2">State</th>
+              <th className="py-2 pr-4"></th>
+              <th className="py-2 pr-4">Name</th>
+              <th className="py-2 pr-4">Role</th>
+              <th className="py-2 pr-4">Session</th>
+              <th className="py-2 pr-4">State</th>
               <th className="py-2"></th>
             </tr>
           </thead>
           <tbody>
             {speakers.map((s) => (
               <tr key={s.id} className="border-b border-hair transition-colors hover:bg-mist">
-                <td className="py-2">
+                <td className="py-2 pr-4">
                   {s.photoUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={s.photoUrl} alt={s.name} className="h-7 w-7 object-cover" />
@@ -48,10 +48,10 @@ export default async function AdminSpeakersPage({
                     <div className="placeholder-fill h-7 w-7 border border-line" />
                   )}
                 </td>
-                <td className="py-2 font-semibold whitespace-nowrap">{s.name}</td>
-                <td className="py-2 whitespace-nowrap text-bodyfg">{s.role}, {s.organisation}</td>
-                <td className="py-2 whitespace-nowrap text-bodyfg">{s.session || "-"}</td>
-                <td className="py-2">
+                <td className="py-2 pr-4 font-semibold whitespace-nowrap">{s.name}</td>
+                <td className="py-2 pr-4 whitespace-nowrap text-bodyfg">{s.role}, {s.organisation}</td>
+                <td className="py-2 pr-4 whitespace-nowrap text-bodyfg">{s.session || "-"}</td>
+                <td className="py-2 pr-4">
                   <span className={`border px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider ${s.state === "LIVE" ? "border-gold bg-gold" : "border-ink"}`}>
                     {s.state === "LIVE" ? "Live" : !s.photoUrl ? "No photo" : "Draft"}
                   </span>

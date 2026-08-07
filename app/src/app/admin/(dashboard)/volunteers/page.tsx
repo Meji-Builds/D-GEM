@@ -13,12 +13,12 @@ export default async function AdminVolunteersPage() {
         <table className="w-full min-w-[680px] text-sm">
           <thead>
             <tr className="border-b-2 border-ink text-left text-[9px] font-bold uppercase tracking-wider text-mutefg">
-              <th className="py-2">Name</th>
-              <th className="py-2">Email</th>
-              <th className="py-2">Role</th>
-              <th className="py-2">School</th>
-              <th className="py-2">Availability</th>
-              <th className="py-2">Status</th>
+              <th className="py-2 pr-4">Name</th>
+              <th className="py-2 pr-4">Email</th>
+              <th className="py-2 pr-4">Role</th>
+              <th className="py-2 pr-4">School</th>
+              <th className="py-2 pr-4">Availability</th>
+              <th className="py-2 pr-4">Status</th>
               <th className="py-2"></th>
             </tr>
           </thead>

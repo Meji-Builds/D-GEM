@@ -19,17 +19,17 @@ export function SponsorsSection({ sponsors }: { sponsors: Sponsor[] }) {
         <table className="w-full min-w-[520px] text-sm">
           <thead>
             <tr className="border-b-2 border-ink text-left text-[9px] font-bold uppercase tracking-wider text-mutefg">
-              <th className="py-2">Logo</th>
-              <th className="py-2">Sponsor</th>
-              <th className="py-2">Tier</th>
-              <th className="py-2">Link</th>
+              <th className="py-2 pr-4">Logo</th>
+              <th className="py-2 pr-4">Sponsor</th>
+              <th className="py-2 pr-4">Tier</th>
+              <th className="py-2 pr-4">Link</th>
               <th className="py-2"></th>
             </tr>
           </thead>
           <tbody>
             {sponsors.map((s) => (
               <tr key={s.id} className="border-b border-hair transition-colors hover:bg-mist">
-                <td className="py-2">
+                <td className="py-2 pr-4">
                   {s.logoUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={s.logoUrl} alt={s.name} className="h-6 w-10 object-contain" />
@@ -37,13 +37,13 @@ export function SponsorsSection({ sponsors }: { sponsors: Sponsor[] }) {
                     <div className="placeholder-fill h-6 w-10 border border-line" />
                   )}
                 </td>
-                <td className="py-2 font-semibold whitespace-nowrap">{s.name}</td>
-                <td className="py-2">
+                <td className="py-2 pr-4 font-semibold whitespace-nowrap">{s.name}</td>
+                <td className="py-2 pr-4">
                   <span className={`border px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider ${s.tier === "GOLD" ? "border-gold bg-gold" : "border-ink"}`}>
                     {s.tier.charAt(0) + s.tier.slice(1).toLowerCase()}
                   </span>
                 </td>
-                <td className="py-2 whitespace-nowrap text-xs text-bodyfg">{s.url || "-"}</td>
+                <td className="py-2 pr-4 whitespace-nowrap text-xs text-bodyfg">{s.url || "-"}</td>
                 <td className="py-2 text-right text-xs font-semibold whitespace-nowrap">
                   <button className="text-bodyfg hover:text-gold" onClick={() => setEditingId(s.id)}>Edit</button>
                   {" · "}
