@@ -6,13 +6,14 @@ import { ProgressBar } from "@/components/ProgressBar";
 
 export default async function AdminOverviewPage() {
   const settings = await getEventSettings();
-  const [registered, checkedIn, speakers, sponsors, volunteersPending, todayStart] =
+  const [registered, checkedIn, speakers, sponsors, volunteersPending, newEnquiries, todayStart] =
     await Promise.all([
       prisma.attendee.count(),
       prisma.attendee.count({ where: { checkedIn: true } }),
       prisma.speaker.findMany(),
       prisma.sponsor.count(),
       prisma.volunteerApplication.count({ where: { status: "PENDING" } }),
+      prisma.sponsorshipEnquiry.count({ where: { status: "NEW" } }),
       (() => {
         const d = new Date();
         d.setHours(0, 0, 0, 0);
@@ -31,6 +32,7 @@ export default async function AdminOverviewPage() {
   if (speakersDraft > 0) needsAttention.push(`${speakersDraft} speaker(s) still in draft`);
   if (sponsors === 0) needsAttention.push("No sponsors added yet");
   if (volunteersPending > 0) needsAttention.push(`${volunteersPending} volunteer application(s) awaiting review`);
+  if (newEnquiries > 0) needsAttention.push(`${newEnquiries} new sponsorship enquiry(ies)`);
   if (needsAttention.length === 0) needsAttention.push("Nothing needs attention right now.");
 
   const contentBlocks = [
@@ -112,6 +114,7 @@ export default async function AdminOverviewPage() {
               { href: "/admin/sponsors", label: "Add sponsor" },
               { href: "/admin/attendees", label: "Export attendees" },
               { href: "/admin/volunteers", label: "Review volunteers" },
+              { href: "/admin/enquiries", label: "View enquiries" },
             ].map((a) => (
               <Link
                 key={a.label}

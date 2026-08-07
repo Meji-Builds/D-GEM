@@ -12,6 +12,7 @@ const TABS = [
   { href: "/admin/sponsors", label: "Sponsors & event" },
   { href: "/admin/attendees", label: "Attendees" },
   { href: "/admin/volunteers", label: "Volunteers" },
+  { href: "/admin/enquiries", label: "Enquiries" },
 ];
 
 export function AdminNav({ userName }: { userName: string }) {
