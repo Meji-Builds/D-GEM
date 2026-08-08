@@ -63,7 +63,7 @@ export default async function AdminAgendaPage({
         </table>
       </div>
 
-      <div className="mt-8 border-t-2 border-ink bg-mist p-5">
+      <div className="mt-8 rounded-2xl border-t-2 border-ink bg-mist p-5 shadow-sm">
         <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">
           {editing ? `Edit: ${editing.title}` : "Add agenda item"}
         </p>

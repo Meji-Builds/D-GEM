@@ -17,7 +17,7 @@ export default async function PrintTicketPage({
   const qrDataUrl = await ticketQrDataUrl(attendee.ticketId);
 
   return (
-    <div className="mx-auto max-w-md border-2 border-ink p-8 print:border-0">
+    <div className="mx-auto max-w-md rounded-2xl border-2 border-ink p-8 shadow-md print:rounded-none print:border-0 print:shadow-none">
       <Logo size="md" />
       <h1 className="font-display mt-6 text-xl font-extrabold">{settings.name}</h1>
       <p className="mt-1 text-xs text-bodyfg">
@@ -26,7 +26,9 @@ export default async function PrintTicketPage({
       <div className="mt-6 border-t-2 border-ink pt-6">
         <div className="text-[10px] font-bold uppercase tracking-widest text-mutefg">Attendee</div>
         <div className="mt-1 text-lg font-bold">{attendee.fullName}</div>
-        <Image src={qrDataUrl} alt="Ticket QR code" width={220} height={220} unoptimized className="my-5 border-2 border-ink" />
+        <div className="my-5 inline-block rounded-xl border-2 border-ink bg-white p-3 print:rounded-none">
+          <Image src={qrDataUrl} alt="Ticket QR code" width={220} height={220} unoptimized />
+        </div>
         <p className="text-xs leading-relaxed text-bodyfg">
           Ticket ID · {attendee.ticketId}
           <br />

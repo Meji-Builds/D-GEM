@@ -33,7 +33,7 @@ export default async function TicketPage({
             {attendee.checkedIn ? `Welcome back, ${firstName}.` : `You're in, ${firstName}.`}
           </h1>
 
-          <div className="animate-scale-in mt-8 border-2 border-ink bg-white p-6">
+          <div className="animate-scale-in mt-8 rounded-2xl border-2 border-ink bg-white p-6 shadow-md">
             <div className="flex items-start justify-between">
               <div>
                 <div className="text-[10px] font-bold uppercase tracking-widest text-mutefg">
@@ -41,19 +41,14 @@ export default async function TicketPage({
                 </div>
                 <div className="mt-1 text-lg font-bold">{attendee.fullName}</div>
               </div>
-              <span className="border border-gold bg-gold px-2 py-1 text-[10px] font-bold uppercase tracking-wider">
+              <span className="rounded-full border border-gold bg-gold px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider">
                 General
               </span>
             </div>
 
-            <Image
-              src={qrDataUrl}
-              alt="Ticket QR code"
-              width={200}
-              height={200}
-              unoptimized
-              className="my-5 border-2 border-ink"
-            />
+            <div className="my-5 inline-block rounded-xl border-2 border-ink bg-white p-3">
+              <Image src={qrDataUrl} alt="Ticket QR code" width={200} height={200} unoptimized />
+            </div>
 
             <p className="text-xs leading-relaxed text-bodyfg">
               Ticket ID · {attendee.ticketId}

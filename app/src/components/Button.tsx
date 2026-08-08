@@ -6,12 +6,14 @@ type CommonProps = {
   variant?: "solid" | "outline";
   tone?: "onLight" | "onDark";
   full?: boolean;
+  /** Keep sharp corners instead of the default pill shape — reserve for the odd intentional accent. */
+  square?: boolean;
   className?: string;
   children: React.ReactNode;
 };
 
 const base =
-  "group inline-flex items-center justify-center gap-2 px-5 py-3 text-[11px] font-bold uppercase tracking-wider transition-all duration-150 active:scale-[0.97] disabled:opacity-50 disabled:pointer-events-none";
+  "group inline-flex items-center justify-center gap-2 px-5 py-3 text-[11px] font-bold uppercase tracking-wider transition-all duration-150 shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:scale-[0.97] disabled:opacity-50 disabled:pointer-events-none disabled:hover:translate-y-0 disabled:hover:shadow-sm";
 
 function styles(variant: "solid" | "outline", tone: "onLight" | "onDark") {
   if (variant === "solid") {
@@ -35,13 +37,14 @@ export function LinkButton({
   variant = "solid",
   tone = "onLight",
   full,
+  square,
   className = "",
   children,
 }: CommonProps & { href: string }) {
   return (
     <Link
       href={href}
-      className={`${base} ${styles(variant, tone)} ${full ? "w-full" : ""} ${className}`}
+      className={`${base} ${square ? "rounded-none" : "rounded-full"} ${styles(variant, tone)} ${full ? "w-full" : ""} ${className}`}
     >
       {children}
       {variant === "solid" && <Arrow />}
@@ -53,6 +56,7 @@ export function Button({
   variant = "solid",
   tone = "onLight",
   full,
+  square,
   className = "",
   children,
   ...rest
@@ -60,7 +64,7 @@ export function Button({
   return (
     <button
       {...rest}
-      className={`${base} ${styles(variant, tone)} ${full ? "w-full" : ""} ${className}`}
+      className={`${base} ${square ? "rounded-none" : "rounded-full"} ${styles(variant, tone)} ${full ? "w-full" : ""} ${className}`}
     >
       {children}
       {variant === "solid" && <Arrow />}

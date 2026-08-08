@@ -26,7 +26,7 @@ export default async function SpeakersPage() {
               <a
                 key={s.id}
                 href={`/speakers/${s.id}`}
-                className={`group grid gap-6 py-8 px-3 -mx-3 transition-colors duration-150 hover:bg-mist sm:grid-cols-[160px_1fr] sm:items-start ${
+                className={`group grid gap-6 rounded-2xl py-8 px-3 -mx-3 transition-colors duration-150 hover:bg-mist sm:grid-cols-[160px_1fr] sm:items-start ${
                   i % 2 === 1 ? "sm:[direction:rtl]" : ""
                 }`}
               >

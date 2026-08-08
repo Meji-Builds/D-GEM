@@ -52,7 +52,7 @@ export function EnquiryCard({
     });
 
   return (
-    <div className="border border-line p-4">
+    <div className="rounded-2xl border border-line p-4 shadow-sm">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
           <div className="text-sm font-bold">{enquiry.company}</div>
@@ -61,10 +61,10 @@ export function EnquiryCard({
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <span className="border border-ink px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider">
+          <span className="rounded-full border border-ink px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider">
             {enquiry.tier.charAt(0) + enquiry.tier.slice(1).toLowerCase()}
           </span>
-          <span className={`border px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider ${STATUS_STYLE[enquiry.status]}`}>
+          <span className={`rounded-full border px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider ${STATUS_STYLE[enquiry.status]}`}>
             {enquiry.status.toLowerCase()}
           </span>
         </div>
@@ -76,7 +76,7 @@ export function EnquiryCard({
       {replying && (
         <div className="animate-fade-in-up mt-3 border-t border-hair pt-3">
           {replyError && (
-            <div className="mb-2 border border-red-800 bg-red-50 px-3 py-2 text-xs font-semibold text-red-800">{replyError}</div>
+            <div className="mb-2 rounded-lg border border-red-800 bg-red-50 px-3 py-2 text-xs font-semibold text-red-800">{replyError}</div>
           )}
           {replySent ? (
             <p className="text-xs font-semibold text-gold">Sent to {enquiry.email}.</p>
@@ -87,7 +87,7 @@ export function EnquiryCard({
                 onChange={(e) => setReply(e.target.value)}
                 rows={4}
                 placeholder={`Hi ${enquiry.contactName}, thanks for your interest in sponsoring...`}
-                className="w-full border border-line bg-white p-3 text-sm focus:border-ink focus:outline-none"
+                className="w-full rounded-lg border border-line bg-white p-3 text-sm focus:border-ink focus:outline-none"
               />
               <div className="mt-2 flex gap-2">
                 <Button type="button" disabled={pending} onClick={sendReply}>

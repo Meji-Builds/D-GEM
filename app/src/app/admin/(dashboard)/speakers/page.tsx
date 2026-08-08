@@ -43,16 +43,16 @@ export default async function AdminSpeakersPage({
                 <td className="py-2 pr-4">
                   {s.photoUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={s.photoUrl} alt={s.name} className="h-7 w-7 object-cover" />
+                    <img src={s.photoUrl} alt={s.name} className="h-7 w-7 rounded-full object-cover" />
                   ) : (
-                    <div className="placeholder-fill h-7 w-7 border border-line" />
+                    <div className="placeholder-fill h-7 w-7 rounded-full border border-line" />
                   )}
                 </td>
                 <td className="py-2 pr-4 font-semibold whitespace-nowrap">{s.name}</td>
                 <td className="py-2 pr-4 whitespace-nowrap text-bodyfg">{s.role}, {s.organisation}</td>
                 <td className="py-2 pr-4 whitespace-nowrap text-bodyfg">{s.session || "-"}</td>
                 <td className="py-2 pr-4">
-                  <span className={`border px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider ${s.state === "LIVE" ? "border-gold bg-gold" : "border-ink"}`}>
+                  <span className={`rounded-full border px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider ${s.state === "LIVE" ? "border-gold bg-gold" : "border-ink"}`}>
                     {s.state === "LIVE" ? "Live" : !s.photoUrl ? "No photo" : "Draft"}
                   </span>
                 </td>
@@ -70,7 +70,7 @@ export default async function AdminSpeakersPage({
         </table>
       </div>
 
-      <div className="mt-8 border-t-2 border-ink bg-mist p-5">
+      <div className="mt-8 rounded-2xl border-t-2 border-ink bg-mist p-5 shadow-sm">
         <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">
           {editing ? `Edit speaker: ${editing.name}` : "Add speaker"}
         </p>

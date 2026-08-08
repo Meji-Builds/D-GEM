@@ -32,14 +32,14 @@ export function SponsorsSection({ sponsors }: { sponsors: Sponsor[] }) {
                 <td className="py-2 pr-4">
                   {s.logoUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={s.logoUrl} alt={s.name} className="h-6 w-10 object-contain" />
+                    <img src={s.logoUrl} alt={s.name} className="h-6 w-10 rounded-lg object-contain" />
                   ) : (
-                    <div className="placeholder-fill h-6 w-10 border border-line" />
+                    <div className="placeholder-fill h-6 w-10 rounded-lg border border-line" />
                   )}
                 </td>
                 <td className="py-2 pr-4 font-semibold whitespace-nowrap">{s.name}</td>
                 <td className="py-2 pr-4">
-                  <span className={`border px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider ${s.tier === "GOLD" ? "border-gold bg-gold" : "border-ink"}`}>
+                  <span className={`rounded-full border px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider ${s.tier === "GOLD" ? "border-gold bg-gold" : "border-ink"}`}>
                     {s.tier.charAt(0) + s.tier.slice(1).toLowerCase()}
                   </span>
                 </td>

@@ -165,7 +165,7 @@ export default async function LandingPage() {
             <div className="mt-5 space-y-3">
               {previewAgenda.map((a) => (
                 <div key={a.id} className="flex items-center gap-4 border-b border-hair pb-3 transition-colors hover:border-gold">
-                  <span className="border border-ink px-2 py-1 text-[10px] font-bold uppercase tracking-wider">
+                  <span className="rounded-full border border-ink px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider">
                     {a.time}
                   </span>
                   <span className="text-sm font-semibold">{a.title}</span>
@@ -188,7 +188,7 @@ export default async function LandingPage() {
               sponsors[tier].length ? (
                 <div key={tier} className="mt-4 flex flex-wrap items-center gap-3">
                   <span
-                    className={`border px-2 py-1 text-[10px] font-bold uppercase tracking-wider ${
+                    className={`rounded-full border px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ${
                       tier === "gold" ? "border-gold bg-gold" : "border-ink"
                     }`}
                   >
@@ -224,7 +224,7 @@ export default async function LandingPage() {
               {registeredCount} of {settings.capacity} seats taken
             </p>
             <div className="mt-5">
-              <LinkButton href="/register">Register now</LinkButton>
+              <LinkButton href="/register" square>Register now</LinkButton>
             </div>
           </Reveal>
         </section>

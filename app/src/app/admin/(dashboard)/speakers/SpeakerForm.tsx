@@ -6,7 +6,7 @@ import { saveSpeaker, type SpeakerFormState } from "./actions";
 import { Button } from "@/components/Button";
 import { ImageInput } from "@/components/ImageInput";
 
-const fieldClass = "h-10 w-full border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none";
+const fieldClass = "h-10 w-full rounded-lg border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none";
 const labelClass = "mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-mutefg";
 
 type SpeakerInitial = {
@@ -41,9 +41,9 @@ export function SpeakerForm({ initial }: { initial: SpeakerInitial | null }) {
       <div>
         {preview || initial?.photoUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={preview ?? initial!.photoUrl!} alt={initial?.name ?? "Preview"} className="h-28 w-full border border-line object-cover" />
+          <img src={preview ?? initial!.photoUrl!} alt={initial?.name ?? "Preview"} className="h-28 w-full rounded-xl border border-line object-cover" />
         ) : (
-          <div className="placeholder-fill flex h-28 w-full items-center justify-center border border-line text-center text-[9px] font-bold uppercase tracking-wider text-mutefg">
+          <div className="placeholder-fill flex h-28 w-full items-center justify-center rounded-xl border border-line text-center text-[9px] font-bold uppercase tracking-wider text-mutefg">
             Drop photo
             <br />
             or browse
@@ -58,7 +58,7 @@ export function SpeakerForm({ initial }: { initial: SpeakerInitial | null }) {
       </div>
       <div className="space-y-3">
         {state?.error && (
-          <div className="border border-red-800 bg-red-50 px-3 py-2 text-xs font-semibold text-red-800">
+          <div className="rounded-lg border border-red-800 bg-red-50 px-3 py-2 text-xs font-semibold text-red-800">
             {state.error}
           </div>
         )}
@@ -82,7 +82,7 @@ export function SpeakerForm({ initial }: { initial: SpeakerInitial | null }) {
         </div>
         <div>
           <label className={labelClass} htmlFor="bio">Biography</label>
-          <textarea id="bio" name="bio" rows={3} defaultValue={initial?.bio} className="w-full border border-line bg-white p-3 text-sm focus:border-ink focus:outline-none" />
+          <textarea id="bio" name="bio" rows={3} defaultValue={initial?.bio} className="w-full rounded-lg border border-line bg-white p-3 text-sm focus:border-ink focus:outline-none" />
         </div>
         <div className="grid gap-3 sm:grid-cols-2">
           <div>

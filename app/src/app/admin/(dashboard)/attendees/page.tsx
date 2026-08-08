@@ -40,7 +40,7 @@ export default async function AdminAttendeesPage({
     <div>
       <div className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-ink pb-3">
         <h1 className="font-display text-lg font-extrabold">Attendees · {total}</h1>
-        <a href="/api/admin/attendees/export" className="border border-ink px-4 py-2 text-[10px] font-bold uppercase tracking-wider hover:bg-ink hover:text-white">
+        <a href="/api/admin/attendees/export" className="rounded-full border border-ink px-4 py-2 text-[10px] font-bold uppercase tracking-wider transition-colors hover:bg-ink hover:text-white">
           Export CSV
         </a>
       </div>
@@ -72,7 +72,7 @@ export default async function AdminAttendeesPage({
               <Link
                 key={g.checkedInGate}
                 href={`/admin/attendees?gate=${encodeURIComponent(g.checkedInGate!)}`}
-                className={`border px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors ${
+                className={`rounded-full border px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors ${
                   gate === g.checkedInGate ? "border-gold bg-gold" : "border-ink hover:bg-mist"
                 }`}
               >
@@ -80,7 +80,7 @@ export default async function AdminAttendeesPage({
               </Link>
             ))}
             {gate && (
-              <Link href="/admin/attendees" className="px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wider text-mutefg underline decoration-dotted hover:text-gold">
+              <Link href="/admin/attendees" className="rounded-full px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-mutefg underline decoration-dotted hover:text-gold">
                 Clear gate filter
               </Link>
             )}
@@ -93,14 +93,14 @@ export default async function AdminAttendeesPage({
           name="q"
           defaultValue={q}
           placeholder="Search name, email, phone or ticket ID"
-          className="h-10 min-w-[240px] flex-1 border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none"
+          className="h-10 min-w-[240px] flex-1 rounded-lg border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none"
         />
         <input type="hidden" name="status" value={status ?? ""} />
         <input type="hidden" name="gate" value={gate ?? ""} />
-        <Link href="/admin/attendees" className={`border px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wider ${!status ? "border-gold bg-gold" : "border-ink"}`}>All</Link>
-        <Link href="/admin/attendees?status=in" className={`border px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wider ${status === "in" ? "border-gold bg-gold" : "border-ink"}`}>Checked in</Link>
-        <Link href="/admin/attendees?status=out" className={`border px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wider ${status === "out" ? "border-gold bg-gold" : "border-ink"}`}>Not yet</Link>
-        <button className="border border-ink px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider hover:bg-ink hover:text-white" type="submit">Search</button>
+        <Link href="/admin/attendees" className={`rounded-full border px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors ${!status ? "border-gold bg-gold" : "border-ink hover:bg-mist"}`}>All</Link>
+        <Link href="/admin/attendees?status=in" className={`rounded-full border px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors ${status === "in" ? "border-gold bg-gold" : "border-ink hover:bg-mist"}`}>Checked in</Link>
+        <Link href="/admin/attendees?status=out" className={`rounded-full border px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors ${status === "out" ? "border-gold bg-gold" : "border-ink hover:bg-mist"}`}>Not yet</Link>
+        <button className="rounded-full border border-ink px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors hover:bg-ink hover:text-white" type="submit">Search</button>
       </form>
 
       <div className="mt-4 overflow-x-auto">
@@ -129,11 +129,11 @@ export default async function AdminAttendeesPage({
                 <td className="py-2 pr-4 whitespace-nowrap text-bodyfg">{a.checkedInGate || "-"}</td>
                 <td className="py-2 pr-4 whitespace-nowrap">
                   {a.checkedIn ? (
-                    <span className="border border-gold bg-gold px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider">
+                    <span className="rounded-full border border-gold bg-gold px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider">
                       In {a.checkedInAt ? new Date(a.checkedInAt).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }) : ""}
                     </span>
                   ) : (
-                    <span className="border border-ink px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider">Not yet</span>
+                    <span className="rounded-full border border-ink px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider">Not yet</span>
                   )}
                 </td>
               </tr>

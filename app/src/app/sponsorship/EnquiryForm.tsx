@@ -5,7 +5,7 @@ import { submitSponsorshipEnquiry, type SponsorshipState } from "./actions";
 import { Button } from "@/components/Button";
 
 const fieldClass =
-  "h-11 w-full border border-line bg-white px-3 text-sm placeholder:text-mutefg focus:border-ink focus:outline-none";
+  "h-11 w-full rounded-lg border border-line bg-white px-3 text-sm placeholder:text-mutefg focus:border-ink focus:outline-none";
 const labelClass = "mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-mutefg";
 
 export function EnquiryForm() {
@@ -16,7 +16,7 @@ export function EnquiryForm() {
 
   if (state?.ok) {
     return (
-      <div className="border-2 border-ink bg-mist p-6 text-sm">
+      <div className="rounded-2xl border-2 border-ink bg-mist p-6 text-sm shadow-sm">
         Thanks, your enquiry has been sent. The D-GEM partnerships team will reach out shortly.
       </div>
     );
@@ -25,7 +25,7 @@ export function EnquiryForm() {
   return (
     <form action={formAction} className="space-y-4">
       {state?.error && (
-        <div className="border border-red-800 bg-red-50 px-3 py-2 text-xs font-semibold text-red-800">
+        <div className="rounded-lg border border-red-800 bg-red-50 px-3 py-2 text-xs font-semibold text-red-800">
           {state.error}
         </div>
       )}
@@ -53,7 +53,7 @@ export function EnquiryForm() {
       </div>
       <div>
         <label className={labelClass} htmlFor="message">Message</label>
-        <textarea id="message" name="message" rows={3} className="w-full border border-line bg-white p-3 text-sm focus:border-ink focus:outline-none" />
+        <textarea id="message" name="message" rows={3} className="w-full rounded-lg border border-line bg-white p-3 text-sm focus:border-ink focus:outline-none" />
       </div>
       <Button type="submit" disabled={pending}>
         {pending ? "Sending…" : "Send enquiry"}

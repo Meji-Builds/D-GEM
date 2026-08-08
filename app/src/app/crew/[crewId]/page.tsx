@@ -19,10 +19,10 @@ export default async function CrewBadgePage({
 
   return (
     <div className="flex min-h-full items-center justify-center bg-mist px-5 py-16">
-      <div className="animate-scale-in w-full max-w-sm border-2 border-ink bg-ink text-white">
+      <div className="animate-scale-in w-full max-w-sm rounded-2xl border-2 border-ink bg-ink text-white shadow-xl">
         <div className="flex items-center justify-between border-b border-[#3a3733] px-6 py-4">
           <Logo size="sm" dark />
-          <span className="border border-gold bg-gold px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-ink">
+          <span className="rounded-full border border-gold bg-gold px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-ink">
             Crew
           </span>
         </div>
@@ -37,7 +37,7 @@ export default async function CrewBadgePage({
             width={200}
             height={200}
             unoptimized
-            className="my-5 border-2 border-white bg-white p-2"
+            className="my-5 rounded-xl border-2 border-white bg-white p-2"
           />
 
           <p className="text-xs leading-relaxed text-[#a8a29a]">

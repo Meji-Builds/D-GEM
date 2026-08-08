@@ -15,7 +15,7 @@ export function FeedbackForm() {
   return (
     <form action={formAction}>
       {state?.error && (
-        <div className="mb-3 border border-red-800 bg-red-50 px-3 py-2 text-xs font-semibold text-red-800">
+        <div className="mb-3 rounded-lg border border-red-800 bg-red-50 px-3 py-2 text-xs font-semibold text-red-800">
           {state.error}
         </div>
       )}
@@ -25,8 +25,8 @@ export function FeedbackForm() {
             type="button"
             key={n}
             onClick={() => setRating(n)}
-            className={`border px-3 py-1.5 text-xs font-bold ${
-              rating === n ? "border-gold bg-gold" : "border-ink"
+            className={`h-9 w-9 rounded-full border text-xs font-bold transition-colors ${
+              rating === n ? "border-gold bg-gold" : "border-ink hover:bg-mist"
             }`}
           >
             {n}
@@ -38,13 +38,13 @@ export function FeedbackForm() {
         <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-mutefg" htmlFor="bestSession">
           Best session
         </label>
-        <input id="bestSession" name="bestSession" className="h-11 w-full border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none" placeholder="e.g. Keynote: Building before you're ready" />
+        <input id="bestSession" name="bestSession" className="h-11 w-full rounded-lg border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none" placeholder="e.g. Keynote: Building before you're ready" />
       </div>
       <div className="mt-3">
         <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-mutefg" htmlFor="improvement">
           What should we improve?
         </label>
-        <textarea id="improvement" name="improvement" rows={3} className="w-full border border-line bg-white p-3 text-sm focus:border-ink focus:outline-none" />
+        <textarea id="improvement" name="improvement" rows={3} className="w-full rounded-lg border border-line bg-white p-3 text-sm focus:border-ink focus:outline-none" />
       </div>
       <div className="mt-4">
         <Button type="submit" disabled={pending}>

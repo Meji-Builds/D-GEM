@@ -50,7 +50,7 @@ export default async function AdminOverviewPage() {
             {formatEventDateLabel(settings.eventDate)} · {settings.venue}
           </h1>
         </div>
-        <Link href="/admin/sponsors" className="border border-ink px-4 py-2 text-[10px] font-bold uppercase tracking-wider hover:bg-ink hover:text-white">
+        <Link href="/admin/sponsors" className="rounded-full border border-ink px-4 py-2 text-[10px] font-bold uppercase tracking-wider transition-colors hover:bg-ink hover:text-white">
           Edit event details
         </Link>
       </div>
@@ -93,7 +93,7 @@ export default async function AdminOverviewPage() {
                   <td className="py-2 pr-4">{b.name}</td>
                   <td className="py-2">
                     <span
-                      className={`border px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider ${
+                      className={`rounded-full border px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider ${
                         b.state === "Live" ? "border-gold bg-gold" : "border-ink"
                       }`}
                     >
@@ -119,7 +119,7 @@ export default async function AdminOverviewPage() {
               <Link
                 key={a.label}
                 href={a.href}
-                className="group flex items-center justify-between border border-ink px-4 py-2.5 text-xs font-bold transition-colors hover:bg-ink hover:text-white"
+                className="group flex items-center justify-between rounded-xl border border-ink px-4 py-2.5 text-xs font-bold shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:bg-ink hover:text-white hover:shadow-md"
               >
                 {a.label}
                 <ArrowRightIcon className="h-3.5 w-3.5 text-gold transition-transform duration-150 group-hover:translate-x-0.5" />

@@ -42,12 +42,12 @@ export default async function SpeakerDetailPage({
               </p>
               <div className="mt-4 flex gap-2">
                 {speaker.linkedinUrl && (
-                  <a href={speaker.linkedinUrl} className="border border-ink px-2 py-1 text-[10px] font-bold uppercase tracking-wider hover:bg-ink hover:text-white">
+                  <a href={speaker.linkedinUrl} className="rounded-full border border-ink px-3 py-1 text-[10px] font-bold uppercase tracking-wider transition-colors hover:bg-ink hover:text-white">
                     LinkedIn
                   </a>
                 )}
                 {speaker.socialUrl && (
-                  <a href={speaker.socialUrl} className="border border-ink px-2 py-1 text-[10px] font-bold uppercase tracking-wider hover:bg-ink hover:text-white">
+                  <a href={speaker.socialUrl} className="rounded-full border border-ink px-3 py-1 text-[10px] font-bold uppercase tracking-wider transition-colors hover:bg-ink hover:text-white">
                     Social
                   </a>
                 )}
@@ -66,7 +66,7 @@ export default async function SpeakerDetailPage({
               <div className="mt-3 space-y-2">
                 {speaker.agendaItems.map(({ agendaItem }) => (
                   <div key={agendaItem.id} className="flex items-center gap-3">
-                    <span className="border border-gold bg-gold px-2 py-1 text-[10px] font-bold uppercase tracking-wider">
+                    <span className="rounded-full border border-gold bg-gold px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider">
                       {agendaItem.time}
                     </span>
                     <span className="text-sm font-semibold">{agendaItem.title}</span>

@@ -43,7 +43,7 @@ export default async function AdminFaqPage({
         {faqs.length === 0 && <p className="py-6 text-sm text-mutefg">No FAQs yet.</p>}
       </div>
 
-      <div className="mt-8 border-t-2 border-ink bg-mist p-5">
+      <div className="mt-8 rounded-2xl border-t-2 border-ink bg-mist p-5 shadow-sm">
         <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">
           {editing ? "Edit question" : "Add question"}
         </p>

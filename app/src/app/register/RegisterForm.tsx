@@ -6,7 +6,7 @@ import { Button } from "@/components/Button";
 import { LevelField } from "@/components/LevelField";
 
 const fieldClass =
-  "h-11 w-full border border-line bg-white px-3 text-sm text-ink placeholder:text-mutefg transition-colors focus:border-ink focus:outline-none";
+  "h-11 w-full rounded-lg border border-line bg-white px-3 text-sm text-ink placeholder:text-mutefg transition-colors focus:border-ink focus:outline-none";
 const labelClass =
   "mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-mutefg";
 
@@ -19,7 +19,7 @@ export function RegisterForm() {
   return (
     <form action={formAction} className="space-y-4">
       {state?.error && (
-        <div className="animate-fade-in-up border border-red-800 bg-red-50 px-3 py-2 text-xs font-semibold text-red-800">
+        <div className="animate-fade-in-up rounded-lg border border-red-800 bg-red-50 px-3 py-2 text-xs font-semibold text-red-800">
           {state.error}
         </div>
       )}
@@ -51,7 +51,7 @@ export function RegisterForm() {
         <input id="howHeard" name="howHeard" className={fieldClass} placeholder="Instagram, a friend, campus fellowship…" />
       </div>
       <label className="flex items-start gap-2 text-xs text-bodyfg">
-        <input type="checkbox" name="consentReminders" className="mt-0.5 h-3.5 w-3.5" />
+        <input type="checkbox" name="consentReminders" className="mt-0.5 h-3.5 w-3.5 rounded accent-ink" />
         I agree to receive event reminders by email and SMS.
       </label>
       <Button type="submit" full disabled={pending}>

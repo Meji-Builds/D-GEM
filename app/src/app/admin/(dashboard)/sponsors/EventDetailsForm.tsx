@@ -5,7 +5,7 @@ import { updateEventSettings, type FormState } from "./actions";
 import { Button } from "@/components/Button";
 import { ImageInput } from "@/components/ImageInput";
 
-const fieldClass = "h-10 w-full border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none";
+const fieldClass = "h-10 w-full rounded-lg border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none";
 const labelClass = "mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-mutefg";
 
 type Initial = {
@@ -33,10 +33,10 @@ export function EventDetailsForm({ initial }: { initial: Initial }) {
   return (
     <form action={formAction} className="space-y-4">
       {state?.error && (
-        <div className="border border-red-800 bg-red-50 px-3 py-2 text-xs font-semibold text-red-800">{state.error}</div>
+        <div className="rounded-lg border border-red-800 bg-red-50 px-3 py-2 text-xs font-semibold text-red-800">{state.error}</div>
       )}
       {state?.ok && (
-        <div className="border border-gold bg-gold/20 px-3 py-2 text-xs font-semibold">Event details updated.</div>
+        <div className="rounded-lg border border-gold bg-gold/20 px-3 py-2 text-xs font-semibold">Event details updated.</div>
       )}
       <div className="grid gap-3 sm:grid-cols-2">
         <div>
@@ -89,14 +89,14 @@ export function EventDetailsForm({ initial }: { initial: Initial }) {
       </div>
       <div>
         <label className={labelClass} htmlFor="aboutText">About the movement</label>
-        <textarea id="aboutText" name="aboutText" rows={3} defaultValue={initial.aboutText} className="w-full border border-line bg-white p-3 text-sm focus:border-ink focus:outline-none" />
+        <textarea id="aboutText" name="aboutText" rows={3} defaultValue={initial.aboutText} className="w-full rounded-lg border border-line bg-white p-3 text-sm focus:border-ink focus:outline-none" />
       </div>
       <div className="grid gap-3 sm:grid-cols-[130px_1fr]">
         {preview || initial.movementPhotoUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={preview ?? initial.movementPhotoUrl!} alt="Movement" className="h-28 w-full border border-line object-cover" />
+          <img src={preview ?? initial.movementPhotoUrl!} alt="Movement" className="h-28 w-full rounded-xl border border-line object-cover" />
         ) : (
-          <div className="placeholder-fill flex h-28 w-full items-center justify-center border border-line text-center text-[9px] font-bold uppercase tracking-wider text-mutefg">
+          <div className="placeholder-fill flex h-28 w-full items-center justify-center rounded-xl border border-line text-center text-[9px] font-bold uppercase tracking-wider text-mutefg">
             No photo yet
           </div>
         )}
@@ -112,11 +112,11 @@ export function EventDetailsForm({ initial }: { initial: Initial }) {
       <div className="grid gap-3 sm:grid-cols-2">
         <div>
           <label className={labelClass} htmlFor="missionText">Mission</label>
-          <textarea id="missionText" name="missionText" rows={3} defaultValue={initial.missionText} className="w-full border border-line bg-white p-3 text-sm focus:border-ink focus:outline-none" />
+          <textarea id="missionText" name="missionText" rows={3} defaultValue={initial.missionText} className="w-full rounded-lg border border-line bg-white p-3 text-sm focus:border-ink focus:outline-none" />
         </div>
         <div>
           <label className={labelClass} htmlFor="visionText">Vision</label>
-          <textarea id="visionText" name="visionText" rows={3} defaultValue={initial.visionText} className="w-full border border-line bg-white p-3 text-sm focus:border-ink focus:outline-none" />
+          <textarea id="visionText" name="visionText" rows={3} defaultValue={initial.visionText} className="w-full rounded-lg border border-line bg-white p-3 text-sm focus:border-ink focus:outline-none" />
         </div>
       </div>
       <Button type="submit" disabled={pending}>{pending ? "Saving…" : "Update event"}</Button>

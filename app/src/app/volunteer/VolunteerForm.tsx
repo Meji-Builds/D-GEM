@@ -16,7 +16,7 @@ const ROLES = [
 ];
 
 const fieldClass =
-  "h-11 w-full border border-line bg-white px-3 text-sm placeholder:text-mutefg transition-colors focus:border-ink focus:outline-none";
+  "h-11 w-full rounded-lg border border-line bg-white px-3 text-sm placeholder:text-mutefg transition-colors focus:border-ink focus:outline-none";
 const labelClass = "mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-mutefg";
 
 export function VolunteerForm() {
@@ -32,7 +32,7 @@ export function VolunteerForm() {
             type="button"
             key={r.id}
             onClick={() => setRole(r.id)}
-            className={`border p-3 text-left transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md ${
+            className={`rounded-xl border p-3 text-left shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md ${
               role === r.id ? "border-2 border-gold" : "border-line"
             }`}
           >
@@ -52,7 +52,7 @@ export function VolunteerForm() {
       <div className="mt-10">
         <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">Your details</p>
         {state?.error && (
-          <div className="animate-fade-in-up mt-3 border border-red-800 bg-red-50 px-3 py-2 text-xs font-semibold text-red-800">
+          <div className="animate-fade-in-up mt-3 rounded-lg border border-red-800 bg-red-50 px-3 py-2 text-xs font-semibold text-red-800">
             {state.error}
           </div>
         )}
@@ -86,7 +86,7 @@ export function VolunteerForm() {
           <label className={labelClass} htmlFor="v-exp">
             Why do you want to volunteer? / Relevant experience
           </label>
-          <textarea id="v-exp" name="experience" rows={3} className="w-full border border-line bg-white p-3 text-sm transition-colors focus:border-ink focus:outline-none" />
+          <textarea id="v-exp" name="experience" rows={3} className="w-full rounded-lg border border-line bg-white p-3 text-sm transition-colors focus:border-ink focus:outline-none" />
         </div>
 
         <div className="mt-4">
@@ -97,7 +97,7 @@ export function VolunteerForm() {
                 type="button"
                 key={a}
                 onClick={() => setAvailability(a)}
-                className={`border px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors ${
+                className={`rounded-full border px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors ${
                   availability === a ? "border-gold bg-gold" : "border-ink hover:bg-mist"
                 }`}
               >

@@ -36,7 +36,7 @@ export default async function FaqPage() {
             <PhotoOrPlaceholder src={null} alt="Campus map" label="Campus map" className="h-32" />
           </div>
 
-          <div className="mt-12 border-t-2 border-ink bg-mist p-6">
+          <div className="mt-12 rounded-2xl border-t-2 border-ink bg-mist p-6 shadow-sm">
             <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">
               Post-event feedback {!eventPassed && "(opens after the event)"}
             </p>

@@ -23,7 +23,7 @@ export function VolunteerRow({
       <td className="py-2 pr-4 whitespace-nowrap text-bodyfg">{v.availability}</td>
       <td className="py-2 pr-4 whitespace-nowrap">
         <span
-          className={`border px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider ${
+          className={`rounded-full border px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider ${
             v.status === "ACCEPTED" ? "border-gold bg-gold" : v.status === "REJECTED" ? "border-line text-mutefg" : "border-ink"
           }`}
         >

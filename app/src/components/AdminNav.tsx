@@ -52,13 +52,13 @@ export function AdminNav({ userName }: { userName: string }) {
       </div>
 
       {/* Desktop tab row */}
-      <div className="hidden border-t border-hair md:flex md:flex-wrap">
+      <div className="hidden flex-wrap gap-1.5 border-t border-hair px-3 py-2 md:flex">
         {TABS.map((t) => (
           <Link
             key={t.href}
             href={t.href}
-            className={`px-4 py-2.5 text-[10px] font-bold uppercase tracking-wider transition-colors ${
-              isActive(t.href) ? "bg-gold text-ink" : "text-bodyfg hover:bg-mist"
+            className={`rounded-full px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors ${
+              isActive(t.href) ? "bg-gold text-ink shadow-sm" : "text-bodyfg hover:bg-mist"
             }`}
           >
             {t.label}
@@ -75,7 +75,7 @@ export function AdminNav({ userName }: { userName: string }) {
                 key={t.href}
                 href={t.href}
                 onClick={() => setOpen(false)}
-                className={`animate-fade-in-up px-3 py-2.5 text-sm font-semibold transition-colors ${
+                className={`animate-fade-in-up rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors ${
                   isActive(t.href) ? "bg-gold text-ink" : "text-bodyfg hover:bg-mist"
                 }`}
                 style={{ animationDelay: `${i * 30}ms` }}

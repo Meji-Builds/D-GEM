@@ -26,7 +26,7 @@ export function FaqForm({ initial }: { initial: FaqInitial | null }) {
     <form ref={formRef} action={formAction} className="space-y-3">
       <input type="hidden" name="id" defaultValue={initial?.id ?? ""} />
       {state?.error && (
-        <div className="border border-red-800 bg-red-50 px-3 py-2 text-xs font-semibold text-red-800">
+        <div className="rounded-lg border border-red-800 bg-red-50 px-3 py-2 text-xs font-semibold text-red-800">
           {state.error}
         </div>
       )}
@@ -37,7 +37,7 @@ export function FaqForm({ initial }: { initial: FaqInitial | null }) {
           id="question"
           name="question"
           defaultValue={initial?.question}
-          className="h-10 w-full border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none"
+          className="h-10 w-full rounded-lg border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none"
         />
       </div>
       <div>
@@ -48,7 +48,7 @@ export function FaqForm({ initial }: { initial: FaqInitial | null }) {
           name="answer"
           rows={3}
           defaultValue={initial?.answer}
-          className="w-full border border-line bg-white p-3 text-sm focus:border-ink focus:outline-none"
+          className="w-full rounded-lg border border-line bg-white p-3 text-sm focus:border-ink focus:outline-none"
         />
       </div>
       <div>
@@ -58,7 +58,7 @@ export function FaqForm({ initial }: { initial: FaqInitial | null }) {
           type="number"
           name="order"
           defaultValue={initial?.order ?? 0}
-          className="h-10 w-32 border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none"
+          className="h-10 w-32 rounded-lg border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none"
         />
       </div>
       <Button type="submit" disabled={pending}>{pending ? "Saving…" : initial ? "Save changes" : "Add question"}</Button>

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { saveAgendaItem, type AgendaFormState } from "./actions";
 import { Button } from "@/components/Button";
 
-const fieldClass = "h-10 w-full border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none";
+const fieldClass = "h-10 w-full rounded-lg border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none";
 const labelClass = "mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-mutefg";
 
 type AgendaInitial = {
@@ -41,7 +41,7 @@ export function AgendaForm({
     <form ref={formRef} action={formAction} className="space-y-3">
       <input type="hidden" name="id" defaultValue={initial?.id ?? ""} />
       {state?.error && (
-        <div className="border border-red-800 bg-red-50 px-3 py-2 text-xs font-semibold text-red-800">
+        <div className="rounded-lg border border-red-800 bg-red-50 px-3 py-2 text-xs font-semibold text-red-800">
           {state.error}
         </div>
       )}
@@ -61,7 +61,7 @@ export function AgendaForm({
       </div>
       <div>
         <label className={labelClass} htmlFor="description">Description</label>
-        <textarea id="description" name="description" rows={2} defaultValue={initial?.description} className="w-full border border-line bg-white p-3 text-sm focus:border-ink focus:outline-none" />
+        <textarea id="description" name="description" rows={2} defaultValue={initial?.description} className="w-full rounded-lg border border-line bg-white p-3 text-sm focus:border-ink focus:outline-none" />
       </div>
       <div>
         <label className={labelClass} htmlFor="order">Order (lower shows first)</label>

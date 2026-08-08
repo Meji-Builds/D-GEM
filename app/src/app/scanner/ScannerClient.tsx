@@ -35,7 +35,7 @@ function GateSetup({ onSet }: { onSet: (gate: string) => void }) {
           <button
             key={g}
             onClick={() => onSet(g)}
-            className="border border-ink px-4 py-3 text-sm font-bold transition-colors hover:bg-ink hover:text-white"
+            className="rounded-xl border border-ink px-4 py-3 text-sm font-bold shadow-sm transition-colors hover:bg-ink hover:text-white"
           >
             {g}
           </button>
@@ -46,7 +46,7 @@ function GateSetup({ onSet }: { onSet: (gate: string) => void }) {
           value={custom}
           onChange={(e) => setCustom(e.target.value)}
           placeholder="Or type a custom gate name"
-          className="h-11 flex-1 border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none"
+          className="h-11 flex-1 rounded-lg border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none"
         />
         <Button disabled={!custom.trim()} onClick={() => onSet(custom.trim())}>
           Set
@@ -177,15 +177,15 @@ export function ScannerClient({ stewardName }: { stewardName: string }) {
             Change gate
           </button>
         </span>
-        <span className="border border-ink px-2 py-1 text-[10px] uppercase tracking-wider">{scanCount} scanned</span>
+        <span className="rounded-full border border-ink px-2.5 py-1 text-[10px] uppercase tracking-wider">{scanCount} scanned</span>
       </div>
 
       {result.state === "idle" && (
-        <div className="border-2 border-ink bg-white">
+        <div className="overflow-hidden rounded-2xl border-2 border-ink bg-white shadow-lg">
           <div className="relative aspect-square overflow-hidden bg-ink">
             <video ref={videoRef} className="h-full w-full object-cover" muted playsInline />
             <canvas ref={canvasRef} className="hidden" />
-            <div className="pointer-events-none absolute inset-8 border-2 border-gold" />
+            <div className="pointer-events-none absolute inset-8 rounded-2xl border-2 border-gold" />
             {cameraError && (
               <div className="absolute inset-0 flex items-center justify-center bg-ink/90 p-4 text-center text-xs text-white">
                 {cameraError}
@@ -197,12 +197,12 @@ export function ScannerClient({ stewardName }: { stewardName: string }) {
       )}
 
       {result.state === "granted" && (
-        <div className="animate-scale-in border-2 border-ink bg-white">
+        <div className="animate-scale-in overflow-hidden rounded-2xl border-2 border-ink bg-white shadow-lg">
           <div className="bg-gold p-5">
             <div className="font-display text-xl font-extrabold">Access granted</div>
           </div>
           <div className="space-y-2 p-5">
-            <div className="placeholder-fill h-14 w-14 border border-line" />
+            <div className="placeholder-fill h-14 w-14 rounded-full border border-line" />
             <div className="text-base font-bold">{result.attendee.fullName}</div>
             <p className="text-xs leading-relaxed text-bodyfg">
               {result.attendee.ticketId}
@@ -220,7 +220,7 @@ export function ScannerClient({ stewardName }: { stewardName: string }) {
       )}
 
       {result.state === "already" && (
-        <div className="animate-scale-in border-2 border-ink bg-white">
+        <div className="animate-scale-in overflow-hidden rounded-2xl border-2 border-ink bg-white shadow-lg">
           <div className="bg-ink p-5 text-white">
             <div className="font-display text-xl font-extrabold">Already checked in</div>
           </div>
@@ -240,12 +240,12 @@ export function ScannerClient({ stewardName }: { stewardName: string }) {
       )}
 
       {result.state === "crew" && (
-        <div className="animate-scale-in border-2 border-ink bg-white">
+        <div className="animate-scale-in overflow-hidden rounded-2xl border-2 border-ink bg-white shadow-lg">
           <div className="bg-ink p-5 text-white">
             <div className="font-display text-xl font-extrabold">Crew access granted</div>
           </div>
           <div className="space-y-2 p-5">
-            <div className="placeholder-fill h-14 w-14 border border-line" />
+            <div className="placeholder-fill h-14 w-14 rounded-full border border-line" />
             <div className="text-base font-bold">{result.volunteer.fullName}</div>
             <p className="text-xs leading-relaxed text-bodyfg">
               {result.volunteer.crewId}
@@ -263,7 +263,7 @@ export function ScannerClient({ stewardName }: { stewardName: string }) {
       )}
 
       {result.state === "crew_already" && (
-        <div className="animate-scale-in border-2 border-ink bg-white">
+        <div className="animate-scale-in overflow-hidden rounded-2xl border-2 border-ink bg-white shadow-lg">
           <div className="bg-mist p-5">
             <div className="font-display text-xl font-extrabold">Crew badge already scanned</div>
           </div>
@@ -284,7 +284,7 @@ export function ScannerClient({ stewardName }: { stewardName: string }) {
       )}
 
       {result.state === "invalid" && (
-        <div className="animate-scale-in border-2 border-ink bg-white">
+        <div className="animate-scale-in overflow-hidden rounded-2xl border-2 border-ink bg-white shadow-lg">
           <div className="bg-mist p-5">
             <div className="font-display text-xl font-extrabold">Not recognised</div>
           </div>
@@ -296,11 +296,11 @@ export function ScannerClient({ stewardName }: { stewardName: string }) {
               value={manual}
               onChange={(e) => setManual(e.target.value)}
               placeholder="Search attendees"
-              className="h-10 w-full border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none"
+              className="h-10 w-full rounded-lg border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none"
             />
             <div className="flex flex-wrap gap-2">
               <Button variant="outline" onClick={() => submit(manual)}>Search / check in</Button>
-              <a href="/register" target="_blank" rel="noreferrer" className="group inline-flex items-center justify-center gap-2 border border-ink px-5 py-3 text-[11px] font-bold uppercase tracking-wider transition-colors hover:bg-ink hover:text-white">
+              <a href="/register" target="_blank" rel="noreferrer" className="group inline-flex items-center justify-center gap-2 rounded-full border border-ink px-5 py-3 text-[11px] font-bold uppercase tracking-wider transition-colors hover:bg-ink hover:text-white">
                 Register at gate
                 <ArrowRightIcon className="h-3.5 w-3.5 text-gold transition-transform duration-150 group-hover:translate-x-0.5" />
               </a>
@@ -311,7 +311,7 @@ export function ScannerClient({ stewardName }: { stewardName: string }) {
       )}
 
       {result.state === "idle" && (
-        <div className="border border-line p-3">
+        <div className="rounded-2xl border border-line p-3">
           <div className="mb-1.5 text-[10px] font-bold uppercase tracking-widest text-mutefg">
             Enter ID manually
           </div>
@@ -320,7 +320,7 @@ export function ScannerClient({ stewardName }: { stewardName: string }) {
               value={manual}
               onChange={(e) => setManual(e.target.value)}
               placeholder="Ticket ID, email or phone"
-              className="h-10 flex-1 border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none"
+              className="h-10 flex-1 rounded-lg border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none"
             />
             <Button onClick={() => submit(manual)}>Go</Button>
           </div>

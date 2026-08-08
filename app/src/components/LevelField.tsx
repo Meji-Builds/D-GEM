@@ -14,7 +14,7 @@ const LEVEL_OPTIONS = [
 ];
 
 const fieldClass =
-  "h-11 w-full border border-line bg-white px-3 text-sm text-ink placeholder:text-mutefg focus:border-ink focus:outline-none";
+  "h-11 w-full rounded-lg border border-line bg-white px-3 text-sm text-ink placeholder:text-mutefg focus:border-ink focus:outline-none";
 const labelClass = "mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-mutefg";
 
 export function LevelField({

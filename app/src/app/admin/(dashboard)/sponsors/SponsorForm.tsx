@@ -5,7 +5,7 @@ import { saveSponsor, type FormState } from "./actions";
 import { Button } from "@/components/Button";
 import { ImageInput } from "@/components/ImageInput";
 
-const fieldClass = "h-10 w-full border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none";
+const fieldClass = "h-10 w-full rounded-lg border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none";
 
 export function SponsorForm({
   initial,
@@ -50,7 +50,7 @@ export function SponsorForm({
         <label className="mb-1 block text-[9px] font-bold uppercase text-mutefg">Logo</label>
         {preview && (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={preview} alt="Logo preview" className="mb-1 h-8 w-14 border border-line object-contain" />
+          <img src={preview} alt="Logo preview" className="mb-1 h-8 w-14 rounded-lg border border-line object-contain" />
         )}
         <ImageInput
           name="logo"

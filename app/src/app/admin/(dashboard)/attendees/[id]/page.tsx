@@ -27,7 +27,9 @@ export default async function AdminAttendeeDetailPage({
       </Link>
 
       <div className="mt-4 grid gap-8 sm:grid-cols-[200px_1fr]">
-        <Image src={qrDataUrl} alt="Ticket QR" width={200} height={200} unoptimized className="border-2 border-ink" />
+        <div className="inline-block h-fit rounded-xl border-2 border-ink bg-white p-3">
+          <Image src={qrDataUrl} alt="Ticket QR" width={200} height={200} unoptimized />
+        </div>
         <div>
           <h1 className="font-display text-2xl font-extrabold">{attendee.fullName}</h1>
           <p className="mt-1 text-sm text-bodyfg">{attendee.email} · {attendee.phone}</p>
@@ -38,11 +40,11 @@ export default async function AdminAttendeeDetailPage({
           </p>
           <div className="mt-4">
             {attendee.checkedIn ? (
-              <span className="border border-gold bg-gold px-2 py-1 text-[10px] font-bold uppercase tracking-wider">
+              <span className="rounded-full border border-gold bg-gold px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider">
                 Checked in {attendee.checkedInAt?.toLocaleString("en-GB")} · {attendee.checkedInGate}
               </span>
             ) : (
-              <span className="border border-ink px-2 py-1 text-[10px] font-bold uppercase tracking-wider">Not checked in</span>
+              <span className="rounded-full border border-ink px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider">Not checked in</span>
             )}
           </div>
           <div className="mt-5">
