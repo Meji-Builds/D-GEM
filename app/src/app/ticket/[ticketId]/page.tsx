@@ -58,6 +58,18 @@ export default async function TicketPage({
               </>
             }
           />
+
+          {settings.communityUrl && (
+            <LinkButton
+              href={settings.communityUrl}
+              target="_blank"
+              rel="noreferrer"
+              full
+              className="mt-4"
+            >
+              Click the link to join D-GEM Community
+            </LinkButton>
+          )}
         </div>
       </main>
       <PublicFooter contactEmail={settings.contactEmail} contactPhone={settings.contactPhone} />

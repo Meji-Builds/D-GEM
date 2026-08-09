@@ -36,6 +36,7 @@ export default async function AdminSponsorsPage() {
               contactPhone: settings.contactPhone,
               instagramUrl: settings.instagramUrl,
               twitterUrl: settings.twitterUrl,
+              communityUrl: settings.communityUrl,
               movementPhotoUrl: settings.movementPhotoUrl,
             }}
           />

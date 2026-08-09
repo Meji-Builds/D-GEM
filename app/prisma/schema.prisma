@@ -74,6 +74,7 @@ model EventSettings {
   contactPhone       String             @default("")
   instagramUrl       String             @default("")
   twitterUrl         String             @default("")
+  communityUrl       String             @default("")
   updatedAt          DateTime           @updatedAt
 }
 

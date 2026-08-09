@@ -26,6 +26,7 @@ type Initial = {
   contactPhone: string;
   instagramUrl: string;
   twitterUrl: string;
+  communityUrl: string;
   movementPhotoUrl: string | null;
 };
 
@@ -120,6 +121,13 @@ export function EventDetailsForm({ initial }: { initial: Initial }) {
         <div>
           <label className={labelClass} htmlFor="twitterUrl">X / Twitter URL</label>
           <input id="twitterUrl" name="twitterUrl" defaultValue={initial.twitterUrl} className={fieldClass} />
+        </div>
+        <div className="sm:col-span-2">
+          <label className={labelClass} htmlFor="communityUrl">WhatsApp community/group link</label>
+          <p className="mb-1.5 text-[10px] text-mutefg">
+            Shown as a &quot;Join the D-GEM Community&quot; button on the ticket page after someone registers.
+          </p>
+          <input id="communityUrl" name="communityUrl" defaultValue={initial.communityUrl} placeholder="https://chat.whatsapp.com/..." className={fieldClass} />
         </div>
       </div>
       <div>
