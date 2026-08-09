@@ -10,8 +10,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
   return (
     <div className="min-h-full bg-white">
-      <AdminNav userName={session.name} />
-      <div className="mx-auto max-w-6xl px-5 py-6">{children}</div>
+      <div className="print:hidden">
+        <AdminNav userName={session.name} />
+      </div>
+      <div className="mx-auto max-w-6xl px-5 py-6 print:max-w-none print:p-0">{children}</div>
     </div>
   );
 }

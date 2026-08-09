@@ -54,6 +54,8 @@ export function VolunteerRow({
           <>
             <a href={`/crew/${v.crewId}`} className="text-bodyfg hover:text-gold">View badge</a>
             {" · "}
+            <a href={`/crew/${v.crewId}/print`} target="_blank" rel="noreferrer" className="text-bodyfg hover:text-gold">Print badge</a>
+            {" · "}
             <button
               disabled={pending}
               className="inline-flex items-center gap-1 text-bodyfg hover:text-gold"
