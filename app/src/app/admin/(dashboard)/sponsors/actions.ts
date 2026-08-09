@@ -10,6 +10,7 @@ export type FormState = { error?: string; ok?: boolean };
 export async function updateEventSettings(_prev: FormState, formData: FormData): Promise<FormState> {
   const name = String(formData.get("name") || "").trim();
   const tagline = String(formData.get("tagline") || "").trim();
+  const dateConfirmed = formData.get("dateConfirmed") === "true";
   const dateStr = String(formData.get("eventDate") || "").trim();
   const startTime = String(formData.get("startTime") || "09:00").trim();
   const endTime = String(formData.get("endTime") || "17:00").trim();
@@ -27,13 +28,14 @@ export async function updateEventSettings(_prev: FormState, formData: FormData):
   const movementPhotoUrl = await saveUploadedFile(movementPhoto, "movement");
 
   if (!name || !venue) return { error: "Event name and venue are required." };
+  if (dateConfirmed && !dateStr) return { error: "Pick a date, or mark it as not yet announced." };
 
   await prisma.eventSettings.upsert({
     where: { id: "event" },
     update: {
       name,
       tagline,
-      eventDate: dateStr ? new Date(dateStr) : null,
+      eventDate: dateConfirmed && dateStr ? new Date(dateStr) : null,
       startTime,
       endTime,
       venue,

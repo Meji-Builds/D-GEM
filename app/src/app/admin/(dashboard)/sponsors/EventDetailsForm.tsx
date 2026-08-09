@@ -30,6 +30,7 @@ type Initial = {
 export function EventDetailsForm({ initial }: { initial: Initial }) {
   const [state, formAction, pending] = useActionState<FormState, FormData>(updateEventSettings, {});
   const [preview, setPreview] = useState<string | null>(null);
+  const [dateConfirmed, setDateConfirmed] = useState(Boolean(initial.eventDate));
 
   return (
     <form action={formAction} className="space-y-4">
@@ -50,7 +51,34 @@ export function EventDetailsForm({ initial }: { initial: Initial }) {
         </div>
         <div>
           <label className={labelClass} htmlFor="eventDate">Date</label>
-          <input id="eventDate" type="date" name="eventDate" defaultValue={initial.eventDate} className={fieldClass} />
+          <div className="mb-1.5 flex gap-1.5">
+            <button
+              type="button"
+              onClick={() => setDateConfirmed(true)}
+              className={`rounded-full border px-3 py-1 text-[9px] font-bold uppercase tracking-wider transition-colors ${
+                dateConfirmed ? "border-gold bg-gold" : "border-ink hover:bg-mist"
+              }`}
+            >
+              Date set
+            </button>
+            <button
+              type="button"
+              onClick={() => setDateConfirmed(false)}
+              className={`rounded-full border px-3 py-1 text-[9px] font-bold uppercase tracking-wider transition-colors ${
+                !dateConfirmed ? "border-gold bg-gold" : "border-ink hover:bg-mist"
+              }`}
+            >
+              Not yet announced
+            </button>
+          </div>
+          <input type="hidden" name="dateConfirmed" value={dateConfirmed ? "true" : "false"} />
+          {dateConfirmed ? (
+            <input id="eventDate" type="date" name="eventDate" defaultValue={initial.eventDate} className={fieldClass} required />
+          ) : (
+            <div className="flex h-10 w-full items-center rounded-lg border border-dashed border-line bg-mist px-3 text-sm text-mutefg">
+              Will show as &quot;Date to be announced&quot;
+            </div>
+          )}
         </div>
         <div>
           <label className={labelClass} htmlFor="startTime">Start time</label>
