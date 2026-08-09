@@ -17,11 +17,6 @@ export function formatEventDateLabel(eventDate: Date | null) {
   });
 }
 
-export function formatEventMonthYear(eventDate: Date | null) {
-  if (!eventDate) return "TBA";
-  return eventDate.toLocaleDateString("en-GB", { month: "long", year: "numeric" });
-}
-
 export async function getLiveSpeakers() {
   return prisma.speaker.findMany({
     where: { state: "LIVE" },

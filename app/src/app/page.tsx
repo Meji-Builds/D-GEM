@@ -10,7 +10,7 @@ import {
   getConvener,
   getSponsorsByTier,
   getAgenda,
-  formatEventMonthYear,
+  formatEventDateLabel,
 } from "@/lib/data";
 import { prisma } from "@/lib/prisma";
 
@@ -45,15 +45,15 @@ export default async function LandingPage() {
               <br />
               Conference 1.0
             </h1>
-            <p className="mt-4 max-w-xl text-sm leading-relaxed text-bodyfg sm:text-base">
-              {settings.aboutText}
-            </p>
             {settings.tagline && (
-              <div className="mt-5 inline-flex flex-wrap items-center gap-2 rounded-xl bg-ink px-4 py-3 text-white">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-gold">Theme:</span>
-                <span className="text-sm font-bold">{settings.tagline}</span>
+              <div className="mt-5 max-w-xl rounded-2xl bg-ink px-5 py-4 text-white shadow-md sm:px-6 sm:py-5">
+                <span className="text-[11px] font-extrabold uppercase tracking-widest text-gold">Theme</span>
+                <p className="mt-1 text-lg font-extrabold leading-snug sm:text-xl">{settings.tagline}</p>
               </div>
             )}
+            <p className="mt-5 max-w-xl text-sm leading-relaxed text-bodyfg sm:text-base">
+              {settings.aboutText}
+            </p>
             <div className="mt-7 flex flex-wrap items-center gap-3">
               <LinkButton href="/register">Register free</LinkButton>
               <LinkButton href="/volunteer" variant="outline">Become a volunteer</LinkButton>
@@ -61,7 +61,7 @@ export default async function LandingPage() {
             <div className="mt-8 grid grid-cols-3 gap-4 border-t-2 border-ink pt-5">
               <div>
                 <div className="text-[10px] font-bold uppercase tracking-widest text-mutefg">Date</div>
-                <div className="mt-1 text-sm font-bold sm:text-base">{formatEventMonthYear(settings.eventDate)}</div>
+                <div className="mt-1 text-sm font-bold sm:text-base">{formatEventDateLabel(settings.eventDate)}</div>
               </div>
               <div>
                 <div className="text-[10px] font-bold uppercase tracking-widest text-mutefg">Venue</div>
