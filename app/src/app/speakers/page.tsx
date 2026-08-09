@@ -1,6 +1,6 @@
 import { PublicNav } from "@/components/PublicNav";
 import { PublicFooter } from "@/components/PublicFooter";
-import { PhotoOrPlaceholder } from "@/components/PhotoOrPlaceholder";
+import { PhotoOrPlaceholder, accentForIndex } from "@/components/PhotoOrPlaceholder";
 import { getEventSettings, getLiveSpeakers } from "@/lib/data";
 
 export default async function SpeakersPage() {
@@ -34,7 +34,8 @@ export default async function SpeakersPage() {
                   <PhotoOrPlaceholder
                     src={s.photoUrl}
                     alt={s.name}
-                    label="Photo"
+                    label={s.name.split(" ")[0]}
+                    accent={accentForIndex(i)}
                     className="aspect-square transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>

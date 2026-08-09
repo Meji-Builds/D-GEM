@@ -9,6 +9,7 @@ export type FormState = { error?: string; ok?: boolean };
 
 export async function updateEventSettings(_prev: FormState, formData: FormData): Promise<FormState> {
   const name = String(formData.get("name") || "").trim();
+  const tagline = String(formData.get("tagline") || "").trim();
   const dateStr = String(formData.get("eventDate") || "").trim();
   const startTime = String(formData.get("startTime") || "09:00").trim();
   const endTime = String(formData.get("endTime") || "17:00").trim();
@@ -31,6 +32,7 @@ export async function updateEventSettings(_prev: FormState, formData: FormData):
     where: { id: "event" },
     update: {
       name,
+      tagline,
       eventDate: dateStr ? new Date(dateStr) : null,
       startTime,
       endTime,
@@ -46,7 +48,7 @@ export async function updateEventSettings(_prev: FormState, formData: FormData):
       twitterUrl,
       ...(movementPhotoUrl ? { movementPhotoUrl } : {}),
     },
-    create: { id: "event", name, venue, movementPhotoUrl: movementPhotoUrl ?? undefined },
+    create: { id: "event", name, tagline, venue, movementPhotoUrl: movementPhotoUrl ?? undefined },
   });
 
   revalidatePath("/", "layout");

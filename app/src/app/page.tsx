@@ -2,7 +2,7 @@ import { PublicNav } from "@/components/PublicNav";
 import { PublicFooter } from "@/components/PublicFooter";
 import { Countdown } from "@/components/Countdown";
 import { LinkButton } from "@/components/Button";
-import { PhotoOrPlaceholder } from "@/components/PhotoOrPlaceholder";
+import { PhotoOrPlaceholder, accentForIndex } from "@/components/PhotoOrPlaceholder";
 import { Reveal } from "@/components/Reveal";
 import {
   getEventSettings,
@@ -36,7 +36,7 @@ export default async function LandingPage() {
         <section className="border-b-2 border-ink px-5 py-14 sm:px-8">
           <div className="animate-fade-in-up mx-auto max-w-4xl">
             <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">
-              Don&apos;t Graduate Empty · {settings.tagline}
+              D-GEM · Conference 1.0
             </p>
             <h1 className="font-display mt-3 text-4xl font-extrabold leading-[1.02] tracking-tight sm:text-6xl">
               Don&apos;t Graduate
@@ -48,6 +48,12 @@ export default async function LandingPage() {
             <p className="mt-4 max-w-xl text-sm leading-relaxed text-bodyfg sm:text-base">
               {settings.aboutText}
             </p>
+            {settings.tagline && (
+              <div className="mt-5 inline-flex flex-wrap items-center gap-2 rounded-xl bg-ink px-4 py-3 text-white">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-gold">Theme:</span>
+                <span className="text-sm font-bold">{settings.tagline}</span>
+              </div>
+            )}
             <div className="mt-7 flex flex-wrap items-center gap-3">
               <LinkButton href="/register">Register free</LinkButton>
               <LinkButton href="/volunteer" variant="outline">Become a volunteer</LinkButton>
@@ -79,14 +85,20 @@ export default async function LandingPage() {
 
         {/* About */}
         <section id="about" className="border-b-2 border-ink px-5 py-12 sm:px-8">
-          <Reveal className="mx-auto grid max-w-4xl gap-8 sm:grid-cols-2 sm:items-center">
+          <Reveal className="mx-auto grid max-w-4xl gap-8 sm:grid-cols-2 sm:items-start">
             <div>
               <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">
                 About the movement
               </p>
               <p className="mt-3 text-sm leading-relaxed text-bodyfg">{settings.aboutText}</p>
             </div>
-            <PhotoOrPlaceholder src={settings.movementPhotoUrl} alt="D-GEM movement" label="Movement photo" className="h-48" />
+            <PhotoOrPlaceholder
+              src={settings.movementPhotoUrl}
+              alt="D-GEM movement"
+              label="Movement photo"
+              fit="contain"
+              className="aspect-[4/5] w-full max-w-sm mx-auto sm:mx-0"
+            />
           </Reveal>
         </section>
 
@@ -112,13 +124,14 @@ export default async function LandingPage() {
               {previewSpeakers.length === 0 && (
                 <p className="col-span-full text-sm text-mutefg">Speaker lineup coming soon.</p>
               )}
-              {previewSpeakers.map((s) => (
+              {previewSpeakers.map((s, i) => (
                 <a key={s.id} href={`/speakers/${s.id}`} className="group block">
                   <div className="overflow-hidden">
                     <PhotoOrPlaceholder
                       src={s.photoUrl}
                       alt={s.name}
-                      label="Photo"
+                      label={s.name.split(" ")[0]}
+                      accent={accentForIndex(i)}
                       className="aspect-square transition-transform duration-300 group-hover:scale-105"
                     />
                   </div>
@@ -139,7 +152,8 @@ export default async function LandingPage() {
             <PhotoOrPlaceholder
               src={convener.photoUrl}
               alt={convener.name || "Convener"}
-              label="Convener photo"
+              label={convener.name ? convener.name.split(" ")[0] : "Host"}
+              accent="gold"
               className="h-48 w-48 flex-none sm:h-64 sm:w-64"
             />
             <div>

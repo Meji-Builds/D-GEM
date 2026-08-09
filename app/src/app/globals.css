@@ -9,6 +9,9 @@
   --color-hair: #ddd9d4;
   --color-mutefg: #8a8580;
   --color-bodyfg: #5a564f;
+  --color-teal: #1d7a8c;
+  --color-amber: #e8a23a;
+  --color-magenta: #d81b72;
 }
 
 @theme inline {
@@ -20,6 +23,9 @@
   --color-hair: var(--color-hair);
   --color-mutefg: var(--color-mutefg);
   --color-bodyfg: var(--color-bodyfg);
+  --color-teal: var(--color-teal);
+  --color-amber: var(--color-amber);
+  --color-magenta: var(--color-magenta);
   --font-display: var(--font-archivo);
 }
 

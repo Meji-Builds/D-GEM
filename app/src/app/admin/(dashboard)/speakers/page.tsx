@@ -2,6 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { SpeakerForm } from "./SpeakerForm";
 import { DeleteButton } from "./DeleteButton";
+import { accentForIndex, accentBgClass } from "@/components/PhotoOrPlaceholder";
 
 export default async function AdminSpeakersPage({
   searchParams,
@@ -45,7 +46,7 @@ export default async function AdminSpeakersPage({
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={s.photoUrl} alt={s.name} className="h-7 w-7 rounded-full object-cover" />
                   ) : (
-                    <div className="placeholder-fill h-7 w-7 rounded-full border border-line" />
+                    <div className={`h-7 w-7 rounded-full ${accentBgClass(accentForIndex(s.order))}`} />
                   )}
                 </td>
                 <td className="py-2 pr-4 font-semibold whitespace-nowrap">{s.name}</td>

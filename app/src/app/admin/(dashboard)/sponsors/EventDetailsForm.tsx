@@ -10,6 +10,7 @@ const labelClass = "mb-1.5 block text-[10px] font-bold uppercase tracking-widest
 
 type Initial = {
   name: string;
+  tagline: string;
   eventDate: string;
   startTime: string;
   endTime: string;
@@ -42,6 +43,10 @@ export function EventDetailsForm({ initial }: { initial: Initial }) {
         <div>
           <label className={labelClass} htmlFor="name">Event name</label>
           <input id="name" name="name" defaultValue={initial.name} className={fieldClass} required />
+        </div>
+        <div>
+          <label className={labelClass} htmlFor="tagline">Theme</label>
+          <input id="tagline" name="tagline" defaultValue={initial.tagline} className={fieldClass} placeholder="Building a life after school while still in school" />
         </div>
         <div>
           <label className={labelClass} htmlFor="eventDate">Date</label>
@@ -91,20 +96,23 @@ export function EventDetailsForm({ initial }: { initial: Initial }) {
         <label className={labelClass} htmlFor="aboutText">About the movement</label>
         <textarea id="aboutText" name="aboutText" rows={3} defaultValue={initial.aboutText} className="w-full rounded-lg border border-line bg-white p-3 text-sm focus:border-ink focus:outline-none" />
       </div>
-      <div className="grid gap-3 sm:grid-cols-[130px_1fr]">
-        {preview || initial.movementPhotoUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={preview ?? initial.movementPhotoUrl!} alt="Movement" className="h-28 w-full rounded-xl border border-line object-cover" />
-        ) : (
-          <div className="placeholder-fill flex h-28 w-full items-center justify-center rounded-xl border border-line text-center text-[9px] font-bold uppercase tracking-wider text-mutefg">
-            No photo yet
-          </div>
-        )}
-        <div>
-          <label className={labelClass} htmlFor="movementPhoto">Movement photo (shown in the About section)</label>
+      <div>
+        <label className={labelClass} htmlFor="movementPhoto">Movement photo (shown in the About section)</label>
+        <p className="mb-2 text-[10px] text-mutefg">
+          Can be a full flyer or poster — it&apos;s shown in full, not cropped to a square.
+        </p>
+        <div className="grid gap-3 sm:grid-cols-[200px_1fr]">
+          {preview || initial.movementPhotoUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={preview ?? initial.movementPhotoUrl!} alt="Movement" className="aspect-[4/5] w-full max-w-[200px] rounded-xl border border-line bg-mist object-contain" />
+          ) : (
+            <div className="placeholder-fill flex aspect-[4/5] w-full max-w-[200px] items-center justify-center rounded-xl border border-line text-center text-[9px] font-bold uppercase tracking-wider text-mutefg">
+              No photo yet
+            </div>
+          )}
           <ImageInput
             name="movementPhoto"
-            className="w-full text-[10px]"
+            className="w-full self-start text-[10px]"
             onChange={(file) => setPreview(file ? URL.createObjectURL(file) : null)}
           />
         </div>

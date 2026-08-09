@@ -19,6 +19,7 @@ export default async function AdminSponsorsPage() {
           <EventDetailsForm
             initial={{
               name: settings.name,
+              tagline: settings.tagline,
               eventDate: settings.eventDate ? settings.eventDate.toISOString().slice(0, 10) : "",
               startTime: settings.startTime,
               endTime: settings.endTime,

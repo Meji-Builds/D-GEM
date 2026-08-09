@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getEventSettings } from "@/lib/data";
 import { PublicNav } from "@/components/PublicNav";
 import { PublicFooter } from "@/components/PublicFooter";
-import { PhotoOrPlaceholder } from "@/components/PhotoOrPlaceholder";
+import { PhotoOrPlaceholder, accentForIndex } from "@/components/PhotoOrPlaceholder";
 import { LinkButton } from "@/components/Button";
 import { ArrowLeftIcon } from "@/components/Icon";
 
@@ -33,7 +33,13 @@ export default async function SpeakerDetailPage({
           </a>
 
           <div className="mt-6 grid gap-8 sm:grid-cols-[220px_1fr]">
-            <PhotoOrPlaceholder src={speaker.photoUrl} alt={speaker.name} label="Portrait" className="aspect-[3/4]" />
+            <PhotoOrPlaceholder
+              src={speaker.photoUrl}
+              alt={speaker.name}
+              label={speaker.name.split(" ")[0]}
+              accent={accentForIndex(speaker.order)}
+              className="aspect-[3/4]"
+            />
             <div>
               <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">Speaker</p>
               <h1 className="font-display mt-2 text-4xl font-extrabold tracking-tight">{speaker.name}</h1>
