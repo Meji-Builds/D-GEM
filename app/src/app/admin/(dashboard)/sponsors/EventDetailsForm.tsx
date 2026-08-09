@@ -20,6 +20,7 @@ type Initial = {
   aboutText: string;
   missionText: string;
   visionText: string;
+  sponsorshipPitch: string;
   contactEmail: string;
   contactPhone: string;
   instagramUrl: string;
@@ -154,6 +155,20 @@ export function EventDetailsForm({ initial }: { initial: Initial }) {
           <label className={labelClass} htmlFor="visionText">Vision</label>
           <textarea id="visionText" name="visionText" rows={3} defaultValue={initial.visionText} className="w-full rounded-lg border border-line bg-white p-3 text-sm focus:border-ink focus:outline-none" />
         </div>
+      </div>
+      <div>
+        <label className={labelClass} htmlFor="sponsorshipPitch">Sponsorship pitch (shown on the Sponsorship page)</label>
+        <p className="mb-2 text-[10px] text-mutefg">
+          Full write-up for prospective sponsors — line breaks are kept, so paragraphs and lists display as typed.
+        </p>
+        <textarea
+          id="sponsorshipPitch"
+          name="sponsorshipPitch"
+          rows={10}
+          defaultValue={initial.sponsorshipPitch}
+          placeholder="Be Part of the Movement..."
+          className="w-full rounded-lg border border-line bg-white p-3 text-sm focus:border-ink focus:outline-none"
+        />
       </div>
       <Button type="submit" disabled={pending}>{pending ? "Saving…" : "Update event"}</Button>
     </form>

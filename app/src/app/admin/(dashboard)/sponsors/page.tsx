@@ -29,6 +29,7 @@ export default async function AdminSponsorsPage() {
               aboutText: settings.aboutText,
               missionText: settings.missionText,
               visionText: settings.visionText,
+              sponsorshipPitch: settings.sponsorshipPitch,
               contactEmail: settings.contactEmail,
               contactPhone: settings.contactPhone,
               instagramUrl: settings.instagramUrl,

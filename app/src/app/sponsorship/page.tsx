@@ -23,6 +23,11 @@ export default async function SponsorshipPage() {
             <h1 className="font-display mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">
               Put your brand in front of {settings.capacity}+ students.
             </h1>
+            {settings.sponsorshipPitch && (
+              <p className="mt-5 max-w-2xl whitespace-pre-line text-sm leading-relaxed text-bodyfg">
+                {settings.sponsorshipPitch}
+              </p>
+            )}
           </div>
         </div>
 

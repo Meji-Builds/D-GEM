@@ -64,6 +64,7 @@ model EventSettings {
   aboutText          String             @default("")
   missionText        String             @default("")
   visionText         String             @default("")
+  sponsorshipPitch   String             @default("")
   movementPhotoUrl   String?
   contactEmail       String             @default("")
   contactPhone       String             @default("")

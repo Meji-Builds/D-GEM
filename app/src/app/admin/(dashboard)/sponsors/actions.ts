@@ -20,6 +20,7 @@ export async function updateEventSettings(_prev: FormState, formData: FormData):
   const aboutText = String(formData.get("aboutText") || "").trim();
   const missionText = String(formData.get("missionText") || "").trim();
   const visionText = String(formData.get("visionText") || "").trim();
+  const sponsorshipPitch = String(formData.get("sponsorshipPitch") || "").trim();
   const contactEmail = String(formData.get("contactEmail") || "").trim();
   const contactPhone = String(formData.get("contactPhone") || "").trim();
   const instagramUrl = String(formData.get("instagramUrl") || "").trim();
@@ -44,6 +45,7 @@ export async function updateEventSettings(_prev: FormState, formData: FormData):
       aboutText,
       missionText,
       visionText,
+      sponsorshipPitch,
       contactEmail,
       contactPhone,
       instagramUrl,
