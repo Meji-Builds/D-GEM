@@ -56,6 +56,20 @@ body {
   background-size: 16px 16px;
 }
 
+.badge-texture {
+  background-color: var(--color-ink);
+  background-image:
+    radial-gradient(circle at 12% -8%, rgba(201, 162, 39, 0.28), transparent 42%),
+    radial-gradient(circle at 105% 108%, rgba(201, 162, 39, 0.16), transparent 45%),
+    repeating-radial-gradient(circle at 0 0, transparent 0, transparent 17px, rgba(255, 255, 255, 0.035) 17px, rgba(255, 255, 255, 0.035) 18px);
+}
+
+.print-exact-colors {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  color-adjust: exact;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   @keyframes fade-in-up {
     from {
