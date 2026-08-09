@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { ticketQrDataUrl } from "@/lib/ticket";
-import { getEventSettings, formatEventDateLabel } from "@/lib/data";
+import { getEventSettings } from "@/lib/data";
 import { PublicNav } from "@/components/PublicNav";
 import { PublicFooter } from "@/components/PublicFooter";
 import { LinkButton } from "@/components/Button";
+import { AttendeeTicketCard } from "@/components/AttendeeTicketCard";
 import { ResendButton } from "./ResendButton";
 
 export default async function TicketPage({
@@ -33,50 +33,31 @@ export default async function TicketPage({
             {attendee.checkedIn ? `Welcome back, ${firstName}.` : `You're in, ${firstName}.`}
           </h1>
 
-          <div className="animate-scale-in mt-8 rounded-2xl border-2 border-ink bg-white p-6 shadow-md">
-            <div className="flex items-start justify-between">
-              <div>
-                <div className="text-[10px] font-bold uppercase tracking-widest text-mutefg">
-                  Attendee
-                </div>
-                <div className="mt-1 text-lg font-bold">{attendee.fullName}</div>
-              </div>
-              <span className="rounded-full border border-gold bg-gold px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider">
-                General
-              </span>
-            </div>
-
-            <div className="my-5 inline-block rounded-xl border-2 border-ink bg-white p-3">
-              <Image src={qrDataUrl} alt="Ticket QR code" width={200} height={200} unoptimized />
-            </div>
-
-            <p className="text-xs leading-relaxed text-bodyfg">
-              Ticket ID · {attendee.ticketId}
-              <br />
-              {formatEventDateLabel(settings.eventDate)} · {settings.venue}
-            </p>
-
-            {attendee.checkedIn && attendee.checkedInAt && (
-              <p className="mt-3 text-xs text-mutefg">
-                Checked in {new Date(attendee.checkedInAt).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}
-                {attendee.checkedInGate ? ` · ${attendee.checkedInGate}` : ""}
-              </p>
-            )}
-
-            <div className="mt-5 flex flex-wrap gap-3">
-              <ResendButton ticketId={attendee.ticketId} />
-              <LinkButton href={`/api/calendar/${attendee.ticketId}`} variant="outline">
-                Add to calendar
-              </LinkButton>
-              <LinkButton href={`/ticket/${attendee.ticketId}/print`} variant="outline">
-                Download ticket
-              </LinkButton>
-            </div>
-          </div>
-
-          <p className="mt-4 text-xs text-mutefg">
-            Present this QR at the gate to be scanned. Screenshot works offline.
-          </p>
+          <AttendeeTicketCard
+            attendee={{
+              fullName: attendee.fullName,
+              ticketId: attendee.ticketId,
+              school: attendee.school,
+              level: attendee.level,
+              department: attendee.department,
+            }}
+            settings={{ eventDate: settings.eventDate, venue: settings.venue }}
+            qrDataUrl={qrDataUrl}
+            checkedInInfo={{ checkedInAt: attendee.checkedInAt, gate: attendee.checkedInGate }}
+            footerNote="Present this QR at the gate to be scanned. Screenshot works offline."
+            className="animate-scale-in mt-8"
+            actions={
+              <>
+                <ResendButton ticketId={attendee.ticketId} tone="onDark" />
+                <LinkButton href={`/api/calendar/${attendee.ticketId}`} variant="outline" tone="onDark">
+                  Add to calendar
+                </LinkButton>
+                <LinkButton href={`/ticket/${attendee.ticketId}/print`} variant="outline" tone="onDark">
+                  Download ticket
+                </LinkButton>
+              </>
+            }
+          />
         </div>
       </main>
       <PublicFooter contactEmail={settings.contactEmail} contactPhone={settings.contactPhone} />

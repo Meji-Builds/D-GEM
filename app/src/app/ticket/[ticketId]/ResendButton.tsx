@@ -5,7 +5,7 @@ import { resendTicketEmail } from "./actions";
 import { Button } from "@/components/Button";
 import { CheckIcon } from "@/components/Icon";
 
-export function ResendButton({ ticketId }: { ticketId: string }) {
+export function ResendButton({ ticketId, tone = "onLight" }: { ticketId: string; tone?: "onLight" | "onDark" }) {
   const [pending, start] = useTransition();
   const [sent, setSent] = useState(false);
 
@@ -13,6 +13,7 @@ export function ResendButton({ ticketId }: { ticketId: string }) {
     <Button
       type="button"
       variant={sent ? "outline" : "solid"}
+      tone={tone}
       disabled={pending}
       onClick={() =>
         start(async () => {

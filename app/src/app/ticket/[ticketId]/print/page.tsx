@@ -1,9 +1,8 @@
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { ticketQrDataUrl } from "@/lib/ticket";
-import { getEventSettings, formatEventDateLabel } from "@/lib/data";
-import { Logo } from "@/components/Logo";
+import { getEventSettings } from "@/lib/data";
+import { AttendeeTicketCard } from "@/components/AttendeeTicketCard";
 
 export default async function PrintTicketPage({
   params,
@@ -17,28 +16,22 @@ export default async function PrintTicketPage({
   const qrDataUrl = await ticketQrDataUrl(attendee.ticketId);
 
   return (
-    <div className="mx-auto max-w-md rounded-2xl border-2 border-ink p-8 shadow-md print:rounded-none print:border-0 print:shadow-none">
-      <Logo size="md" />
-      <h1 className="font-display mt-6 text-xl font-extrabold">{settings.name}</h1>
-      <p className="mt-1 text-xs text-bodyfg">
-        {formatEventDateLabel(settings.eventDate)} · {settings.venue}
-      </p>
-      <div className="mt-6 border-t-2 border-ink pt-6">
-        <div className="text-[10px] font-bold uppercase tracking-widest text-mutefg">Attendee</div>
-        <div className="mt-1 text-lg font-bold">{attendee.fullName}</div>
-        <div className="my-5 inline-block rounded-xl border-2 border-ink bg-white p-3 print:rounded-none">
-          <Image src={qrDataUrl} alt="Ticket QR code" width={220} height={220} unoptimized />
-        </div>
-        <p className="text-xs leading-relaxed text-bodyfg">
-          Ticket ID · {attendee.ticketId}
-          <br />
-          {attendee.school} · {attendee.level} · {attendee.department}
-          <br />
-          General admission
-        </p>
-      </div>
-      <p className="mt-6 text-[10px] text-mutefg print:hidden">
-        Use your browser&apos;s Print → Save as PDF to download this ticket.
+    <div className="flex min-h-full items-center justify-center bg-mist px-5 py-16 print:bg-white print:py-0">
+      <AttendeeTicketCard
+        attendee={{
+          fullName: attendee.fullName,
+          ticketId: attendee.ticketId,
+          school: attendee.school,
+          level: attendee.level,
+          department: attendee.department,
+        }}
+        settings={{ eventDate: settings.eventDate, venue: settings.venue }}
+        qrDataUrl={qrDataUrl}
+        footerNote="Present this QR at the gate to be scanned."
+        className="max-w-md"
+      />
+      <p className="fixed bottom-4 left-0 right-0 text-center text-[10px] text-mutefg print:hidden">
+        Use your browser&apos;s Print → Save as PDF (with &quot;Background graphics&quot; turned on) to download this ticket.
       </p>
     </div>
   );
