@@ -67,13 +67,14 @@ export async function updateConvener(_prev: FormState, formData: FormData): Prom
   const note = String(formData.get("note") || "").trim();
   const whatsappNumber = String(formData.get("whatsappNumber") || "").replace(/[^\d]/g, "");
   const whatsappMessage = String(formData.get("whatsappMessage") || "").trim();
+  const whatsappLabel = String(formData.get("whatsappLabel") || "").trim();
   const photo = formData.get("photo") as File | null;
   const photoUrl = await saveUploadedFile(photo, "convener");
 
   await prisma.convener.upsert({
     where: { id: "convener" },
-    update: { name, title, note, whatsappNumber, whatsappMessage, ...(photoUrl ? { photoUrl } : {}) },
-    create: { id: "convener", name, title, note, whatsappNumber, whatsappMessage, photoUrl: photoUrl ?? undefined },
+    update: { name, title, note, whatsappNumber, whatsappMessage, whatsappLabel, ...(photoUrl ? { photoUrl } : {}) },
+    create: { id: "convener", name, title, note, whatsappNumber, whatsappMessage, whatsappLabel, photoUrl: photoUrl ?? undefined },
   });
 
   revalidatePath("/", "layout");

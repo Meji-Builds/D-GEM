@@ -53,6 +53,7 @@ export default async function AdminSponsorsPage() {
               photoUrl: convener.photoUrl,
               whatsappNumber: convener.whatsappNumber,
               whatsappMessage: convener.whatsappMessage,
+              whatsappLabel: convener.whatsappLabel,
             }}
           />
         </div>

@@ -17,6 +17,7 @@ export function ConvenerForm({
     photoUrl: string | null;
     whatsappNumber: string;
     whatsappMessage: string;
+    whatsappLabel: string;
   };
 }) {
   const [state, formAction, pending] = useActionState<FormState, FormData>(updateConvener, {});
@@ -67,9 +68,20 @@ export function ConvenerForm({
               className={fieldClass}
             />
           </div>
+          <div>
+            <label className="mb-1 block text-[9px] font-bold uppercase text-mutefg">
+              Button text
+            </label>
+            <input
+              name="whatsappLabel"
+              defaultValue={initial.whatsappLabel}
+              placeholder="SVG"
+              className={fieldClass}
+            />
+          </div>
         </div>
         <p className="text-[10px] text-mutefg">
-          When set, a &quot;Connect with {initial.title || initial.name.split(" ")[0] || "the host"}&quot; button appears under the welcome note on the homepage, opening WhatsApp with this message ready to send. Uses the Title above if set, otherwise the first name.
+          When a WhatsApp number is set, a &quot;Connect with {initial.whatsappLabel || "___"}&quot; button appears under the welcome note on the homepage, opening WhatsApp with the message above ready to send.
         </p>
         <Button type="submit" disabled={pending}>{pending ? "Saving…" : "Save convener"}</Button>
       </div>

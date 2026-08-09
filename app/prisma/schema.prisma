@@ -102,6 +102,7 @@ model Convener {
   note             String   @default("")
   whatsappNumber   String   @default("")
   whatsappMessage  String   @default("")
+  whatsappLabel    String   @default("")
   updatedAt        DateTime @updatedAt
 }
 
