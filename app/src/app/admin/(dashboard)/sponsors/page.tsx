@@ -26,6 +26,7 @@ export default async function AdminSponsorsPage() {
               venue: settings.venue,
               capacity: settings.capacity,
               registrationState: settings.registrationState,
+              heroText: settings.heroText,
               aboutText: settings.aboutText,
               missionText: settings.missionText,
               visionText: settings.visionText,

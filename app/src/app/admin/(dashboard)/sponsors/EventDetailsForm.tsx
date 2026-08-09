@@ -17,6 +17,7 @@ type Initial = {
   venue: string;
   capacity: number;
   registrationState: string;
+  heroText: string;
   aboutText: string;
   missionText: string;
   visionText: string;
@@ -122,8 +123,15 @@ export function EventDetailsForm({ initial }: { initial: Initial }) {
         </div>
       </div>
       <div>
-        <label className={labelClass} htmlFor="aboutText">About the movement</label>
-        <textarea id="aboutText" name="aboutText" rows={3} defaultValue={initial.aboutText} className="w-full rounded-lg border border-line bg-white p-3 text-sm focus:border-ink focus:outline-none" />
+        <label className={labelClass} htmlFor="heroText">Hero intro (short, top of the homepage)</label>
+        <p className="mb-2 text-[10px] text-mutefg">
+          Shown right under the Theme banner at the very top. Keep this different from the About text below — they display on the same page.
+        </p>
+        <textarea id="heroText" name="heroText" rows={3} defaultValue={initial.heroText} className="w-full rounded-lg border border-line bg-white p-3 text-sm focus:border-ink focus:outline-none" />
+      </div>
+      <div>
+        <label className={labelClass} htmlFor="aboutText">About the movement (longer, About section with photo)</label>
+        <textarea id="aboutText" name="aboutText" rows={4} defaultValue={initial.aboutText} className="w-full rounded-lg border border-line bg-white p-3 text-sm focus:border-ink focus:outline-none" />
       </div>
       <div>
         <label className={labelClass} htmlFor="movementPhoto">Movement photo (shown in the About section)</label>

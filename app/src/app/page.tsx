@@ -51,9 +51,11 @@ export default async function LandingPage() {
                 <p className="mt-1 text-lg font-extrabold leading-snug sm:text-xl">{settings.tagline}</p>
               </div>
             )}
-            <p className="mt-5 max-w-xl text-sm leading-relaxed text-bodyfg sm:text-base">
-              {settings.aboutText}
-            </p>
+            {settings.heroText && (
+              <p className="mt-5 max-w-xl text-sm leading-relaxed text-bodyfg sm:text-base">
+                {settings.heroText}
+              </p>
+            )}
             <div className="mt-7 flex flex-wrap items-center gap-3">
               <LinkButton href="/register">Register free</LinkButton>
               <LinkButton href="/volunteer" variant="outline">Become a volunteer</LinkButton>

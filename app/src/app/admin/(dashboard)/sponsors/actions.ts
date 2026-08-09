@@ -17,6 +17,7 @@ export async function updateEventSettings(_prev: FormState, formData: FormData):
   const venue = String(formData.get("venue") || "").trim();
   const capacity = Number(formData.get("capacity") || 500);
   const registrationState = String(formData.get("registrationState") || "OPEN") as RegistrationState;
+  const heroText = String(formData.get("heroText") || "").trim();
   const aboutText = String(formData.get("aboutText") || "").trim();
   const missionText = String(formData.get("missionText") || "").trim();
   const visionText = String(formData.get("visionText") || "").trim();
@@ -42,6 +43,7 @@ export async function updateEventSettings(_prev: FormState, formData: FormData):
       venue,
       capacity,
       registrationState,
+      heroText,
       aboutText,
       missionText,
       visionText,

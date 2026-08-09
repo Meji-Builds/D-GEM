@@ -61,6 +61,7 @@ model EventSettings {
   venue              String             @default("Olabisi Onabanjo University")
   capacity           Int                @default(500)
   registrationState  RegistrationState  @default(OPEN)
+  heroText           String             @default("")
   aboutText          String             @default("")
   missionText        String             @default("")
   visionText         String             @default("")
