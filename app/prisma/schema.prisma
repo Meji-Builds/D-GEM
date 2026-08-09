@@ -66,6 +66,9 @@ model EventSettings {
   missionText        String             @default("")
   visionText         String             @default("")
   sponsorshipPitch   String             @default("")
+  goldPerks          String             @default("Logo on stage\nSpeaking slot\nBooth\nFull media pack")
+  silverPerks        String             @default("Logo on site\nBooth\nMedia mentions")
+  bronzePerks        String             @default("Logo on site\nProgramme listing")
   movementPhotoUrl   String?
   contactEmail       String             @default("")
   contactPhone       String             @default("")

@@ -175,7 +175,7 @@ export default async function LandingPage() {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    Connect with {convener.name ? convener.name.split(" ")[0] : "the host"}
+                    Connect with {convener.title || (convener.name ? convener.name.split(" ")[0] : "the host")}
                   </LinkButton>
                 </div>
               )}

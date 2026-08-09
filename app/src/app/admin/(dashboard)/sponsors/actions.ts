@@ -80,6 +80,22 @@ export async function updateConvener(_prev: FormState, formData: FormData): Prom
   return { ok: true };
 }
 
+export async function updateTierPerks(_prev: FormState, formData: FormData): Promise<FormState> {
+  const goldPerks = String(formData.get("goldPerks") || "").trim();
+  const silverPerks = String(formData.get("silverPerks") || "").trim();
+  const bronzePerks = String(formData.get("bronzePerks") || "").trim();
+
+  await prisma.eventSettings.upsert({
+    where: { id: "event" },
+    update: { goldPerks, silverPerks, bronzePerks },
+    create: { id: "event", goldPerks, silverPerks, bronzePerks },
+  });
+
+  revalidatePath("/admin/sponsors");
+  revalidatePath("/", "layout");
+  return { ok: true };
+}
+
 export async function saveSponsor(_prev: FormState, formData: FormData): Promise<FormState> {
   const id = String(formData.get("id") || "").trim();
   const name = String(formData.get("name") || "").trim();

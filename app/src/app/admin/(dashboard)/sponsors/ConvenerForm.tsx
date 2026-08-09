@@ -69,7 +69,7 @@ export function ConvenerForm({
           </div>
         </div>
         <p className="text-[10px] text-mutefg">
-          When set, a &quot;Connect with {initial.name.split(" ")[0] || "the host"}&quot; button appears under the welcome note on the homepage, opening WhatsApp with this message ready to send.
+          When set, a &quot;Connect with {initial.title || initial.name.split(" ")[0] || "the host"}&quot; button appears under the welcome note on the homepage, opening WhatsApp with this message ready to send. Uses the Title above if set, otherwise the first name.
         </p>
         <Button type="submit" disabled={pending}>{pending ? "Saving…" : "Save convener"}</Button>
       </div>

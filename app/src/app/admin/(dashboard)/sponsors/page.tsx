@@ -2,6 +2,7 @@ import { getEventSettings, getConvener } from "@/lib/data";
 import { prisma } from "@/lib/prisma";
 import { EventDetailsForm } from "./EventDetailsForm";
 import { ConvenerForm } from "./ConvenerForm";
+import { TierPerksForm } from "./TierPerksForm";
 import { SponsorsSection } from "./SponsorsSection";
 
 export default async function AdminSponsorsPage() {
@@ -52,6 +53,20 @@ export default async function AdminSponsorsPage() {
               photoUrl: convener.photoUrl,
               whatsappNumber: convener.whatsappNumber,
               whatsappMessage: convener.whatsappMessage,
+            }}
+          />
+        </div>
+      </div>
+
+      <div>
+        <h2 className="font-display border-b-2 border-ink pb-3 text-lg font-extrabold">Sponsorship tier benefits</h2>
+        <p className="mt-2 text-xs text-mutefg">What each tier gets — shown on the public Sponsorship page.</p>
+        <div className="mt-4">
+          <TierPerksForm
+            initial={{
+              goldPerks: settings.goldPerks,
+              silverPerks: settings.silverPerks,
+              bronzePerks: settings.bronzePerks,
             }}
           />
         </div>
