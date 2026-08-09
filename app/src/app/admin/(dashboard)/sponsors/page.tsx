@@ -42,7 +42,16 @@ export default async function AdminSponsorsPage() {
       <div>
         <h2 className="font-display border-b-2 border-ink pb-3 text-lg font-extrabold">Convener</h2>
         <div className="mt-4">
-          <ConvenerForm initial={{ name: convener.name, title: convener.title, note: convener.note, photoUrl: convener.photoUrl }} />
+          <ConvenerForm
+            initial={{
+              name: convener.name,
+              title: convener.title,
+              note: convener.note,
+              photoUrl: convener.photoUrl,
+              whatsappNumber: convener.whatsappNumber,
+              whatsappMessage: convener.whatsappMessage,
+            }}
+          />
         </div>
       </div>
 

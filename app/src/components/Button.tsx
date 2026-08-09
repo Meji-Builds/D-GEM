@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { ButtonHTMLAttributes } from "react";
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes } from "react";
 import { ArrowRightIcon } from "./Icon";
 
 type CommonProps = {
@@ -40,10 +40,12 @@ export function LinkButton({
   square,
   className = "",
   children,
-}: CommonProps & { href: string }) {
+  ...rest
+}: CommonProps & { href: string } & AnchorHTMLAttributes<HTMLAnchorElement>) {
   return (
     <Link
       href={href}
+      {...rest}
       className={`${base} ${square ? "rounded-none" : "rounded-full"} ${styles(variant, tone)} ${full ? "w-full" : ""} ${className}`}
     >
       {children}

@@ -10,7 +10,14 @@ const fieldClass = "h-10 w-full rounded-lg border border-line bg-white px-3 text
 export function ConvenerForm({
   initial,
 }: {
-  initial: { name: string; title: string; note: string; photoUrl: string | null };
+  initial: {
+    name: string;
+    title: string;
+    note: string;
+    photoUrl: string | null;
+    whatsappNumber: string;
+    whatsappMessage: string;
+  };
 }) {
   const [state, formAction, pending] = useActionState<FormState, FormData>(updateConvener, {});
   const [preview, setPreview] = useState<string | null>(null);
@@ -37,6 +44,33 @@ export function ConvenerForm({
         <input name="name" defaultValue={initial.name} placeholder="Name" className={fieldClass} />
         <input name="title" defaultValue={initial.title} placeholder="Title" className={fieldClass} />
         <textarea name="note" defaultValue={initial.note} rows={2} placeholder="Welcome note" className="w-full rounded-lg border border-line bg-white p-3 text-sm focus:border-ink focus:outline-none" />
+        <div className="grid gap-2 border-t border-hair pt-2 sm:grid-cols-2">
+          <div>
+            <label className="mb-1 block text-[9px] font-bold uppercase text-mutefg">
+              WhatsApp number (with country code, digits only)
+            </label>
+            <input
+              name="whatsappNumber"
+              defaultValue={initial.whatsappNumber}
+              placeholder="2348012345678"
+              className={fieldClass}
+            />
+          </div>
+          <div>
+            <label className="mb-1 block text-[9px] font-bold uppercase text-mutefg">
+              Pre-filled message
+            </label>
+            <input
+              name="whatsappMessage"
+              defaultValue={initial.whatsappMessage}
+              placeholder="Hi! I have a question about D-GEM..."
+              className={fieldClass}
+            />
+          </div>
+        </div>
+        <p className="text-[10px] text-mutefg">
+          When set, a &quot;Connect with {initial.name.split(" ")[0] || "the host"}&quot; button appears under the welcome note on the homepage, opening WhatsApp with this message ready to send.
+        </p>
         <Button type="submit" disabled={pending}>{pending ? "Saving…" : "Save convener"}</Button>
       </div>
     </form>

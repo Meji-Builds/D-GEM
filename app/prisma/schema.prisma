@@ -90,12 +90,14 @@ model Speaker {
 }
 
 model Convener {
-  id        String   @id @default("convener")
-  name      String   @default("")
-  title     String   @default("")
-  photoUrl  String?
-  note      String   @default("")
-  updatedAt DateTime @updatedAt
+  id               String   @id @default("convener")
+  name             String   @default("")
+  title            String   @default("")
+  photoUrl         String?
+  note             String   @default("")
+  whatsappNumber   String   @default("")
+  whatsappMessage  String   @default("")
+  updatedAt        DateTime @updatedAt
 }
 
 model Sponsor {

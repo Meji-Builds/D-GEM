@@ -166,6 +166,17 @@ export default async function LandingPage() {
               <p className="mt-2 text-sm leading-relaxed text-bodyfg">
                 {convener.note || "Welcome note from the convener."}
               </p>
+              {convener.whatsappNumber && (
+                <div className="mt-4">
+                  <LinkButton
+                    href={`https://wa.me/${convener.whatsappNumber}${convener.whatsappMessage ? `?text=${encodeURIComponent(convener.whatsappMessage)}` : ""}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Connect with {convener.name ? convener.name.split(" ")[0] : "the host"}
+                  </LinkButton>
+                </div>
+              )}
             </div>
           </Reveal>
         </section>
