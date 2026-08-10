@@ -45,18 +45,38 @@ export default async function FaqPage() {
                 )}
               </p>
             </div>
-            {settings.mapUrl ? (
-              <a
-                href={settings.mapUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="flex h-32 items-center justify-center rounded-lg border border-line bg-mist text-center text-[10px] font-bold uppercase tracking-wider text-ink transition-colors hover:border-ink hover:bg-ink hover:text-white"
-              >
-                View campus map
-              </a>
-            ) : (
-              <PhotoOrPlaceholder src={null} alt="Campus map" label="Campus map" className="h-32" />
-            )}
+            <div>
+              {settings.mapEmbedUrl ? (
+                <iframe
+                  src={settings.mapEmbedUrl}
+                  title="Campus map"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="h-40 w-full rounded-lg border border-line"
+                />
+              ) : settings.mapUrl ? (
+                <a
+                  href={settings.mapUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex h-40 items-center justify-center rounded-lg border border-line bg-mist text-center text-[10px] font-bold uppercase tracking-wider text-ink transition-colors hover:border-ink hover:bg-ink hover:text-white"
+                >
+                  View campus map
+                </a>
+              ) : (
+                <PhotoOrPlaceholder src={null} alt="Campus map" label="Campus map" className="h-40" />
+              )}
+              {settings.mapEmbedUrl && settings.mapUrl && (
+                <a
+                  href={settings.mapUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-2 inline-block text-[10px] font-bold uppercase tracking-widest text-mutefg hover:text-gold"
+                >
+                  Open in Google Maps →
+                </a>
+              )}
+            </div>
           </div>
 
           <div className="mt-12 rounded-2xl border-t-2 border-ink bg-mist p-6 shadow-sm">

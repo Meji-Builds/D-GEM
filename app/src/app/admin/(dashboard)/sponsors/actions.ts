@@ -29,6 +29,7 @@ export async function updateEventSettings(_prev: FormState, formData: FormData):
   const tiktokUrl = String(formData.get("tiktokUrl") || "").trim();
   const communityUrl = String(formData.get("communityUrl") || "").trim();
   const mapUrl = String(formData.get("mapUrl") || "").trim();
+  const mapEmbedUrl = String(formData.get("mapEmbedUrl") || "").trim();
   const movementPhoto = formData.get("movementPhoto") as File | null;
   const movementPhotoUrl = await saveUploadedFile(movementPhoto, "movement");
 
@@ -58,6 +59,7 @@ export async function updateEventSettings(_prev: FormState, formData: FormData):
       tiktokUrl,
       communityUrl,
       mapUrl,
+      mapEmbedUrl,
       ...(movementPhotoUrl ? { movementPhotoUrl } : {}),
     },
     create: { id: "event", name, tagline, venue, movementPhotoUrl: movementPhotoUrl ?? undefined },

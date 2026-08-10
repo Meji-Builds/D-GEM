@@ -29,6 +29,7 @@ type Initial = {
   tiktokUrl: string;
   communityUrl: string;
   mapUrl: string;
+  mapEmbedUrl: string;
   movementPhotoUrl: string | null;
 };
 
@@ -131,9 +132,18 @@ export function EventDetailsForm({ initial }: { initial: Initial }) {
         <div>
           <label className={labelClass} htmlFor="mapUrl">Campus map link</label>
           <p className="mb-1.5 text-[10px] text-mutefg">
-            Google Maps link — shown as &quot;View campus map&quot; on the FAQ/Contact page.
+            Google Maps link — the &quot;Open in Google Maps&quot; button under the map preview uses this.
           </p>
           <input id="mapUrl" name="mapUrl" defaultValue={initial.mapUrl} placeholder="https://maps.google.com/..." className={fieldClass} />
+        </div>
+        <div className="sm:col-span-2">
+          <label className={labelClass} htmlFor="mapEmbedUrl">Campus map embed (for the preview on the FAQ page)</label>
+          <p className="mb-2 text-[10px] text-mutefg">
+            On Google Maps: search the venue → Share → Embed a map → Copy HTML, then paste just the
+            <code className="mx-1 rounded bg-mist px-1">src=&quot;...&quot;</code>
+            URL from inside that code here. Without this, only the click-through link above is shown.
+          </p>
+          <input id="mapEmbedUrl" name="mapEmbedUrl" defaultValue={initial.mapEmbedUrl} placeholder="https://www.google.com/maps/embed?pb=..." className={fieldClass} />
         </div>
         <div className="sm:col-span-2">
           <label className={labelClass} htmlFor="communityUrl">WhatsApp community/group link</label>
