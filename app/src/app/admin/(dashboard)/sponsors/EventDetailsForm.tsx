@@ -17,6 +17,7 @@ type Initial = {
   venue: string;
   capacity: number;
   registrationState: string;
+  feedbackState: string;
   heroText: string;
   aboutText: string;
   missionText: string;
@@ -108,6 +109,16 @@ export function EventDetailsForm({ initial }: { initial: Initial }) {
             <option value="OPEN">Open</option>
             <option value="CLOSED">Closed</option>
           </select>
+        </div>
+        <div>
+          <label className={labelClass} htmlFor="feedbackState">Post-event feedback form</label>
+          <select id="feedbackState" name="feedbackState" defaultValue={initial.feedbackState} className={fieldClass}>
+            <option value="CLOSED">Closed</option>
+            <option value="OPEN">Open</option>
+          </select>
+          <p className="mt-1 text-[10px] text-mutefg">
+            Turn this on once the event is over — the form appears on the FAQ page. Approve submissions under Feedback to show them as testimonials.
+          </p>
         </div>
         <div>
           <label className={labelClass} htmlFor="contactEmail">Contact email</label>

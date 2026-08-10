@@ -56,8 +56,10 @@ export function PublicFooter({
             <br />
             <a className="hover:text-white" href="/sponsorship">Sponsorship</a> ·{" "}
             <a className="hover:text-white" href="/faq">FAQ</a> ·{" "}
-            <a className="hover:text-white" href="/faq#contact">Contact</a> ·{" "}
-            <a className="hover:text-white" href="/my-ticket">My ticket</a>
+            <a className="hover:text-white" href="/faq#contact">Contact</a>
+            <br />
+            <a className="hover:text-white" href="/my-ticket">My ticket</a> ·{" "}
+            <a className="hover:text-white" href="/testimonials">Testimonials</a>
           </p>
         </div>
         <div>

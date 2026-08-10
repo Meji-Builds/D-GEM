@@ -11,18 +11,20 @@ import {
   getConvener,
   getSponsorsByTier,
   getAgenda,
+  getApprovedTestimonials,
   formatEventDateLabel,
 } from "@/lib/data";
 import { prisma } from "@/lib/prisma";
 
 export default async function LandingPage() {
-  const [settings, speakers, convener, sponsors, agenda, registeredCount] = await Promise.all([
+  const [settings, speakers, convener, sponsors, agenda, registeredCount, testimonials] = await Promise.all([
     getEventSettings(),
     getLiveSpeakers(),
     getConvener(),
     getSponsorsByTier(),
     getAgenda(),
     prisma.attendee.count(),
+    getApprovedTestimonials(6),
   ]);
 
   const seatsLabel = `${settings.capacity}+ students`;
@@ -261,6 +263,36 @@ export default async function LandingPage() {
             </div>
           </Reveal>
         </section>
+
+        {/* Testimonials */}
+        {testimonials.length > 0 && (
+          <section className="border-b-2 border-ink px-5 py-12 sm:px-8">
+            <Reveal className="mx-auto max-w-4xl">
+              <div className="flex flex-wrap items-end justify-between gap-3">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">
+                  From past attendees
+                </p>
+                <LinkButton href="/testimonials" variant="outline">See all feedback</LinkButton>
+              </div>
+              <div className="mt-6 grid gap-5 sm:grid-cols-2">
+                {testimonials.map((t) => (
+                  <div key={t.id} className="rounded-xl border border-line p-5">
+                    <span className="text-xs tracking-wider text-gold" aria-label={`${t.rating} out of 5 stars`}>
+                      {"★".repeat(t.rating)}
+                      <span className="text-line">{"★".repeat(5 - t.rating)}</span>
+                    </span>
+                    <p className="mt-2 text-sm leading-relaxed text-bodyfg">&ldquo;{t.testimonial}&rdquo;</p>
+                    {(t.name || t.role) && (
+                      <p className="mt-3 text-[10px] font-bold uppercase tracking-widest text-mutefg">
+                        {t.name || "Anonymous"}{t.name && t.role ? " · " : ""}{t.role}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+          </section>
+        )}
 
         {/* CTA */}
         <section className="border-b-2 border-ink bg-gold px-5 py-12 sm:px-8">

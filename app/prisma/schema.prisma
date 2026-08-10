@@ -34,6 +34,12 @@ enum VolunteerStatus {
   REJECTED
 }
 
+enum FeedbackStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 enum EnquiryStatus {
   NEW
   CONTACTED
@@ -78,6 +84,7 @@ model EventSettings {
   communityUrl       String             @default("")
   mapUrl             String             @default("")
   mapEmbedUrl        String             @default("")
+  feedbackState      RegistrationState  @default(CLOSED)
   updatedAt          DateTime           @updatedAt
 }
 
@@ -207,9 +214,13 @@ model FaqItem {
 }
 
 model FeedbackResponse {
-  id            String   @id @default(cuid())
+  id            String         @id @default(cuid())
   rating        Int
-  bestSession   String   @default("")
-  improvement   String   @default("")
-  createdAt     DateTime @default(now())
+  name          String         @default("")
+  role          String         @default("")
+  testimonial   String         @default("")
+  bestSession   String         @default("")
+  improvement   String         @default("")
+  status        FeedbackStatus @default(PENDING)
+  createdAt     DateTime       @default(now())
 }

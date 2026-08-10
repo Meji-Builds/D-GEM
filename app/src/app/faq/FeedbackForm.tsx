@@ -34,6 +34,29 @@ export function FeedbackForm() {
         ))}
       </div>
       <input type="hidden" name="rating" value={rating} />
+      <div className="mt-3 grid gap-3 sm:grid-cols-2">
+        <div>
+          <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-mutefg" htmlFor="name">
+            Name (optional)
+          </label>
+          <input id="name" name="name" className="h-11 w-full rounded-lg border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none" placeholder="Leave blank to stay anonymous" />
+        </div>
+        <div>
+          <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-mutefg" htmlFor="role">
+            School / role (optional)
+          </label>
+          <input id="role" name="role" className="h-11 w-full rounded-lg border border-line bg-white px-3 text-sm focus:border-ink focus:outline-none" placeholder="e.g. 300L, Physics, OOU" />
+        </div>
+      </div>
+      <div className="mt-3">
+        <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-mutefg" htmlFor="testimonial">
+          Sum up your experience
+        </label>
+        <p className="mb-1.5 text-[10px] text-mutefg">
+          May be shown publicly as a testimonial if the team picks it — leave blank to keep your feedback private.
+        </p>
+        <textarea id="testimonial" name="testimonial" rows={2} className="w-full rounded-lg border border-line bg-white p-3 text-sm focus:border-ink focus:outline-none" placeholder="D-GEM gave me..." />
+      </div>
       <div className="mt-3">
         <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-mutefg" htmlFor="bestSession">
           Best session

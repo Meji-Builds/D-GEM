@@ -7,7 +7,7 @@ import { FeedbackForm } from "./FeedbackForm";
 
 export default async function FaqPage() {
   const [settings, faqs] = await Promise.all([getEventSettings(), getFaqs()]);
-  const eventPassed = settings.eventDate ? settings.eventDate.getTime() < Date.now() : false;
+  const feedbackOpen = settings.feedbackState === "OPEN";
   const socialLinks = [
     settings.instagramUrl && { href: settings.instagramUrl, label: "Instagram" },
     settings.twitterUrl && { href: settings.twitterUrl, label: "X" },
@@ -81,11 +81,11 @@ export default async function FaqPage() {
 
           <div className="mt-12 rounded-2xl border-t-2 border-ink bg-mist p-6 shadow-sm">
             <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">
-              Post-event feedback {!eventPassed && "(opens after the event)"}
+              Post-event feedback {!feedbackOpen && "(not open yet)"}
             </p>
             <div className="mt-2 text-base font-bold">How was {settings.name}?</div>
             <div className="mt-4">
-              {eventPassed ? (
+              {feedbackOpen ? (
                 <FeedbackForm />
               ) : (
                 <p className="text-sm text-mutefg">

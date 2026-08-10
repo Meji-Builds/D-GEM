@@ -51,3 +51,11 @@ export async function getAgenda() {
 export async function getFaqs() {
   return prisma.faqItem.findMany({ orderBy: { order: "asc" } });
 }
+
+export async function getApprovedTestimonials(limit?: number) {
+  return prisma.feedbackResponse.findMany({
+    where: { status: "APPROVED", testimonial: { not: "" } },
+    orderBy: { createdAt: "desc" },
+    take: limit,
+  });
+}

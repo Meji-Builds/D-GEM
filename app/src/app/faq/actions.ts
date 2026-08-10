@@ -9,6 +9,9 @@ export async function submitFeedback(
   formData: FormData
 ): Promise<FeedbackState> {
   const rating = Number(formData.get("rating") || 0);
+  const name = String(formData.get("name") || "").trim();
+  const role = String(formData.get("role") || "").trim();
+  const testimonial = String(formData.get("testimonial") || "").trim();
   const bestSession = String(formData.get("bestSession") || "").trim();
   const improvement = String(formData.get("improvement") || "").trim();
 
@@ -16,6 +19,8 @@ export async function submitFeedback(
     return { error: "Please choose a rating from 1 to 5." };
   }
 
-  await prisma.feedbackResponse.create({ data: { rating, bestSession, improvement } });
+  await prisma.feedbackResponse.create({
+    data: { rating, name, role, testimonial, bestSession, improvement },
+  });
   return { ok: true };
 }
