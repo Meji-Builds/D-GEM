@@ -7,7 +7,9 @@ import { FeedbackForm } from "./FeedbackForm";
 
 export default async function FaqPage() {
   const [settings, faqs] = await Promise.all([getEventSettings(), getFaqs()]);
-  const feedbackOpen = settings.feedbackState === "OPEN";
+  const eventPassed = settings.eventDate ? settings.eventDate.getTime() < Date.now() : false;
+  const feedbackOpen =
+    settings.feedbackState === "OPEN" || (settings.feedbackState === "AUTO" && eventPassed);
   const socialLinks = [
     settings.instagramUrl && { href: settings.instagramUrl, label: "Instagram" },
     settings.twitterUrl && { href: settings.twitterUrl, label: "X" },

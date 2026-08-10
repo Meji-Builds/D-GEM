@@ -40,6 +40,12 @@ enum FeedbackStatus {
   REJECTED
 }
 
+enum FeedbackVisibility {
+  AUTO
+  OPEN
+  CLOSED
+}
+
 enum EnquiryStatus {
   NEW
   CONTACTED
@@ -84,7 +90,7 @@ model EventSettings {
   communityUrl       String             @default("")
   mapUrl             String             @default("")
   mapEmbedUrl        String             @default("")
-  feedbackState      RegistrationState  @default(CLOSED)
+  feedbackState      FeedbackVisibility @default(AUTO)
   updatedAt          DateTime           @updatedAt
 }
 

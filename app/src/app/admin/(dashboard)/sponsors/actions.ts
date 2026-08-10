@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { saveUploadedFile } from "@/lib/upload";
-import type { SponsorTier, RegistrationState } from "@prisma/client";
+import type { SponsorTier, RegistrationState, FeedbackVisibility } from "@prisma/client";
 
 export type FormState = { error?: string; ok?: boolean };
 
@@ -17,7 +17,7 @@ export async function updateEventSettings(_prev: FormState, formData: FormData):
   const venue = String(formData.get("venue") || "").trim();
   const capacity = Number(formData.get("capacity") || 500);
   const registrationState = String(formData.get("registrationState") || "OPEN") as RegistrationState;
-  const feedbackState = String(formData.get("feedbackState") || "CLOSED") as RegistrationState;
+  const feedbackState = String(formData.get("feedbackState") || "AUTO") as FeedbackVisibility;
   const heroText = String(formData.get("heroText") || "").trim();
   const aboutText = String(formData.get("aboutText") || "").trim();
   const missionText = String(formData.get("missionText") || "").trim();

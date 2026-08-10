@@ -113,11 +113,12 @@ export function EventDetailsForm({ initial }: { initial: Initial }) {
         <div>
           <label className={labelClass} htmlFor="feedbackState">Post-event feedback form</label>
           <select id="feedbackState" name="feedbackState" defaultValue={initial.feedbackState} className={fieldClass}>
-            <option value="CLOSED">Closed</option>
-            <option value="OPEN">Open</option>
+            <option value="AUTO">Auto — opens after the event date</option>
+            <option value="OPEN">Force open</option>
+            <option value="CLOSED">Force closed</option>
           </select>
           <p className="mt-1 text-[10px] text-mutefg">
-            Turn this on once the event is over — the form appears on the FAQ page. Approve submissions under Feedback to show them as testimonials.
+            Auto shows the form on the FAQ page as soon as the event date above has passed — no need to flip anything yourself. Use Force open/closed only to override that. Approve submissions under Feedback to show them as testimonials.
           </p>
         </div>
         <div>
