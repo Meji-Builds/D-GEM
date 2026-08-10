@@ -8,6 +8,11 @@ import { FeedbackForm } from "./FeedbackForm";
 export default async function FaqPage() {
   const [settings, faqs] = await Promise.all([getEventSettings(), getFaqs()]);
   const eventPassed = settings.eventDate ? settings.eventDate.getTime() < Date.now() : false;
+  const socialLinks = [
+    settings.instagramUrl && { href: settings.instagramUrl, label: "Instagram" },
+    settings.twitterUrl && { href: settings.twitterUrl, label: "X" },
+    settings.tiktokUrl && { href: settings.tiktokUrl, label: "TikTok" },
+  ].filter((s): s is { href: string; label: string } => Boolean(s));
 
   return (
     <div className="flex min-h-full flex-col">
@@ -27,13 +32,31 @@ export default async function FaqPage() {
                 {settings.contactEmail}
                 <br />
                 {settings.contactPhone}
-                <br />
-                {settings.instagramUrl && <a href={settings.instagramUrl} className="hover:text-gold">Instagram</a>}
-                {settings.instagramUrl && settings.twitterUrl && " · "}
-                {settings.twitterUrl && <a href={settings.twitterUrl} className="hover:text-gold">X</a>}
+                {socialLinks.length > 0 && (
+                  <>
+                    <br />
+                    {socialLinks.map((s, i) => (
+                      <span key={s.label}>
+                        {i > 0 && " · "}
+                        <a href={s.href} target="_blank" rel="noreferrer" className="hover:text-gold">{s.label}</a>
+                      </span>
+                    ))}
+                  </>
+                )}
               </p>
             </div>
-            <PhotoOrPlaceholder src={null} alt="Campus map" label="Campus map" className="h-32" />
+            {settings.mapUrl ? (
+              <a
+                href={settings.mapUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="flex h-32 items-center justify-center rounded-lg border border-line bg-mist text-center text-[10px] font-bold uppercase tracking-wider text-ink transition-colors hover:border-ink hover:bg-ink hover:text-white"
+              >
+                View campus map
+              </a>
+            ) : (
+              <PhotoOrPlaceholder src={null} alt="Campus map" label="Campus map" className="h-32" />
+            )}
           </div>
 
           <div className="mt-12 rounded-2xl border-t-2 border-ink bg-mist p-6 shadow-sm">
@@ -53,7 +76,13 @@ export default async function FaqPage() {
           </div>
         </div>
       </main>
-      <PublicFooter contactEmail={settings.contactEmail} contactPhone={settings.contactPhone} />
+      <PublicFooter
+        contactEmail={settings.contactEmail}
+        contactPhone={settings.contactPhone}
+        instagramUrl={settings.instagramUrl}
+        twitterUrl={settings.twitterUrl}
+        tiktokUrl={settings.tiktokUrl}
+      />
     </div>
   );
 }

@@ -20,7 +20,13 @@ export default async function MyTicketPage() {
           <LookupForm />
         </div>
       </main>
-      <PublicFooter contactEmail={settings.contactEmail} contactPhone={settings.contactPhone} />
+      <PublicFooter
+        contactEmail={settings.contactEmail}
+        contactPhone={settings.contactPhone}
+        instagramUrl={settings.instagramUrl}
+        twitterUrl={settings.twitterUrl}
+        tiktokUrl={settings.tiktokUrl}
+      />
     </div>
   );
 }

@@ -26,7 +26,9 @@ export async function updateEventSettings(_prev: FormState, formData: FormData):
   const contactPhone = String(formData.get("contactPhone") || "").trim();
   const instagramUrl = String(formData.get("instagramUrl") || "").trim();
   const twitterUrl = String(formData.get("twitterUrl") || "").trim();
+  const tiktokUrl = String(formData.get("tiktokUrl") || "").trim();
   const communityUrl = String(formData.get("communityUrl") || "").trim();
+  const mapUrl = String(formData.get("mapUrl") || "").trim();
   const movementPhoto = formData.get("movementPhoto") as File | null;
   const movementPhotoUrl = await saveUploadedFile(movementPhoto, "movement");
 
@@ -53,7 +55,9 @@ export async function updateEventSettings(_prev: FormState, formData: FormData):
       contactPhone,
       instagramUrl,
       twitterUrl,
+      tiktokUrl,
       communityUrl,
+      mapUrl,
       ...(movementPhotoUrl ? { movementPhotoUrl } : {}),
     },
     create: { id: "event", name, tagline, venue, movementPhotoUrl: movementPhotoUrl ?? undefined },

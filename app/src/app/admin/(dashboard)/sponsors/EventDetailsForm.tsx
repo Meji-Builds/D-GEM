@@ -26,7 +26,9 @@ type Initial = {
   contactPhone: string;
   instagramUrl: string;
   twitterUrl: string;
+  tiktokUrl: string;
   communityUrl: string;
+  mapUrl: string;
   movementPhotoUrl: string | null;
 };
 
@@ -121,6 +123,17 @@ export function EventDetailsForm({ initial }: { initial: Initial }) {
         <div>
           <label className={labelClass} htmlFor="twitterUrl">X / Twitter URL</label>
           <input id="twitterUrl" name="twitterUrl" defaultValue={initial.twitterUrl} className={fieldClass} />
+        </div>
+        <div>
+          <label className={labelClass} htmlFor="tiktokUrl">TikTok URL</label>
+          <input id="tiktokUrl" name="tiktokUrl" defaultValue={initial.tiktokUrl} placeholder="https://tiktok.com/@dgemmovement" className={fieldClass} />
+        </div>
+        <div>
+          <label className={labelClass} htmlFor="mapUrl">Campus map link</label>
+          <p className="mb-1.5 text-[10px] text-mutefg">
+            Google Maps link — shown as &quot;View campus map&quot; on the FAQ/Contact page.
+          </p>
+          <input id="mapUrl" name="mapUrl" defaultValue={initial.mapUrl} placeholder="https://maps.google.com/..." className={fieldClass} />
         </div>
         <div className="sm:col-span-2">
           <label className={labelClass} htmlFor="communityUrl">WhatsApp community/group link</label>

@@ -4,6 +4,7 @@ import { Countdown } from "@/components/Countdown";
 import { LinkButton } from "@/components/Button";
 import { PhotoOrPlaceholder, accentForIndex } from "@/components/PhotoOrPlaceholder";
 import { Reveal } from "@/components/Reveal";
+import { InstagramIcon, XIcon, TikTokIcon } from "@/components/Icon";
 import {
   getEventSettings,
   getLiveSpeakers,
@@ -27,6 +28,11 @@ export default async function LandingPage() {
   const seatsLabel = `${settings.capacity}+ students`;
   const previewSpeakers = speakers.slice(0, 4);
   const previewAgenda = agenda.slice(0, 3);
+  const socials = [
+    settings.instagramUrl && { href: settings.instagramUrl, label: "Instagram", Icon: InstagramIcon },
+    settings.twitterUrl && { href: settings.twitterUrl, label: "X", Icon: XIcon },
+    settings.tiktokUrl && { href: settings.tiktokUrl, label: "TikTok", Icon: TikTokIcon },
+  ].filter((s): s is { href: string; label: string; Icon: typeof InstagramIcon } => Boolean(s));
 
   return (
     <div className="flex min-h-full flex-col">
@@ -93,6 +99,23 @@ export default async function LandingPage() {
                 About the movement
               </p>
               <p className="mt-3 text-sm leading-relaxed text-bodyfg">{settings.aboutText}</p>
+              {socials.length > 0 && (
+                <div className="mt-5 flex items-center gap-3">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-mutefg">Follow us</span>
+                  {socials.map(({ href, label, Icon }) => (
+                    <a
+                      key={label}
+                      href={href}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={label}
+                      className="flex h-8 w-8 items-center justify-center rounded-full border border-ink text-ink transition-colors hover:bg-ink hover:text-white"
+                    >
+                      <Icon className="h-4 w-4" />
+                    </a>
+                  ))}
+                </div>
+              )}
             </div>
             <PhotoOrPlaceholder
               src={settings.movementPhotoUrl}
@@ -256,7 +279,13 @@ export default async function LandingPage() {
           </Reveal>
         </section>
       </main>
-      <PublicFooter contactEmail={settings.contactEmail} contactPhone={settings.contactPhone} />
+      <PublicFooter
+        contactEmail={settings.contactEmail}
+        contactPhone={settings.contactPhone}
+        instagramUrl={settings.instagramUrl}
+        twitterUrl={settings.twitterUrl}
+        tiktokUrl={settings.tiktokUrl}
+      />
     </div>
   );
 }

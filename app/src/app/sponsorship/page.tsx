@@ -57,7 +57,13 @@ export default async function SponsorshipPage() {
           </div>
         </div>
       </main>
-      <PublicFooter contactEmail={settings.contactEmail} contactPhone={settings.contactPhone} />
+      <PublicFooter
+        contactEmail={settings.contactEmail}
+        contactPhone={settings.contactPhone}
+        instagramUrl={settings.instagramUrl}
+        twitterUrl={settings.twitterUrl}
+        tiktokUrl={settings.tiktokUrl}
+      />
     </div>
   );
 }

@@ -1,12 +1,25 @@
 import { Logo } from "./Logo";
+import { InstagramIcon, XIcon, TikTokIcon } from "./Icon";
 
 export function PublicFooter({
   contactEmail,
   contactPhone,
+  instagramUrl,
+  twitterUrl,
+  tiktokUrl,
 }: {
   contactEmail?: string;
   contactPhone?: string;
+  instagramUrl?: string;
+  twitterUrl?: string;
+  tiktokUrl?: string;
 }) {
+  const socials = [
+    instagramUrl && { href: instagramUrl, label: "Instagram", Icon: InstagramIcon },
+    twitterUrl && { href: twitterUrl, label: "X", Icon: XIcon },
+    tiktokUrl && { href: tiktokUrl, label: "TikTok", Icon: TikTokIcon },
+  ].filter((s): s is { href: string; label: string; Icon: typeof InstagramIcon } => Boolean(s));
+
   return (
     <footer className="bg-ink text-white">
       <div className="mx-auto grid max-w-6xl gap-8 px-5 py-10 sm:grid-cols-3">
@@ -15,6 +28,22 @@ export function PublicFooter({
           <p className="mt-3 text-xs tracking-wide text-[#a8a29a]">
             Mentor · Grow · Excel · Impact
           </p>
+          {socials.length > 0 && (
+            <div className="mt-4 flex gap-2.5">
+              {socials.map(({ href, label, Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={label}
+                  className="flex h-8 w-8 items-center justify-center rounded-full border border-[#3a3733] text-[#a8a29a] transition-colors hover:border-gold hover:text-gold"
+                >
+                  <Icon className="h-4 w-4" />
+                </a>
+              ))}
+            </div>
+          )}
         </div>
         <div>
           <div className="text-[10px] font-bold uppercase tracking-widest text-gold">
