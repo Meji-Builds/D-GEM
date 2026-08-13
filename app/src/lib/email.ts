@@ -80,7 +80,7 @@ export function volunteerAcceptedEmailHtml(opts: {
 </html>`;
 }
 
-const FROM_ADDRESS = process.env.EMAIL_FROM || "D-GEM Conference 1.0 <onboarding@resend.dev>";
+const FROM_ADDRESS = process.env.EMAIL_FROM || "D-GEM Conference 1.0 <tickets@dgem.space>";
 
 export async function sendMail(opts: {
   to: string;
