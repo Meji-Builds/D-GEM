@@ -46,7 +46,7 @@ async function main() {
     where: { email: "admin@dgem.org" },
     update: {},
     create: {
-      email: "admin@dgem.org",
+      email: "donotgraduateempty1@gmail.com",
       name: "D-GEM Admin",
       role: "ADMIN",
       passwordHash: await bcrypt.hash("DGEM-Admin-2026!", 10),
