@@ -20,6 +20,7 @@ async function sendCrewEmail(v: { fullName: string; email: string; role: string;
       eventName: settings.name,
       eventDateLabel: formatEventDateLabel(settings.eventDate),
       venue: settings.venue,
+      volunteerCommunityUrl: settings.volunteerCommunityUrl,
     }),
     attachments: [qrAttachment(qrDataUrl)],
   });

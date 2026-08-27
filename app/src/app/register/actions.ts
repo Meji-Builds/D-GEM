@@ -13,7 +13,7 @@ export async function registerAttendee(
   formData: FormData
 ): Promise<RegisterState> {
   const fullName = String(formData.get("fullName") || "").trim();
-  const email = String(formData.get("email") || "").trim();
+  const email = String(formData.get("email") || "").trim().toLowerCase();
   const phone = String(formData.get("phone") || "").trim();
   const school = String(formData.get("school") || "").trim();
   const level = String(formData.get("level") || "").trim();
@@ -28,6 +28,15 @@ export async function registerAttendee(
   const settings = await getEventSettings();
   if (settings.registrationState !== "OPEN") {
     return { error: "Registration is currently closed." };
+  }
+
+  const alreadyRegistered = await prisma.attendee.findFirst({
+    where: { email: { equals: email, mode: "insensitive" } },
+  });
+  if (alreadyRegistered) {
+    return {
+      error: "You've already registered with this email. Check your inbox for your ticket, or use \"My ticket\" to look it up.",
+    };
   }
 
   let ticketId = generateTicketId();

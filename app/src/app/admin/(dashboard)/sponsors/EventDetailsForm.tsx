@@ -29,6 +29,7 @@ type Initial = {
   twitterUrl: string;
   tiktokUrl: string;
   communityUrl: string;
+  volunteerCommunityUrl: string;
   mapUrl: string;
   mapEmbedUrl: string;
   movementPhotoUrl: string | null;
@@ -158,11 +159,18 @@ export function EventDetailsForm({ initial }: { initial: Initial }) {
           <input id="mapEmbedUrl" name="mapEmbedUrl" defaultValue={initial.mapEmbedUrl} placeholder="https://www.google.com/maps/embed?pb=..." className={fieldClass} />
         </div>
         <div className="sm:col-span-2">
-          <label className={labelClass} htmlFor="communityUrl">WhatsApp community/group link</label>
+          <label className={labelClass} htmlFor="communityUrl">Attendee WhatsApp community/group link</label>
           <p className="mb-1.5 text-[10px] text-mutefg">
             Shown as a &quot;Join the D-GEM Community&quot; button on the ticket page after someone registers.
           </p>
           <input id="communityUrl" name="communityUrl" defaultValue={initial.communityUrl} placeholder="https://chat.whatsapp.com/..." className={fieldClass} />
+        </div>
+        <div className="sm:col-span-2">
+          <label className={labelClass} htmlFor="volunteerCommunityUrl">Volunteer WhatsApp group link</label>
+          <p className="mb-1.5 text-[10px] text-mutefg">
+            Included as a &quot;Join the crew WhatsApp group&quot; link in the email sent when a volunteer is accepted.
+          </p>
+          <input id="volunteerCommunityUrl" name="volunteerCommunityUrl" defaultValue={initial.volunteerCommunityUrl} placeholder="https://chat.whatsapp.com/..." className={fieldClass} />
         </div>
       </div>
       <div>

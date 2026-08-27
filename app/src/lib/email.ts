@@ -53,6 +53,7 @@ export function volunteerAcceptedEmailHtml(opts: {
   eventName: string;
   eventDateLabel: string;
   venue: string;
+  volunteerCommunityUrl?: string;
 }) {
   return `<!doctype html>
 <html>
@@ -74,6 +75,11 @@ export function volunteerAcceptedEmailHtml(opts: {
         ${opts.eventDateLabel} · ${opts.venue}
       </p>
       <a href="${getSiteUrl()}/crew/${opts.crewId}" style="display:inline-block;margin-top:12px;padding:10px 16px;background:#141210;color:#fff;font-weight:700;font-size:11px;text-decoration:none;letter-spacing:.04em;">View my badge →</a>
+      ${
+        opts.volunteerCommunityUrl
+          ? `<a href="${opts.volunteerCommunityUrl}" style="display:inline-block;margin-top:10px;margin-left:8px;padding:10px 16px;background:#fff;color:#141210;border:2px solid #141210;font-weight:700;font-size:11px;text-decoration:none;letter-spacing:.04em;">Join the crew WhatsApp group →</a>`
+          : ""
+      }
     </div>
   </div>
 </body>

@@ -29,6 +29,7 @@ export async function updateEventSettings(_prev: FormState, formData: FormData):
   const twitterUrl = String(formData.get("twitterUrl") || "").trim();
   const tiktokUrl = String(formData.get("tiktokUrl") || "").trim();
   const communityUrl = String(formData.get("communityUrl") || "").trim();
+  const volunteerCommunityUrl = String(formData.get("volunteerCommunityUrl") || "").trim();
   const mapUrl = String(formData.get("mapUrl") || "").trim();
   const mapEmbedUrl = String(formData.get("mapEmbedUrl") || "").trim();
   const movementPhoto = formData.get("movementPhoto") as File | null;
@@ -60,6 +61,7 @@ export async function updateEventSettings(_prev: FormState, formData: FormData):
       twitterUrl,
       tiktokUrl,
       communityUrl,
+      volunteerCommunityUrl,
       mapUrl,
       mapEmbedUrl,
       ...(movementPhotoUrl ? { movementPhotoUrl } : {}),

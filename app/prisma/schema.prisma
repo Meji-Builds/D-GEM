@@ -88,6 +88,7 @@ model EventSettings {
   twitterUrl         String             @default("")
   tiktokUrl          String             @default("")
   communityUrl       String             @default("")
+  volunteerCommunityUrl String          @default("")
   mapUrl             String             @default("")
   mapEmbedUrl        String             @default("")
   feedbackState      FeedbackVisibility @default(AUTO)

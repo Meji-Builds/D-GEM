@@ -39,6 +39,7 @@ export default async function AdminSponsorsPage() {
               twitterUrl: settings.twitterUrl,
               tiktokUrl: settings.tiktokUrl,
               communityUrl: settings.communityUrl,
+              volunteerCommunityUrl: settings.volunteerCommunityUrl,
               mapUrl: settings.mapUrl,
               mapEmbedUrl: settings.mapEmbedUrl,
               movementPhotoUrl: settings.movementPhotoUrl,

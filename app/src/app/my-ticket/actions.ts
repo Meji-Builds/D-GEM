@@ -13,7 +13,10 @@ export async function lookupTicket(
   if (!query) return { error: "Enter your ticket ID or the email you registered with." };
 
   const attendee = query.includes("@")
-    ? await prisma.attendee.findFirst({ where: { email: query }, orderBy: { registeredAt: "desc" } })
+    ? await prisma.attendee.findFirst({
+        where: { email: { equals: query, mode: "insensitive" } },
+        orderBy: { registeredAt: "desc" },
+      })
     : await prisma.attendee.findUnique({ where: { ticketId: query.toUpperCase() } });
 
   if (!attendee) return { error: "We couldn't find a ticket matching that." };
