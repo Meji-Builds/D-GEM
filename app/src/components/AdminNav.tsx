@@ -43,7 +43,7 @@ export function AdminNav({ userName }: { userName: string }) {
         </button>
 
         <div className="hidden items-center gap-4 text-xs font-semibold md:flex">
-          <span className="text-mutefg">{userName}</span>
+          <Link href="/admin/account" className="text-mutefg transition-colors hover:text-gold">{userName}</Link>
           <Link href="/scanner" className="transition-colors hover:text-gold">Scanner</Link>
           <Link href="/" className="transition-colors hover:text-gold">Preview site</Link>
           <form action={logout}>
@@ -87,6 +87,9 @@ export function AdminNav({ userName }: { userName: string }) {
           </div>
           <div className="mt-4 flex flex-col gap-3 border-t border-hair pt-4 text-sm font-semibold text-bodyfg">
             <span className="text-xs text-mutefg">Signed in as {userName}</span>
+            <Link href="/admin/account" onClick={() => setOpen(false)} className="transition-colors hover:text-gold">
+              My account
+            </Link>
             <Link href="/scanner" onClick={() => setOpen(false)} className="transition-colors hover:text-gold">
               Scanner
             </Link>
