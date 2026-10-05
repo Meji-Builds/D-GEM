@@ -5,7 +5,21 @@ import { prisma } from "@/lib/prisma";
 
 const TICKET_COOKIE = "dgem_game_ticket";
 
-export type VerifyPlayerState = { error?: string; ticketId?: string; fullName?: string };
+export type VerifyPlayerState = { error?: string; ticketId?: string; fullName?: string; gameStartedAt?: string };
+
+// Stamps the moment a ticket's 5-minute clock begins, but only the first
+// time — a page reload or re-entering the same ticket must never push the
+// deadline back out. `updateMany` with `gameStartedAt: null` in the filter
+// makes this a no-op once it's already set, race-safe against the handful
+// of pages that each resolve the player independently.
+async function ensureGameStarted(ticketId: string): Promise<Date> {
+  await prisma.attendee.updateMany({
+    where: { ticketId, gameStartedAt: null },
+    data: { gameStartedAt: new Date() },
+  });
+  const attendee = await prisma.attendee.findUniqueOrThrow({ where: { ticketId } });
+  return attendee.gameStartedAt!;
+}
 
 export async function verifyPlayer(_prev: VerifyPlayerState, formData: FormData): Promise<VerifyPlayerState> {
   const query = String(formData.get("query") || "").trim();
@@ -32,7 +46,8 @@ export async function verifyPlayer(_prev: VerifyPlayerState, formData: FormData)
     maxAge: 60 * 60 * 24,
   });
 
-  return { ticketId: attendee.ticketId, fullName: attendee.fullName };
+  const gameStartedAt = await ensureGameStarted(attendee.ticketId);
+  return { ticketId: attendee.ticketId, fullName: attendee.fullName, gameStartedAt: gameStartedAt.toISOString() };
 }
 
 export async function clearPlayerCookie() {
@@ -40,13 +55,16 @@ export async function clearPlayerCookie() {
   store.delete(TICKET_COOKIE);
 }
 
-export async function getVerifiedPlayer(): Promise<{ ticketId: string; fullName: string } | null> {
+export async function getVerifiedPlayer(): Promise<{ ticketId: string; fullName: string; gameStartedAt: string } | null> {
   const store = await cookies();
   const ticketId = store.get(TICKET_COOKIE)?.value;
   if (!ticketId) return null;
   const attendee = await prisma.attendee.findUnique({ where: { ticketId } });
   if (!attendee) return null;
-  return { ticketId: attendee.ticketId, fullName: attendee.fullName };
+  // Defensive: the cookie can only exist after verifyPlayer already stamped
+  // this, but ensure it rather than risk a null deadline on an edge case.
+  const gameStartedAt = attendee.gameStartedAt ?? (await ensureGameStarted(ticketId));
+  return { ticketId: attendee.ticketId, fullName: attendee.fullName, gameStartedAt: gameStartedAt.toISOString() };
 }
 
 export type SubmitScoreState = { error?: string; ok?: boolean; best?: number };

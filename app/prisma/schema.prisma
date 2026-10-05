@@ -168,6 +168,7 @@ model Attendee {
   checkedIn         Boolean    @default(false)
   checkedInAt       DateTime?
   checkedInGate     String?
+  gameStartedAt     DateTime?
   checkIns          CheckIn[]
   gameScores        GameLevelScore[]
 

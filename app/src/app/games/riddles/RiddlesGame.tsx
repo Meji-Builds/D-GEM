@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { submitLevelScore } from "../actions";
 import { Button } from "@/components/Button";
+import { GameTimer } from "../GameTimer";
+import { gameDeadline } from "@/lib/gameLevels";
 
 type Riddle = { id: string; question: string; answer: string; points: number };
-type Player = { ticketId: string; fullName: string };
+type Player = { ticketId: string; fullName: string; gameStartedAt: string };
 
 function normalizeAnswer(s: string) {
   return s.trim().toLowerCase().replace(/\s+/g, " ");
@@ -19,17 +21,11 @@ export function RiddlesGame({ player, riddlesByLevel }: { player: Player; riddle
   const [result, setResult] = useState<{ score: number; maxScore: number; correctIds: string[] } | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [totals, setTotals] = useState<Record<number, number>>({});
+  const [expired, setExpired] = useState(false);
+  const autoSubmittedRef = useRef(false);
 
   const current = riddlesByLevel[level] ?? [];
   const maxScore = current.reduce((sum, r) => sum + r.points, 0);
-
-  if (current.length === 0 && !result) {
-    return (
-      <div className="mx-auto max-w-sm text-center">
-        <p className="text-sm text-mutefg">Level {level} isn&apos;t ready yet — check back soon.</p>
-      </div>
-    );
-  }
 
   async function handleSubmit() {
     setSubmitting(true);
@@ -47,6 +43,38 @@ export function RiddlesGame({ player, riddlesByLevel }: { player: Player; riddle
     setSubmitting(false);
   }
 
+  // Deliberately not memoized: GameTimer must always call the version of
+  // this closed over the latest level/inputs/result, not whatever was
+  // current when the timer first mounted.
+  function handleExpire() {
+    setExpired(true);
+    if (!autoSubmittedRef.current && !result) {
+      autoSubmittedRef.current = true;
+      handleSubmit();
+    }
+  }
+
+  if (expired) {
+    const runningTotal = Object.values(totals).reduce((a, b) => a + b, 0);
+    return (
+      <div className="mx-auto max-w-sm text-center">
+        <p className="text-[10px] font-bold uppercase tracking-widest text-red-800">Time&apos;s up</p>
+        <h1 className="font-display mt-2 text-2xl font-extrabold tracking-tight">That&apos;s the 5 minutes!</h1>
+        <p className="mt-2 text-xs text-mutefg">Running total: {runningTotal} points</p>
+        <Button type="button" className="mt-6" full onClick={() => router.push("/games/leaderboard")}>View leaderboard</Button>
+      </div>
+    );
+  }
+
+  if (current.length === 0 && !result) {
+    return (
+      <div className="mx-auto max-w-sm text-center">
+        <GameTimer deadline={gameDeadline(player.gameStartedAt)} onExpire={handleExpire} />
+        <p className="text-sm text-mutefg">Level {level} isn&apos;t ready yet — check back soon.</p>
+      </div>
+    );
+  }
+
   function nextLevel() {
     setLevel((l) => l + 1);
     setInputs({});
@@ -58,6 +86,7 @@ export function RiddlesGame({ player, riddlesByLevel }: { player: Player; riddle
     const runningTotal = Object.values({ ...totals, [level]: result.score }).reduce((a, b) => a + b, 0);
     return (
       <div className="mx-auto max-w-sm text-center">
+        <GameTimer deadline={gameDeadline(player.gameStartedAt)} onExpire={handleExpire} />
         <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">Level {level} complete</p>
         <div className="font-display mt-2 text-3xl font-extrabold">{result.score}/{result.maxScore}</div>
         <p className="mt-2 text-xs text-mutefg">Running total: {runningTotal} points</p>
@@ -77,6 +106,7 @@ export function RiddlesGame({ player, riddlesByLevel }: { player: Player; riddle
 
   return (
     <div className="mx-auto max-w-lg">
+      <GameTimer deadline={gameDeadline(player.gameStartedAt)} onExpire={handleExpire} />
       <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">Riddles · Level {level} of 3</p>
       <h1 className="font-display mt-2 text-2xl font-extrabold tracking-tight">Answer what you can</h1>
       <div className="mt-6 space-y-5">

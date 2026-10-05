@@ -1,34 +1,45 @@
 "use client";
 
-import { useActionState, useEffect, useTransition } from "react";
+import { useActionState, useEffect, useState, useTransition } from "react";
 import Link from "next/link";
 import { verifyPlayer, clearPlayerCookie, type VerifyPlayerState } from "./actions";
-import { useGamePlayer } from "./useGamePlayer";
 import { Button } from "@/components/Button";
+import { GameTimer } from "./GameTimer";
+import { gameDeadline } from "@/lib/gameLevels";
 
-export function GamesHub() {
-  const { player, savePlayer, clearPlayer } = useGamePlayer();
+type Player = { ticketId: string; fullName: string; gameStartedAt: string };
+
+export function GamesHub({ initialPlayer }: { initialPlayer: Player | null }) {
   const [state, formAction, pending] = useActionState<VerifyPlayerState, FormData>(verifyPlayer, {});
+  const [cleared, setCleared] = useState(false);
   const [clearing, startClear] = useTransition();
 
+  const verified: Player | null =
+    state?.ticketId && state.fullName && state.gameStartedAt
+      ? { ticketId: state.ticketId, fullName: state.fullName, gameStartedAt: state.gameStartedAt }
+      : null;
+
+  // `state` is a fresh object on every action dispatch, including repeat
+  // submissions with identical values, so a successful re-verify always
+  // clears "Not you?"'s override. The setState is queued (not called
+  // synchronously in the effect body) per react-hooks/set-state-in-effect.
   useEffect(() => {
-    if (state?.ticketId && state.fullName) {
-      queueMicrotask(() => savePlayer({ ticketId: state.ticketId!, fullName: state.fullName! }));
-    }
-    // `state` is a fresh object on every action dispatch, including repeat
-    // submissions with identical values — depend on the object itself, not
-    // its fields, so re-entering the same ticket after "Not you?" still works.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (!state?.ticketId) return;
+    queueMicrotask(() => setCleared(false));
   }, [state]);
 
+  // `cleared` (from "Not you?") always wins until the next successful
+  // verify, even over an already-verified `state` from earlier this
+  // session — otherwise clicking "Not you?" wouldn't do anything once
+  // someone had verified once.
+  const player = cleared ? null : verified ?? initialPlayer;
+
   function switchPlayer() {
+    setCleared(true);
     startClear(async () => {
       await clearPlayerCookie();
-      clearPlayer();
     });
   }
-
-  if (player === undefined) return null;
 
   if (!player) {
     return (
@@ -37,7 +48,8 @@ export function GamesHub() {
         <h1 className="font-display mt-2 text-2xl font-extrabold tracking-tight">D-GEM Games</h1>
         <p className="mt-3 text-sm leading-relaxed text-bodyfg">
           Riddles and a word search, both about D-GEM. Enter your ticket ID (or the email you registered with) to play —
-          your score goes on the leaderboard under your name.
+          your score goes on the leaderboard under your name. You&apos;ll get 5 minutes, starting the moment you start playing,
+          to get through everything.
         </p>
         <form action={formAction} className="mt-6 space-y-3">
           {state?.error && (
@@ -57,6 +69,7 @@ export function GamesHub() {
 
   return (
     <div className="mx-auto max-w-sm">
+      <GameTimer deadline={gameDeadline(player.gameStartedAt)} />
       <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">Welcome</p>
       <h1 className="font-display mt-2 text-2xl font-extrabold tracking-tight">{player.fullName.split(" ")[0]}, let&apos;s play.</h1>
       <p className="mt-2 text-xs text-mutefg">

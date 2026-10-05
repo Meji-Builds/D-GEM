@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { submitLevelScore } from "../actions";
 import { Button } from "@/components/Button";
+import { GameTimer } from "../GameTimer";
+import { gameDeadline } from "@/lib/gameLevels";
 import type { WordSearchResult } from "@/lib/wordsearch";
 
-type Player = { ticketId: string; fullName: string };
+type Player = { ticketId: string; fullName: string; gameStartedAt: string };
 type Cell = { r: number; c: number };
 
 const DIRECTION_VECTORS: Record<string, [number, number]> = {
@@ -44,14 +46,40 @@ export function WordSearchGame({ player, puzzlesByLevel }: { player: Player; puz
   const [result, setResult] = useState<{ score: number; maxScore: number } | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [totals, setTotals] = useState<Record<number, number>>({});
+  const [expired, setExpired] = useState(false);
+  const autoSubmittedRef = useRef(false);
 
   const puzzle = puzzlesByLevel[level];
   const maxScore = puzzle ? puzzle.placements.reduce((sum, p) => sum + p.points, 0) : 0;
   const score = puzzle ? puzzle.placements.filter((p) => foundIds.has(p.id)).reduce((sum, p) => sum + p.points, 0) : 0;
 
+  // Deliberately not memoized: GameTimer must always call the version of
+  // this closed over the latest level/score/result, not whatever was
+  // current when the timer first mounted.
+  function handleExpire() {
+    setExpired(true);
+    if (!autoSubmittedRef.current && !result) {
+      autoSubmittedRef.current = true;
+      finishLevel();
+    }
+  }
+
+  if (expired) {
+    const runningTotal = Object.values(totals).reduce((a, b) => a + b, 0);
+    return (
+      <div className="mx-auto max-w-sm text-center">
+        <p className="text-[10px] font-bold uppercase tracking-widest text-red-800">Time&apos;s up</p>
+        <h1 className="font-display mt-2 text-2xl font-extrabold tracking-tight">That&apos;s the 5 minutes!</h1>
+        <p className="mt-2 text-xs text-mutefg">Running total: {runningTotal} points</p>
+        <Button type="button" className="mt-6" full onClick={() => router.push("/games/leaderboard")}>View leaderboard</Button>
+      </div>
+    );
+  }
+
   if (!puzzle || puzzle.placements.length === 0) {
     return (
       <div className="mx-auto max-w-sm text-center">
+        <GameTimer deadline={gameDeadline(player.gameStartedAt)} onExpire={handleExpire} />
         <p className="text-sm text-mutefg">Level {level} isn&apos;t ready yet — check back soon.</p>
       </div>
     );
@@ -101,6 +129,7 @@ export function WordSearchGame({ player, puzzlesByLevel }: { player: Player; puz
     const runningTotal = Object.values({ ...totals, [level]: result.score }).reduce((a, b) => a + b, 0);
     return (
       <div className="mx-auto max-w-sm text-center">
+        <GameTimer deadline={gameDeadline(player.gameStartedAt)} onExpire={handleExpire} />
         <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">Level {level} complete</p>
         <div className="font-display mt-2 text-3xl font-extrabold">{result.score}/{result.maxScore}</div>
         <p className="mt-2 text-xs text-mutefg">Running total: {runningTotal} points</p>
@@ -124,6 +153,7 @@ export function WordSearchGame({ player, puzzlesByLevel }: { player: Player; puz
 
   return (
     <div className="mx-auto max-w-3xl">
+      <GameTimer deadline={gameDeadline(player.gameStartedAt)} onExpire={handleExpire} />
       <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">Word Search · Level {level} of 3</p>
       <h1 className="font-display mt-2 text-2xl font-extrabold tracking-tight">Find every word</h1>
       <p className="mt-2 text-xs text-mutefg">Tap the first letter of a word, then tap its last letter.</p>
