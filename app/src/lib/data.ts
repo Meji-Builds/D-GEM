@@ -103,7 +103,10 @@ export async function getLeaderboard(limit?: number): Promise<LeaderboardEntry[]
         crosswordScore: crossword,
       };
     })
-    .sort((a, b) => b.total - a.total);
+    // Tie-broken by ticketId so the order is stable across polls — Prisma's
+    // groupBy doesn't guarantee row order, and without a tiebreaker a tie at
+    // the top would shuffle on every refresh and falsely look like a lead change.
+    .sort((a, b) => b.total - a.total || a.ticketId.localeCompare(b.ticketId));
 
   return limit ? leaderboard.slice(0, limit) : leaderboard;
 }
