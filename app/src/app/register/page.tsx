@@ -11,7 +11,7 @@ export default async function RegisterPage() {
   const pct = Math.min(100, Math.round((registered / Math.max(1, settings.capacity)) * 100));
 
   return (
-    <div className="flex min-h-full flex-col">
+    <div className="flex min-h-screen flex-col">
       <PublicNav />
       <main className="flex-1">
         <div className="mx-auto grid max-w-5xl gap-0 md:grid-cols-[1.4fr_1fr]">

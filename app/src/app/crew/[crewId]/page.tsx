@@ -16,7 +16,7 @@ export default async function CrewBadgePage({
   const qrDataUrl = await ticketQrDataUrl(crewId);
 
   return (
-    <div className="flex min-h-full items-center justify-center bg-mist px-5 py-16">
+    <div className="flex min-h-screen items-center justify-center bg-mist px-5 py-16">
       <CrewBadgeCard
         volunteer={{ fullName: volunteer.fullName, role: volunteer.role, crewId }}
         settings={{ eventDate: settings.eventDate, venue: settings.venue }}

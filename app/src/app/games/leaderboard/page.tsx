@@ -7,7 +7,7 @@ export default async function PublicLeaderboardPage() {
   const entries = await getLeaderboard();
 
   return (
-    <div className="badge-texture print-exact-colors min-h-full px-6 py-10 text-white sm:px-12">
+    <div className="badge-texture print-exact-colors min-h-screen px-6 py-10 text-white sm:px-12">
       <AutoRefresh />
       <div className="mx-auto max-w-4xl">
         <div className="flex items-center justify-between">

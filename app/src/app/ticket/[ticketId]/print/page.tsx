@@ -16,7 +16,7 @@ export default async function PrintTicketPage({
   const qrDataUrl = await ticketQrDataUrl(attendee.ticketId);
 
   return (
-    <div className="flex min-h-full items-center justify-center bg-mist px-5 py-16 print:bg-white print:py-0">
+    <div className="flex min-h-screen items-center justify-center bg-mist px-5 py-16 print:bg-white print:py-0">
       <AttendeeTicketCard
         attendee={{
           fullName: attendee.fullName,

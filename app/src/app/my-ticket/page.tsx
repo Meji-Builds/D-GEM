@@ -6,7 +6,7 @@ import { LookupForm } from "./LookupForm";
 export default async function MyTicketPage() {
   const settings = await getEventSettings();
   return (
-    <div className="flex min-h-full flex-col">
+    <div className="flex min-h-screen flex-col">
       <PublicNav />
       <main className="flex-1">
         <div className="mx-auto max-w-md px-5 py-16">

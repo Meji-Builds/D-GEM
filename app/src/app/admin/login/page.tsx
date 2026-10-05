@@ -3,7 +3,7 @@ import { LoginForm } from "./LoginForm";
 
 export default function AdminLoginPage() {
   return (
-    <div className="flex min-h-full flex-1 items-center justify-center bg-mist px-5 py-16">
+    <div className="flex min-h-screen flex-1 items-center justify-center bg-mist px-5 py-16">
       <div className="w-full max-w-sm rounded-2xl border-2 border-ink bg-white p-8 shadow-xl">
         <Logo size="md" />
         <p className="mt-5 text-[10px] font-bold uppercase tracking-widest text-mutefg">

@@ -9,7 +9,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   }
 
   return (
-    <div className="min-h-full bg-white">
+    <div className="min-h-screen bg-white">
       <div className="print:hidden">
         <AdminNav userName={session.name} />
       </div>

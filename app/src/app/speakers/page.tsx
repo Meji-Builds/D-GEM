@@ -7,7 +7,7 @@ export default async function SpeakersPage() {
   const [settings, speakers] = await Promise.all([getEventSettings(), getLiveSpeakers()]);
 
   return (
-    <div className="flex min-h-full flex-col">
+    <div className="flex min-h-screen flex-col">
       <PublicNav />
       <main className="flex-1">
         <div className="mx-auto max-w-4xl px-5 py-12 sm:px-8">
