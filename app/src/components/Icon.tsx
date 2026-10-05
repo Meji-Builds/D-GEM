@@ -66,6 +66,22 @@ export function XIcon({ className = "h-4 w-4" }: IconProps) {
   );
 }
 
+export function GameControllerIcon({ className = "h-4 w-4" }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+      <path
+        d="M6.5 7h11a3 3 0 0 1 2.95 2.49l.9 5.2A2.3 2.3 0 0 1 19 17.5c-.66 0-1.28-.3-1.69-.82l-1.2-1.53a2 2 0 0 0-1.58-.77H9.47a2 2 0 0 0-1.58.77l-1.2 1.53A2.16 2.16 0 0 1 5 17.5a2.3 2.3 0 0 1-2.35-2.81l.9-5.2A3 3 0 0 1 6.5 7Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <path d="M7 9.3v2.4M5.8 10.5h2.4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      <circle cx="14.6" cy="9.8" r="0.9" fill="currentColor" />
+      <circle cx="17" cy="12.1" r="0.9" fill="currentColor" />
+    </svg>
+  );
+}
+
 export function TikTokIcon({ className = "h-4 w-4" }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">

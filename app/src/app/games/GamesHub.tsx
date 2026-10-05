@@ -44,8 +44,7 @@ export function GamesHub({ initialPlayer }: { initialPlayer: Player | null }) {
   if (!player) {
     return (
       <div className="mx-auto max-w-sm">
-        <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">Networking session</p>
-        <h1 className="font-display mt-2 text-2xl font-extrabold tracking-tight">D-GEM Games</h1>
+        <h1 className="font-display text-2xl font-extrabold tracking-tight">D-GEM Games</h1>
         <p className="mt-3 text-sm leading-relaxed text-bodyfg">
           Riddles and a word search, both about D-GEM. Enter your ticket ID (or the email you registered with) to play —
           your score goes on the leaderboard under your name. You&apos;ll get 5 minutes, starting the moment you start playing,

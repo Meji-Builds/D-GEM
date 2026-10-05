@@ -1,6 +1,6 @@
 import { Logo } from "./Logo";
 import { InstagramIcon, XIcon, TikTokIcon } from "./Icon";
-import { MejiBuildsEasterEgg } from "./MejiBuildsEasterEgg";
+import { MejiBuildsCredit } from "./MejiBuildsCredit";
 
 export function PublicFooter({
   contactEmail,
@@ -76,7 +76,7 @@ export function PublicFooter({
       </div>
       <div className="flex items-center justify-center gap-3 border-t border-[#3a3733] px-5 py-4 text-center text-[10px] text-[#8a8580]">
         <span>© {new Date().getFullYear()} Don't Graduate Empty Movement.</span>
-        <MejiBuildsEasterEgg />
+        <MejiBuildsCredit />
       </div>
     </footer>
   );
