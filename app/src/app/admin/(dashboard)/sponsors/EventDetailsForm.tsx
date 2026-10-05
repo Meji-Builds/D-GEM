@@ -18,6 +18,7 @@ type Initial = {
   capacity: number;
   registrationState: string;
   feedbackState: string;
+  gamesIconVisible: boolean;
   heroText: string;
   aboutText: string;
   missionText: string;
@@ -120,6 +121,17 @@ export function EventDetailsForm({ initial }: { initial: Initial }) {
           </select>
           <p className="mt-1 text-[10px] text-mutefg">
             Auto shows the form on the FAQ page as soon as the event date above has passed — no need to flip anything yourself. Use Force open/closed only to override that. Approve submissions under Feedback to show them as testimonials.
+          </p>
+        </div>
+        <div>
+          <label className={labelClass}>Hidden games icon</label>
+          <label className="flex h-10 items-center gap-2 text-sm text-bodyfg">
+            <input type="checkbox" name="gamesIconVisible" value="true" defaultChecked={initial.gamesIconVisible} />
+            Show it on the homepage
+          </label>
+          <p className="mt-1 text-[10px] text-mutefg">
+            A small, barely-visible game controller icon tucked in the corner of the Theme card on the homepage,
+            linking to the games. Turn it off to hide it completely (e.g. before event day), on to reveal it.
           </p>
         </div>
         <div>

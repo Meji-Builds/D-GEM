@@ -28,6 +28,7 @@ export default async function AdminSponsorsPage() {
               capacity: settings.capacity,
               registrationState: settings.registrationState,
               feedbackState: settings.feedbackState,
+              gamesIconVisible: settings.gamesIconVisible,
               heroText: settings.heroText,
               aboutText: settings.aboutText,
               missionText: settings.missionText,

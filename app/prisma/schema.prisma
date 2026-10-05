@@ -92,6 +92,7 @@ model EventSettings {
   mapUrl             String             @default("")
   mapEmbedUrl        String             @default("")
   feedbackState      FeedbackVisibility @default(AUTO)
+  gamesIconVisible   Boolean            @default(true)
   updatedAt          DateTime           @updatedAt
 }
 

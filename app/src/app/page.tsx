@@ -5,6 +5,7 @@ import { LinkButton } from "@/components/Button";
 import { PhotoOrPlaceholder, accentForIndex } from "@/components/PhotoOrPlaceholder";
 import { Reveal } from "@/components/Reveal";
 import { InstagramIcon, XIcon, TikTokIcon } from "@/components/Icon";
+import { HiddenGamesIcon } from "@/components/HiddenGamesIcon";
 import {
   getEventSettings,
   getLiveSpeakers,
@@ -54,7 +55,8 @@ export default async function LandingPage() {
               Conference 1.0
             </h1>
             {settings.tagline && (
-              <div className="mt-5 max-w-xl rounded-2xl bg-ink px-5 py-4 text-white shadow-md sm:px-6 sm:py-5">
+              <div className="relative mt-5 max-w-xl rounded-2xl bg-ink px-5 py-4 text-white shadow-md sm:px-6 sm:py-5">
+                {settings.gamesIconVisible && <HiddenGamesIcon />}
                 <span className="text-[11px] font-extrabold uppercase tracking-widest text-gold">Theme</span>
                 <p className="mt-1 text-lg font-extrabold leading-snug sm:text-xl">{settings.tagline}</p>
               </div>
