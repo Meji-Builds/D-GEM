@@ -1,42 +1,32 @@
-import type { CrosswordPlacement } from "@/lib/crossword";
+import type { WordSearchPlacement } from "@/lib/wordsearch";
 
-export function LayoutPreview({ width, height, placements }: { width: number; height: number; placements: CrosswordPlacement[] }) {
-  const cells = new Map<string, { letter: string; number?: number }>();
-  for (const p of placements) {
-    const dr = p.dir === "down" ? 1 : 0;
-    const dc = p.dir === "across" ? 1 : 0;
-    for (let i = 0; i < p.word.length; i++) {
-      const r = p.row + dr * i;
-      const c = p.col + dc * i;
-      const key = `${r},${c}`;
-      const existing = cells.get(key);
-      cells.set(key, { letter: p.word[i], number: i === 0 ? p.number : existing?.number });
-    }
+export function LayoutPreview({ grid, words }: { grid: string[][]; words: WordSearchPlacement[] }) {
+  const highlighted = new Set<string>();
+  for (const w of words) {
+    const vectors: Record<string, [number, number]> = {
+      E: [0, 1], W: [0, -1], N: [-1, 0], S: [1, 0], NE: [-1, 1], NW: [-1, -1], SE: [1, 1], SW: [1, -1],
+    };
+    const [dr, dc] = vectors[w.dir];
+    for (let i = 0; i < w.word.length; i++) highlighted.add(`${w.row + dr * i},${w.col + dc * i}`);
   }
-
-  const rows = Array.from({ length: height }, (_, r) => r);
-  const cols = Array.from({ length: width }, (_, c) => c);
 
   return (
     <div className="inline-block overflow-x-auto">
-      <div className="inline-grid border border-ink" style={{ gridTemplateColumns: `repeat(${width}, 22px)` }}>
-        {rows.map((r) =>
-          cols.map((c) => {
-            const cell = cells.get(`${r},${c}`);
-            return (
-              <div
-                key={`${r}-${c}`}
-                className={`relative h-[22px] w-[22px] border border-line text-center text-[9px] font-bold leading-[22px] ${
-                  cell ? "bg-white text-ink" : "bg-ink"
-                }`}
-              >
-                {cell?.number && <span className="absolute left-0.5 top-0 text-[6px] font-normal leading-none text-mutefg">{cell.number}</span>}
-                {cell?.letter}
-              </div>
-            );
-          })
+      <div className="inline-grid border border-ink" style={{ gridTemplateColumns: `repeat(${grid.length}, 22px)` }}>
+        {grid.map((row, r) =>
+          row.map((letter, c) => (
+            <div
+              key={`${r}-${c}`}
+              className={`flex h-[22px] w-[22px] items-center justify-center border border-line text-[10px] font-bold ${
+                highlighted.has(`${r},${c}`) ? "bg-gold text-ink" : "bg-white text-mutefg"
+              }`}
+            >
+              {letter}
+            </div>
+          ))
         )}
       </div>
+      <p className="mt-2 text-xs text-bodyfg">Word bank: {words.map((w) => w.word).join(", ")}</p>
     </div>
   );
 }

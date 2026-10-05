@@ -3,18 +3,17 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { submitLevelScore } from "../actions";
-import { useGamePlayer } from "../useGamePlayer";
 import { Button } from "@/components/Button";
 
-type Riddle = { id: string; level: number; question: string; answer: string; points: number };
+type Riddle = { id: string; question: string; answer: string; points: number };
+type Player = { ticketId: string; fullName: string };
 
 function normalizeAnswer(s: string) {
   return s.trim().toLowerCase().replace(/\s+/g, " ");
 }
 
-export function RiddlesGame({ riddlesByLevel }: { riddlesByLevel: Record<number, Riddle[]> }) {
+export function RiddlesGame({ player, riddlesByLevel }: { player: Player; riddlesByLevel: Record<number, Riddle[]> }) {
   const router = useRouter();
-  const { player } = useGamePlayer();
   const [level, setLevel] = useState(1);
   const [inputs, setInputs] = useState<Record<string, string>>({});
   const [result, setResult] = useState<{ score: number; maxScore: number; correctIds: string[] } | null>(null);
@@ -23,16 +22,6 @@ export function RiddlesGame({ riddlesByLevel }: { riddlesByLevel: Record<number,
 
   const current = riddlesByLevel[level] ?? [];
   const maxScore = current.reduce((sum, r) => sum + r.points, 0);
-
-  if (player === undefined) return null;
-  if (player === null) {
-    return (
-      <div className="mx-auto max-w-sm text-center">
-        <p className="text-sm text-mutefg">You need to enter your ticket ID first.</p>
-        <Button type="button" className="mt-4" onClick={() => router.push("/games")}>Go to games</Button>
-      </div>
-    );
-  }
 
   if (current.length === 0 && !result) {
     return (
@@ -52,9 +41,7 @@ export function RiddlesGame({ riddlesByLevel }: { riddlesByLevel: Record<number,
         correctIds.push(r.id);
       }
     }
-    if (player) {
-      await submitLevelScore(player.ticketId, "RIDDLES", level, score, maxScore);
-    }
+    await submitLevelScore(player.ticketId, "RIDDLES", level, score, maxScore);
     setResult({ score, maxScore, correctIds });
     setTotals((t) => ({ ...t, [level]: score }));
     setSubmitting(false);

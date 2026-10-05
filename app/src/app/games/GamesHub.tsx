@@ -1,14 +1,15 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useTransition } from "react";
 import Link from "next/link";
-import { verifyPlayer, type VerifyPlayerState } from "./actions";
+import { verifyPlayer, clearPlayerCookie, type VerifyPlayerState } from "./actions";
 import { useGamePlayer } from "./useGamePlayer";
 import { Button } from "@/components/Button";
 
 export function GamesHub() {
   const { player, savePlayer, clearPlayer } = useGamePlayer();
   const [state, formAction, pending] = useActionState<VerifyPlayerState, FormData>(verifyPlayer, {});
+  const [clearing, startClear] = useTransition();
 
   useEffect(() => {
     if (state?.ticketId && state.fullName) {
@@ -20,6 +21,13 @@ export function GamesHub() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
+  function switchPlayer() {
+    startClear(async () => {
+      await clearPlayerCookie();
+      clearPlayer();
+    });
+  }
+
   if (player === undefined) return null;
 
   if (!player) {
@@ -28,7 +36,7 @@ export function GamesHub() {
         <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">Networking session</p>
         <h1 className="font-display mt-2 text-2xl font-extrabold tracking-tight">D-GEM Games</h1>
         <p className="mt-3 text-sm leading-relaxed text-bodyfg">
-          Riddles and a crossword, both about D-GEM. Enter your ticket ID (or the email you registered with) to play —
+          Riddles and a word search, both about D-GEM. Enter your ticket ID (or the email you registered with) to play —
           your score goes on the leaderboard under your name.
         </p>
         <form action={formAction} className="mt-6 space-y-3">
@@ -53,7 +61,7 @@ export function GamesHub() {
       <h1 className="font-display mt-2 text-2xl font-extrabold tracking-tight">{player.fullName.split(" ")[0]}, let&apos;s play.</h1>
       <p className="mt-2 text-xs text-mutefg">
         Playing as {player.fullName}.{" "}
-        <button type="button" onClick={clearPlayer} className="underline hover:text-gold">Not you?</button>
+        <button type="button" onClick={switchPlayer} disabled={clearing} className="underline hover:text-gold">Not you?</button>
       </p>
 
       <div className="mt-6 space-y-3">
@@ -62,7 +70,7 @@ export function GamesHub() {
           <p className="mt-1 text-xs text-mutefg">Three rounds, each harder than the last.</p>
         </Link>
         <Link href="/games/crossword" className="block rounded-2xl border-2 border-ink p-5 transition-colors hover:bg-mist">
-          <div className="font-display text-lg font-extrabold">Crossword</div>
+          <div className="font-display text-lg font-extrabold">Word Search</div>
           <p className="mt-1 text-xs text-mutefg">Speaker names, the theme, and more — find them all.</p>
         </Link>
         <Link href="/games/leaderboard" className="block rounded-2xl border border-line p-4 text-center transition-colors hover:bg-mist">

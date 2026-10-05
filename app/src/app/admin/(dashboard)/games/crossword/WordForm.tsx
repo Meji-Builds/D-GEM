@@ -50,8 +50,8 @@ export function WordForm({ initial, defaultLevel }: { initial: WordInitial | nul
         </div>
       </div>
       <div>
-        <label className={labelClass} htmlFor="clue">Clue</label>
-        <input required id="clue" name="clue" defaultValue={initial?.clue} className={fieldClass} />
+        <label className={labelClass} htmlFor="clue">Note (optional — not shown to players)</label>
+        <input id="clue" name="clue" defaultValue={initial?.clue} placeholder="e.g. who this is, or why it's in the pool" className={fieldClass} />
       </div>
       <Button type="submit" disabled={pending}>{pending ? "Saving…" : initial ? "Save changes" : "Add word"}</Button>
     </form>

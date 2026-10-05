@@ -18,7 +18,7 @@ export function LeaderboardTable({ entries, dark = false }: { entries: Leaderboa
             <th className="py-2 pr-4">Name</th>
             <th className="py-2 pr-4">School</th>
             <th className="py-2 pr-4 text-right">Riddles</th>
-            <th className="py-2 pr-4 text-right">Crossword</th>
+            <th className="py-2 pr-4 text-right">Word Search</th>
             <th className="py-2 text-right">Total</th>
           </tr>
         </thead>
