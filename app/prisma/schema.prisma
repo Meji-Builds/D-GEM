@@ -169,6 +169,7 @@ model Attendee {
   checkedInAt       DateTime?
   checkedInGate     String?
   checkIns          CheckIn[]
+  gameScores        GameLevelScore[]
 
   @@index([email])
 }
@@ -230,4 +231,53 @@ model FeedbackResponse {
   improvement   String         @default("")
   status        FeedbackStatus @default(PENDING)
   createdAt     DateTime       @default(now())
+}
+
+enum GameKind {
+  RIDDLES
+  CROSSWORD
+}
+
+model GameRiddle {
+  id        String   @id @default(cuid())
+  level     Int
+  question  String
+  answer    String
+  points    Int      @default(10)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model CrosswordWord {
+  id        String   @id @default(cuid())
+  level     Int
+  word      String
+  clue      String
+  points    Int      @default(10)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model CrosswordLayout {
+  id          String   @id @default(cuid())
+  level       Int      @unique
+  width       Int
+  height      Int
+  placements  Json
+  unplaced    Json     @default("[]")
+  generatedAt DateTime @default(now())
+}
+
+model GameLevelScore {
+  id        String   @id @default(cuid())
+  ticketId  String
+  attendee  Attendee @relation(fields: [ticketId], references: [ticketId])
+  game      GameKind
+  level     Int
+  score     Int
+  maxScore  Int      @default(0)
+  updatedAt DateTime @updatedAt
+
+  @@unique([ticketId, game, level])
+  @@index([ticketId])
 }

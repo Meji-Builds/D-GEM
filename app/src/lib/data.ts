@@ -59,3 +59,52 @@ export async function getApprovedTestimonials(limit?: number) {
     take: limit,
   });
 }
+
+export type LeaderboardEntry = {
+  ticketId: string;
+  fullName: string;
+  school: string;
+  total: number;
+  riddlesScore: number;
+  crosswordScore: number;
+};
+
+export async function getLeaderboard(limit?: number): Promise<LeaderboardEntry[]> {
+  const scores = await prisma.gameLevelScore.groupBy({
+    by: ["ticketId", "game"],
+    _sum: { score: true },
+  });
+  if (scores.length === 0) return [];
+
+  const ticketIds = Array.from(new Set(scores.map((s) => s.ticketId)));
+  const attendees = await prisma.attendee.findMany({
+    where: { ticketId: { in: ticketIds } },
+    select: { ticketId: true, fullName: true, school: true },
+  });
+  const attendeeByTicket = new Map(attendees.map((a) => [a.ticketId, a]));
+
+  const byTicket = new Map<string, { riddles: number; crossword: number }>();
+  for (const s of scores) {
+    const entry = byTicket.get(s.ticketId) ?? { riddles: 0, crossword: 0 };
+    if (s.game === "RIDDLES") entry.riddles = s._sum.score ?? 0;
+    if (s.game === "CROSSWORD") entry.crossword = s._sum.score ?? 0;
+    byTicket.set(s.ticketId, entry);
+  }
+
+  const leaderboard: LeaderboardEntry[] = Array.from(byTicket.entries())
+    .map(([ticketId, { riddles, crossword }]) => {
+      const attendee = attendeeByTicket.get(ticketId);
+      return {
+        ticketId,
+        fullName: attendee?.fullName ?? "Unknown",
+        school: attendee?.school ?? "",
+        total: riddles + crossword,
+        riddlesScore: riddles,
+        crosswordScore: crossword,
+      };
+    })
+    .sort((a, b) => b.total - a.total);
+
+  return limit ? leaderboard.slice(0, limit) : leaderboard;
+}
+
