@@ -2,16 +2,30 @@
 
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
+import { getEventSettings } from "@/lib/data";
 
 const TICKET_COOKIE = "dgem_game_ticket";
 
-export type VerifyPlayerState = { error?: string; ticketId?: string; fullName?: string; gameStartedAt?: string };
+export type VerifyPlayerState = {
+  error?: string;
+  ticketId?: string;
+  fullName?: string;
+  gameStartedAt?: string;
+  gameDurationMs?: number;
+};
 
-// Stamps the moment a ticket's 5-minute clock begins, but only the first
-// time — a page reload or re-entering the same ticket must never push the
-// deadline back out. `updateMany` with `gameStartedAt: null` in the filter
-// makes this a no-op once it's already set, race-safe against the handful
-// of pages that each resolve the player independently.
+async function getGameDurationMs(): Promise<number> {
+  const settings = await getEventSettings();
+  return settings.gameDurationMinutes * 60 * 1000;
+}
+
+// Stamps the moment a ticket's countdown begins, but only the first time —
+// a page reload or re-entering the same ticket must never push the deadline
+// back out. `updateMany` with `gameStartedAt: null` in the filter makes
+// this a no-op once it's already set, race-safe against the handful of
+// pages that each resolve the player independently. Admin can clear
+// gameStartedAt back to null (see admin/games actions) to let a ticket
+// start a fresh countdown — useful while still testing.
 async function ensureGameStarted(ticketId: string): Promise<Date> {
   await prisma.attendee.updateMany({
     where: { ticketId, gameStartedAt: null },
@@ -46,8 +60,13 @@ export async function verifyPlayer(_prev: VerifyPlayerState, formData: FormData)
     maxAge: 60 * 60 * 24,
   });
 
-  const gameStartedAt = await ensureGameStarted(attendee.ticketId);
-  return { ticketId: attendee.ticketId, fullName: attendee.fullName, gameStartedAt: gameStartedAt.toISOString() };
+  const [gameStartedAt, gameDurationMs] = await Promise.all([ensureGameStarted(attendee.ticketId), getGameDurationMs()]);
+  return {
+    ticketId: attendee.ticketId,
+    fullName: attendee.fullName,
+    gameStartedAt: gameStartedAt.toISOString(),
+    gameDurationMs,
+  };
 }
 
 export async function clearPlayerCookie() {
@@ -55,7 +74,9 @@ export async function clearPlayerCookie() {
   store.delete(TICKET_COOKIE);
 }
 
-export async function getVerifiedPlayer(): Promise<{ ticketId: string; fullName: string; gameStartedAt: string } | null> {
+export async function getVerifiedPlayer(): Promise<
+  { ticketId: string; fullName: string; gameStartedAt: string; gameDurationMs: number } | null
+> {
   const store = await cookies();
   const ticketId = store.get(TICKET_COOKIE)?.value;
   if (!ticketId) return null;
@@ -63,8 +84,11 @@ export async function getVerifiedPlayer(): Promise<{ ticketId: string; fullName:
   if (!attendee) return null;
   // Defensive: the cookie can only exist after verifyPlayer already stamped
   // this, but ensure it rather than risk a null deadline on an edge case.
-  const gameStartedAt = attendee.gameStartedAt ?? (await ensureGameStarted(ticketId));
-  return { ticketId: attendee.ticketId, fullName: attendee.fullName, gameStartedAt: gameStartedAt.toISOString() };
+  const [gameStartedAt, gameDurationMs] = await Promise.all([
+    attendee.gameStartedAt ? Promise.resolve(attendee.gameStartedAt) : ensureGameStarted(ticketId),
+    getGameDurationMs(),
+  ]);
+  return { ticketId: attendee.ticketId, fullName: attendee.fullName, gameStartedAt: gameStartedAt.toISOString(), gameDurationMs };
 }
 
 export type SubmitScoreState = { error?: string; ok?: boolean; best?: number };

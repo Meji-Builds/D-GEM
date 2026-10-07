@@ -12,7 +12,7 @@ export default async function GamesPage() {
       <PublicNav />
       <main className="flex-1">
         <div className="mx-auto max-w-3xl px-5 py-12 sm:px-8">
-          <GamesHub initialPlayer={player} />
+          <GamesHub initialPlayer={player} gameDurationMinutes={settings.gameDurationMinutes} />
         </div>
       </main>
       <PublicFooter

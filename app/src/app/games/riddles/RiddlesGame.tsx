@@ -8,7 +8,7 @@ import { GameTimer } from "../GameTimer";
 import { gameDeadline } from "@/lib/gameLevels";
 
 type Riddle = { id: string; question: string; answer: string; points: number };
-type Player = { ticketId: string; fullName: string; gameStartedAt: string };
+type Player = { ticketId: string; fullName: string; gameStartedAt: string; gameDurationMs: number };
 
 function normalizeAnswer(s: string) {
   return s.trim().toLowerCase().replace(/\s+/g, " ");
@@ -69,7 +69,7 @@ export function RiddlesGame({ player, riddlesByLevel }: { player: Player; riddle
   if (current.length === 0 && !result) {
     return (
       <div className="mx-auto max-w-sm text-center">
-        <GameTimer deadline={gameDeadline(player.gameStartedAt)} onExpire={handleExpire} />
+        <GameTimer deadline={gameDeadline(player.gameStartedAt, player.gameDurationMs)} onExpire={handleExpire} />
         <p className="text-sm text-mutefg">Level {level} isn&apos;t ready yet — check back soon.</p>
       </div>
     );
@@ -86,7 +86,7 @@ export function RiddlesGame({ player, riddlesByLevel }: { player: Player; riddle
     const runningTotal = Object.values({ ...totals, [level]: result.score }).reduce((a, b) => a + b, 0);
     return (
       <div className="mx-auto max-w-sm text-center">
-        <GameTimer deadline={gameDeadline(player.gameStartedAt)} onExpire={handleExpire} />
+        <GameTimer deadline={gameDeadline(player.gameStartedAt, player.gameDurationMs)} onExpire={handleExpire} />
         <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">Level {level} complete</p>
         <div className="font-display mt-2 text-3xl font-extrabold">{result.score}/{result.maxScore}</div>
         <p className="mt-2 text-xs text-mutefg">Running total: {runningTotal} points</p>
@@ -106,7 +106,7 @@ export function RiddlesGame({ player, riddlesByLevel }: { player: Player; riddle
 
   return (
     <div className="mx-auto max-w-lg">
-      <GameTimer deadline={gameDeadline(player.gameStartedAt)} onExpire={handleExpire} />
+      <GameTimer deadline={gameDeadline(player.gameStartedAt, player.gameDurationMs)} onExpire={handleExpire} />
       <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">Riddles · Level {level} of 3</p>
       <h1 className="font-display mt-2 text-2xl font-extrabold tracking-tight">Answer what you can</h1>
       <div className="mt-6 space-y-5">

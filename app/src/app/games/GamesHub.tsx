@@ -7,16 +7,16 @@ import { Button } from "@/components/Button";
 import { GameTimer } from "./GameTimer";
 import { gameDeadline } from "@/lib/gameLevels";
 
-type Player = { ticketId: string; fullName: string; gameStartedAt: string };
+type Player = { ticketId: string; fullName: string; gameStartedAt: string; gameDurationMs: number };
 
-export function GamesHub({ initialPlayer }: { initialPlayer: Player | null }) {
+export function GamesHub({ initialPlayer, gameDurationMinutes }: { initialPlayer: Player | null; gameDurationMinutes: number }) {
   const [state, formAction, pending] = useActionState<VerifyPlayerState, FormData>(verifyPlayer, {});
   const [cleared, setCleared] = useState(false);
   const [clearing, startClear] = useTransition();
 
   const verified: Player | null =
-    state?.ticketId && state.fullName && state.gameStartedAt
-      ? { ticketId: state.ticketId, fullName: state.fullName, gameStartedAt: state.gameStartedAt }
+    state?.ticketId && state.fullName && state.gameStartedAt && state.gameDurationMs
+      ? { ticketId: state.ticketId, fullName: state.fullName, gameStartedAt: state.gameStartedAt, gameDurationMs: state.gameDurationMs }
       : null;
 
   // `state` is a fresh object on every action dispatch, including repeat
@@ -47,8 +47,8 @@ export function GamesHub({ initialPlayer }: { initialPlayer: Player | null }) {
         <h1 className="font-display text-2xl font-extrabold tracking-tight">D-GEM Games</h1>
         <p className="mt-3 text-sm leading-relaxed text-bodyfg">
           Riddles and a word search, both about D-GEM. Enter your ticket ID (or the email you registered with) to play —
-          your score goes on the leaderboard under your name. You&apos;ll get 5 minutes, starting the moment you start playing,
-          to get through everything.
+          your score goes on the leaderboard under your name. You&apos;ll get {gameDurationMinutes} minute{gameDurationMinutes === 1 ? "" : "s"},
+          starting the moment you start playing, to get through everything.
         </p>
         <form action={formAction} className="mt-6 space-y-3">
           {state?.error && (
@@ -68,7 +68,7 @@ export function GamesHub({ initialPlayer }: { initialPlayer: Player | null }) {
 
   return (
     <div className="mx-auto max-w-sm">
-      <GameTimer deadline={gameDeadline(player.gameStartedAt)} />
+      <GameTimer deadline={gameDeadline(player.gameStartedAt, player.gameDurationMs)} />
       <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">Welcome</p>
       <h1 className="font-display mt-2 text-2xl font-extrabold tracking-tight">{player.fullName.split(" ")[0]}, let&apos;s play.</h1>
       <p className="mt-2 text-xs text-mutefg">

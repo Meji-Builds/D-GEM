@@ -8,7 +8,7 @@ import { GameTimer } from "../GameTimer";
 import { gameDeadline } from "@/lib/gameLevels";
 import type { WordSearchResult } from "@/lib/wordsearch";
 
-type Player = { ticketId: string; fullName: string; gameStartedAt: string };
+type Player = { ticketId: string; fullName: string; gameStartedAt: string; gameDurationMs: number };
 type Cell = { r: number; c: number };
 
 const DIRECTION_VECTORS: Record<string, [number, number]> = {
@@ -79,7 +79,7 @@ export function WordSearchGame({ player, puzzlesByLevel }: { player: Player; puz
   if (!puzzle || puzzle.placements.length === 0) {
     return (
       <div className="mx-auto max-w-sm text-center">
-        <GameTimer deadline={gameDeadline(player.gameStartedAt)} onExpire={handleExpire} />
+        <GameTimer deadline={gameDeadline(player.gameStartedAt, player.gameDurationMs)} onExpire={handleExpire} />
         <p className="text-sm text-mutefg">Level {level} isn&apos;t ready yet — check back soon.</p>
       </div>
     );
@@ -129,7 +129,7 @@ export function WordSearchGame({ player, puzzlesByLevel }: { player: Player; puz
     const runningTotal = Object.values({ ...totals, [level]: result.score }).reduce((a, b) => a + b, 0);
     return (
       <div className="mx-auto max-w-sm text-center">
-        <GameTimer deadline={gameDeadline(player.gameStartedAt)} onExpire={handleExpire} />
+        <GameTimer deadline={gameDeadline(player.gameStartedAt, player.gameDurationMs)} onExpire={handleExpire} />
         <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">Level {level} complete</p>
         <div className="font-display mt-2 text-3xl font-extrabold">{result.score}/{result.maxScore}</div>
         <p className="mt-2 text-xs text-mutefg">Running total: {runningTotal} points</p>
@@ -153,7 +153,7 @@ export function WordSearchGame({ player, puzzlesByLevel }: { player: Player; puz
 
   return (
     <div className="mx-auto max-w-3xl">
-      <GameTimer deadline={gameDeadline(player.gameStartedAt)} onExpire={handleExpire} />
+      <GameTimer deadline={gameDeadline(player.gameStartedAt, player.gameDurationMs)} onExpire={handleExpire} />
       <p className="text-[10px] font-bold uppercase tracking-widest text-mutefg">Word Search · Level {level} of 3</p>
       <h1 className="font-display mt-2 text-2xl font-extrabold tracking-tight">Find every word</h1>
       <p className="mt-2 text-xs text-mutefg">Tap the first letter of a word, then tap its last letter.</p>

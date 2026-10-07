@@ -1,11 +1,14 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { getEventSettings } from "@/lib/data";
+import { TimerPanel } from "./TimerPanel";
 
 export default async function AdminGamesHubPage() {
-  const [riddleCount, wordCount, scoreCount] = await Promise.all([
+  const [riddleCount, wordCount, scoreCount, settings] = await Promise.all([
     prisma.gameRiddle.count(),
     prisma.crosswordWord.count(),
     prisma.gameLevelScore.count(),
+    getEventSettings(),
   ]);
 
   const cards = [
@@ -32,6 +35,9 @@ export default async function AdminGamesHubPage() {
             <p className="mt-1 text-xs text-mutefg">{c.desc}</p>
           </Link>
         ))}
+      </div>
+      <div className="mt-6">
+        <TimerPanel gameDurationMinutes={settings.gameDurationMinutes} />
       </div>
     </div>
   );
